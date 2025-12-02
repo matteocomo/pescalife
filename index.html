@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PescaLife — Val di Cecina</title>
+    <!-- Google Fonts for a slightly better look, with system font fallback -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Critico e Design System inlined -->
+    <style>
+        :root {
+            /* Palette */
+            --color-primary: #0A1A2F; /* Blu Notte */
+            --color-accent: #3AAFC6; /* Blu Acqua */
+            --color-secondary: #7AD7DF; /* Azzurro Mare */
+            --color-background: #F5FDFE; /* Bianco */
+            --color-text: var(--color-primary);
+            --color-text-light: var(--color-background);
+
+            /* Typography */
+            --font-family-system: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --font-size-base: 1rem;
+            --border-radius: 0.75rem;
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-heavy: 0 10px 30px rgba(58, 175, 198, 0.2);
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-system);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        section {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 1.8rem; border-bottom: 3px solid var(--color-accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+        h3 { font-size: 1.4rem; }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .text-accent { color: var(--color-accent); }
+        .bg-primary { background-color: var(--color-primary); }
+        .bg-secondary { background-color: var(--color-secondary); }
+        .rounded-xl { border-radius: var(--border-radius); }
+        .shadow-lg { box-shadow: var(--shadow-heavy); }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(58, 175, 198, 0.4);
+        }
+
+        .btn-primary {
+            background-color: var(--color-accent);
+            color: var(--color-text);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-accent);
+            border: 2px solid var(--color-accent);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            box-shadow: var(--shadow-heavy);
+        }
+
+        header .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-group h1 {
+            color: var(--color-text-light);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        .logo-group p {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: -0.2rem;
+        }
+        
+        .nav-links a {
+            color: var(--color-text-light);
+            text-decoration: none;
+            margin-left: 1rem;
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a:focus {
+            opacity: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            /* Immagine Hero Aggiornata */
+            background-image: url('https://placehold.co/1200x600/457b9d/f1faee?text=Panorama+Costa+Val+di+Cecina'); 
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2;
+            color: var(--color-text-light);
+            max-width: 80%;
+        }
+
+        .hero-content h2 {
+            font-size: 2.5rem;
+            border-bottom: none;
+            color: var(--color-text-light);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Animated Wave SVG */
+        .wave-container {
+            position: absolute;
+            bottom: -5px; /* Sovrapposizione leggera per coprire eventuali spazi bianchi */
+            left: 0;
+            width: 100%;
+            line-height: 0;
+            transform: rotate(180deg);
+            z-index: 5;
+        }
+
+        .wave-path {
+            fill: var(--color-background);
+            /* Animazione per un leggero movimento continuo */
+            animation: wave-movement 15s linear infinite alternate;
+        }
+
+        @keyframes wave-movement {
+            from { transform: translateX(-10%); }
+            to { transform: translateX(0%); }
+        }
+
+        /* Spot Grid and Cards */
+        .spot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .spot-card {
+            background-color: var(--color-text-light);
+            border: 1px solid var(--color-secondary);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .spot-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        /* NUOVO STILE PER SIMBOLI */
+        .spot-symbol {
+            width: 100%;
+            height: 200px; /* Altezza fissa come l'immagine precedente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem; /* Dimensione grande per l'emoji */
+            background-color: var(--color-primary);
+            color: var(--color-text-light); /* Colore del testo per eventuali SVG, ma l'emoji ha il suo colore */
+            border-bottom: 3px solid var(--color-accent);
+        }
+        /* FINE NUOVO STILE */
+
+        .card-content {
+            padding: 1rem;
+        }
+        
+        .card-content h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-content h3 .badge {
+            font-size: 0.7rem;
+            background-color: var(--color-accent);
+            color: var(--color-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .tech-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-tags span {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            background-color: var(--color-secondary);
+            border-radius: var(--border-radius);
+            color: var(--color-primary);
+        }
+
+        /* Modal Styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--color-background);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.open .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-content img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+        }
+        
+        /* Stile specifico per il simbolo nel modal */
+        .modal .spot-symbol {
+            height: 100px;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+
+        .close-btn {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            line-height: 1;
+            color: var(--color-primary);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--color-accent);
+        }
+
+        /* Meteo Widget */
+        #meteo-mare {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        #meteo-mare h2 {
+            color: var(--color-text-light);
+            border-color: var(--color-secondary);
+        }
+
+        .meteo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .meteo-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .meteo-card .icon {
+            font-size: 2rem;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Diary Section */
+        #diary-form {
+            background-color: var(--color-background);
+            padding: 1.5rem;
+            border: 1px solid var(--color-secondary);
+            margin-bottom: 2rem;
+        }
+
+        #diary-form label {
+            display: block;
+            margin-top: 1rem;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        #diary-form input[type="text"],
+        #diary-form input[type="date"],
+        #diary-form input[type="number"],
+        #diary-form select,
+        #diary-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            font-size: var(--font-size-base);
+        }
+        
+        #diary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .diary-entry {
+            border: 1px solid var(--color-secondary);
+            padding: 1rem;
+            background-color: var(--color-text-light);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: relative;
+        }
+        
+        .diary-photo-preview {
+            max-width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            border: 1px solid #eee;
+        }
+        
+        .diary-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--color-primary);
+            color: var(--color-secondary);
+            padding: 2rem 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        footer a:hover {
+            color: var(--color-text-light);
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            header .content {
+                padding: 0 2rem;
+            }
+            .logo-group h1 { font-size: 1.5rem; }
+            .hero-content h2 { font-size: 3.5rem; }
+            section { padding: 3rem 2rem; }
+            .meteo-grid { grid-template-columns: repeat(6, 1fr); }
+            .diary-entry { flex-direction: row; justify-content: space-between; align-items: center; }
+            .diary-actions { margin-top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER & NAVIGATION -->
+    <header>
+        <div class="content">
+            <div class="logo-group">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: var(--color-accent);">
+                    <!-- Icona Onda + Canna -->
+                    <path d="M10.2 14.2c.5.5 1.5 0 2 0s1.5 0 2 0c.5 0 1.5.5 2 0s1.5 0 2 0"></path>
+                    <path d="M2.5 14.2c.5.5 1.5 0 2 0s1.5 0 2 0c.5 0 1.5.5 2 0s1.5 0 2 0"></path>
+                    <path d="M12 2v6h1.5a4 4 0 0 1 0 8H12"></path>
+                    <path d="M17 18v3"></path>
+                </svg>
+                <div>
+                    <h1>PescaLife — Val di Cecina</h1>
+                    <p>La tua guida alla pesca sportiva in Toscana</p>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#spot">Spot</a>
+                <a href="#specie">Specie</a>
+                <a href="#meteo">Meteo</a>
+                <a href="#diario">Diario</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>Pescando tra mare e fiume</h2>
+            <p class="text-xl my-4">I migliori spot, le specie target e i consigli tecnici per la Val di Cecina.</p>
+            <a href="#spot" class="btn btn-primary mt-4">Esplora gli spot</a>
+        </div>
+        <!-- Animated Wave Separator -->
+        <div class="wave-container">
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="wave-path" d="M0,30 C360,80 1080,-20 1440,30 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- SPOT SECTION -->
+    <section id="spot">
+        <h2>Spot di Pesca Imperdibili</h2>
+        <p>Una selezione dei migliori luoghi dove lanciare l'amo nella Val di Cecina. Clicca per i dettagli tecnici.</p>
+        <div class="spot-grid mt-6" id="spot-grid">
+            <!-- Spot Cards will be injected here by JS -->
+        </div>
+    </section>
+
+    <!-- MAPPA STATICA (Placeholder) -->
+    <section id="mappa">
+        <h2>Mappa della Val di Cecina</h2>
+        <p>Naviga gli spot interattivamente. Clicca sulle zone di interesse!</p>
+        <div class="rounded-xl shadow-lg mt-4" style="background-color: #f0f8ff; padding: 1rem;">
+            <!-- Placeholder SVG/Image for the map -->
+            <svg viewBox="0 0 800 500" width="100%" height="auto" style="display: block;">
+                <rect x="0" y="0" width="800" height="500" fill="#a8dadc"/>
+                <circle cx="200" cy="400" r="100" fill="#457b9d"/>
+                <rect x="150" y="100" width="100" height="250" fill="#1d3557"/>
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#f1faee">Mappa Statica (Val di Cecina)</text>
+                
+                <!-- Hotspot 1: Marina di Cecina -->
+                <circle class="map-hotspot" data-spot-id="marina_cecina" cx="150" cy="430" r="15" fill="red" opacity="0.6" style="cursor: pointer; transition: opacity 0.3s;" onmouseover="this.setAttribute('opacity', 1)" onmouseout="this.setAttribute('opacity', 0.6)"/>
+                <text x="150" y="460" font-size="12" text-anchor="middle" fill="red">M. Cecina</text>
+                
+                <!-- Hotspot 2: Fiume Cecina -->
+                <circle class="map-hotspot" data-spot-id="fiume_cecina" cx="300" cy="200" r="15" fill="red" opacity="0.6" style="cursor: pointer; transition: opacity 0.3s;" onmouseover="this.setAttribute('opacity', 1)" onmouseout="this.setAttribute('opacity', 0.6)"/>
+                <text x="300" y="230" font-size="12" text-anchor="middle" fill="red">F. Cecina</text>
+                
+            </svg>
+            <p class="text-center mt-2 text-sm text-primary">I cerchi rossi sono hotspot cliccabili.</p>
+        </div>
+    </section>
+
+    <!-- SPECIE SECTION -->
+    <section id="specie">
+        <h2>Specie Target</h2>
+        <p>Le specie più comuni e desiderate nei nostri spot, con i migliori consigli.</p>
+        
+        <div class="flex gap-4 mb-4">
+            <button class="btn btn-primary" data-filter="all">Tutte</button>
+            <button class="btn btn-secondary" data-filter="mare">Mare</button>
+            <button class="btn btn-secondary" data-filter="fiume">Fiume</button>
+        </div>
+        
+        <div class="spot-grid" id="species-grid">
+            <!-- Species Cards will be injected here by JS -->
+        </div>
+    </section>
+
+    <!-- METEO & MARE WIDGET -->
+    <section id="meteo-mare" class="bg-primary">
+        <div class="container">
+            <h2>Meteo & Condizioni del Mare</h2>
+            <p>Dati in tempo reale (o quasi) per Marina di Cecina. (Lat: 43.32, Lon: 10.49)</p>
+            
+            <div id="meteo-loading" style="text-align: center; margin-top: 1rem;">Caricamento dati meteo...</div>
+            <div id="meteo-data" class="meteo-grid" style="display: none;">
+                <!-- Meteo data will be injected here by JS -->
+            </div>
+
+            <div id="activity-score" class="meteo-card mt-6" style="background-color: var(--color-secondary); color: var(--color-primary); text-align: center;">
+                <h3 class="mb-0">Activity Score (Formula PescaLife)</h3>
+                <p id="solunar-status" style="font-size: 1.5rem; font-weight: 700;">...</p>
+                <p class="text-sm">Vento e pressione sono i fattori chiave!</p>
+            </div>
+            <p id="meteo-source" class="text-sm mt-4" style="opacity: 0.7;"></p>
+        </div>
+    </section>
+
+    <!-- DIARIO LOCALE SECTION -->
+    <section id="diario">
+        <h2>Diario di Pesca Locale</h2>
+        <p>Salva le tue uscite. I dati sono memorizzati **solo sul tuo browser** (localStorage).</p>
+        
+        <form id="diary-form" class="rounded-xl shadow-lg">
+            <input type="hidden" id="entry-id">
+            
+            <label for="diary-date">Data Uscita:</label>
+            <input type="date" id="diary-date" required>
+
+            <label for="diary-spot">Spot:</label>
+            <select id="diary-spot" required>
+                <!-- Options populated by JS -->
+            </select>
+
+            <label for="diary-species">Specie Catturata:</label>
+            <input type="text" id="diary-species" placeholder="Es. Spigola, Trota Fario" required>
+
+            <div style="display: flex; gap: 1rem;">
+                <div style="flex: 1;">
+                    <label for="diary-weight">Peso (kg - opzionale):</label>
+                    <input type="number" step="0.01" id="diary-weight">
+                </div>
+                <div style="flex: 1;">
+                    <label for="diary-length">Lunghezza (cm - opzionale):</label>
+                    <input type="number" step="1" id="diary-length">
+                </div>
+            </div>
+            
+            <label for="diary-notes">Note:</label>
+            <textarea id="diary-notes" rows="3" placeholder="Condizioni meteo, esca usata, feedback tecnici..."></textarea>
+            
+            <label for="diary-photo">Foto (carica locale):</label>
+            <input type="file" id="diary-photo" accept="image/*">
+            <img id="diary-photo-preview-form" style="display: none;" class="diary-photo-preview" alt="Anteprima foto">
+
+            <button type="submit" class="btn btn-primary mt-4" id="save-diary-btn">Salva Uscita</button>
+            <button type="button" class="btn btn-secondary mt-4" id="export-diary-btn">Esporta JSON</button>
+        </form>
+
+        <h3>Le mie catture</h3>
+        <div id="diary-list">
+            <!-- Diary entries will be injected here by JS -->
+            <p id="no-entries" style="text-align: center; color: #777;">Ancora nessuna cattura salvata. Vai a pesca!</p>
+        </div>
+    </section>
+
+    <!-- DETAIL MODAL -->
+    <div id="spot-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content rounded-xl shadow-lg">
+            <span class="close-btn" onclick="closeModal()" aria-label="Chiudi Dettagli">&times;</span>
+            <h3 id="modal-title" style="color: var(--color-accent);">Dettagli Spot</h3>
+            <div id="modal-content">
+                <!-- Content injected by JS -->
+            </div>
+            <button id="share-spot-btn" class="btn btn-secondary mt-4" style="display: none;">
+                Condividi Spot 
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p class="mb-2">Progetto PescaLife — Val di Cecina. Dati a scopo puramente informativo.</p>
+            <p>Link utili: <a href="https://circolonautico.it/" target="_blank">Circolo Nautico Foce Cecina</a></p>
+            <p class="mt-2 text-xs">
+                Disclaimer e Note Legali: Rispettare sempre le normative locali sulla pesca, in particolare gli orari di pesca notturna e le misure minime.
+                Non siamo responsabili per l'accuratezza dei dati meteo.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript / TypeScript-like Logic -->
+    <script type="module">
+        /**
+         * @fileoverview Logica principale di PescaLife - Val di Cecina.
+         * Usa classi/interfacce definite in JSDoc per simulare TypeScript.
+         * Il codice è JS moderno (ESM) pronto per essere eseguito direttamente.
+         */
+
+        // 1. Tipi e Interfacce (JSDoc per TypeScript-like structure)
+        
+        /**
+         * @typedef {Object} Spot
+         * @property {string} id - ID univoco dello spot (es. 'marina_cecina').
+         * @property {string} name - Nome dello spot.
+         * @property {string} description - Descrizione breve.
+         * @property {string} image - Simbolo/Emoji dello spot (rimpiazza l'URL dell'immagine).
+         * @property {string[]} techniques - Tecniche consigliate (es. 'Surfcasting', 'Spinning').
+         * @property {string[]} recommendedBaits - Esche consigliate.
+         * @property {string} bestTime - Orari migliori (es. 'Alba e Tramonto').
+         * @property {number} lat - Latitudine per il meteo.
+         * @property {number} lon - Longitudine per il meteo.
+         * @property {boolean} [localBadge=false] - Badge "Consigliato dai locali".
+         */
+
+        /**
+         * @typedef {Object} Species
+         * @property {string} name - Nome della specie.
+         * @property {string} image - Simbolo/Emoji della specie (rimpiazza l'URL dell'immagine).
+         * @property {string} environment - Ambiente ('Mare' o 'Fiume').
+         * @property {string} idealSeason - Periodo ideale.
+         * @property {string[]} baits - Esche consigliate.
+         * @property {string} difficulty - Livello di difficoltà.
+         */
+
+        /**
+         * @typedef {Object} DiaryEntry
+         * @property {string} id - ID univoco dell'uscita.
+         * @property {string} date - Data dell'uscita (YYYY-MM-DD).
+         * @property {string} spotId - ID dello spot.
+         * @property {string} species - Specie catturata.
+         * @property {number | null} weight - Peso (kg).
+         * @property {number | null} length - Lunghezza (cm).
+         * @property {string} notes - Note sull'uscita.
+         * @property {string | null} photoDataUrl - Base64 DataURL della foto.
+         */
+
+        // 2. Dati Fittizi (Sample Data) - Aggiornati con simboli
+        
+        /** @type {Spot[]} */
+        const SPOT_DATA = [
+            { id: 'foce_cecina', name: 'Foce del Cecina', description: 'Ottimo spot per la spigola e l\'orata, misto sabbia/roccia.', 
+              image: '🌊🎣', // Wave + Fishing Rod
+              techniques: ['Spinning', 'Bolognese', 'Inglese'], recommendedBaits: ['Gambero', 'Bigattino', 'Artificiali'], bestTime: 'Migliore con mare mosso, alba/tramonto.', lat: 43.318, lon: 10.490, localBadge: true },
+            
+            { id: 'marina_cecina', name: 'Marina di Cecina (Pontile)', description: 'Spot facile, ideale per famiglie, con accesso al pontile.', 
+              image: '⚓️🧍', // Anchor + Person
+              techniques: ['Feeder', 'Legering', 'Surfcasting'], recommendedBaits: ['Arenicola', 'Muriddu', 'Pezzetto'], bestTime: 'Tutto il giorno, specialmente la sera.', lat: 43.320, lon: 10.495 },
+            
+            { id: 'bocca_fine', name: 'Bocca di Fine', description: 'Spiaggia con fondale sabbioso ideale per il surfcasting.', 
+              image: '🏖️ sand', // Beach + Sand
+              techniques: ['Surfcasting', 'Beach Ledgering'], recommendedBaits: ['Tremolina', 'Coreano', 'Sardina'], bestTime: 'Notte e prime ore del mattino.', lat: 43.280, lon: 10.470 },
+            
+            { id: 'la_mazzanta', name: 'La Mazzanta', description: 'Spiaggia libera molto lunga, adatta per la ricerca delle mormore.', 
+              image: '🔭🌅', // Telescope + Sunrise
+              techniques: ['Surfcasting', 'Teleferica'], recommendedBaits: ['Arenicola', 'Muriddu'], bestTime: 'Mare calmo, ore serali.', lat: 43.360, lon: 10.450 },
+            
+            { id: 'fiume_cecina', name: 'Fiume Cecina (La Steccaia)', description: 'Tratto interno con corrente, ottimo per trote e cavedani.', 
+              image: '🏞️💧', // River + Water Drop
+              techniques: ['Spinning', 'Mosca', 'Passata'], recommendedBaits: ['Cucchiaini', 'Mosche secche', 'Mais'], bestTime: 'Mattina presto, prima del sole alto.', lat: 43.365, lon: 10.550, localBadge: true },
+            
+            { id: 'laghetto_gabbiano', name: 'Laghetto Gabbiano (No-Kill)', description: 'Lago privato per la pesca sportiva (catch & release).', 
+              image: '🦢🐠', // Swan + Fish
+              techniques: ['Carpa Fishing', 'ledgering', 'Mosca'], recommendedBaits: ['Boilies', 'Pastura', 'Artificiali'], bestTime: 'Dipende dalle regole del laghetto.', lat: 43.350, lon: 10.510 }
+        ];
+
+        /** @type {Species[]} */
+        const SPECIES_DATA = [
+            { name: 'Spigola (Branzino)', 
+              image: '🐺', // Wolf for sea bass
+              environment: 'Mare', idealSeason: 'Autunno/Inverno', baits: ['Gambero', 'Artificiali Siliconici', 'Minnow'], difficulty: 'Media' },
+            
+            { name: 'Orata', 
+              image: '👑', // Crown for sea bream
+              environment: 'Mare', idealSeason: 'Primavera/Estate', baits: ['Muriddu', 'Coreano', 'Vongola'], difficulty: 'Media-Alta' },
+            
+            { name: 'Serra (Pesce Serra)', 
+              image: '🔪', // Knife for bluefish
+              environment: 'Mare', idealSeason: 'Estate/Autunno', baits: ['Minnow Topwater', 'Popper', 'Vivo'], difficulty: 'Alta' },
+            
+            { name: 'Mormora', 
+              image: '🐚', // Seashell for sand dwelling
+              environment: 'Mare', idealSeason: 'Tutto l\'anno', baits: ['Arenicola', 'Tremolina', 'Muriddu'], difficulty: 'Bassa-Media' },
+            
+            { name: 'Cefalo (Muggine)', 
+              image: '🥖', // Bread/Bait for mullet
+              environment: 'Mare', idealSeason: 'Tutto l\'anno', baits: ['Pastella', 'Bigattino', 'Pane'], difficulty: 'Bassa' },
+            
+            { name: 'Trota Fario', 
+              image: '🐟', // Trout/Fish
+              environment: 'Fiume', idealSeason: 'Primavera/Estate', baits: ['Cucchiaini', 'Mosche Secche', 'Camole'], difficulty: 'Media' },
+            
+            { name: 'Cavedano', 
+              image: '🏞️', // River fish icon
+              environment: 'Fiume', idealSeason: 'Tutto l\'anno', baits: ['Baco', 'Mais', 'Piccoli Artificiali'], difficulty: 'Bassa' }
+        ];
+
+        // 3. Logica Iniziale e Stati
+        
+        let diaryEntries = [];
+        const DIARY_STORAGE_KEY = 'pescalife_diary_v1';
+        
+        const spotGridEl = document.getElementById('spot-grid');
+        const speciesGridEl = document.getElementById('species-grid');
+        const spotModalEl = document.getElementById('spot-modal');
+        const diaryFormEl = document.getElementById('diary-form');
+        const diaryListEl = document.getElementById('diary-list');
+        const meteoLoadingEl = document.getElementById('meteo-loading');
+        const meteoDataEl = document.getElementById('meteo-data');
+        const solunarStatusEl = document.getElementById('solunar-status');
+        const meteoSourceEl = document.getElementById('meteo-source');
+        const noEntriesEl = document.getElementById('no-entries');
+        const diarySpotSelectEl = document.getElementById('diary-spot');
+
+        /**
+         * 4. Funzioni di Utilità (Photo and LocalStorage)
+         */
+
+        /**
+         * Carica il diario da localStorage.
+         * @returns {DiaryEntry[]}
+         */
+        const loadDiary = () => {
+            try {
+                const stored = localStorage.getItem(DIARY_STORAGE_KEY);
+                const data = stored ? JSON.parse(stored) : { entries: [] };
+                diaryEntries = data.entries || [];
+                return diaryEntries;
+            } catch (e) {
+                console.error("Errore nel caricamento del diario da localStorage:", e);
+                return [];
+            }
+        };
+
+        /**
+         * Salva il diario in localStorage.
+         */
+        const saveDiary = () => {
+            try {
+                localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify({ entries: diaryEntries }));
+                renderDiaryList();
+            } catch (e) {
+                console.error("Errore nel salvataggio del diario in localStorage:", e);
+            }
+        };
+        
+        /**
+         * Converte un file Image in Base64 DataURL (per localStorage).
+         * @param {File} file
+         * @returns {Promise<string>}
+         */
+        const fileToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = (error) => reject(error);
+                reader.readAsDataURL(file);
+            });
+        };
+        
+        /**
+         * 5. Funzioni di Rendering
+         */
+
+        /**
+         * Renderizza la griglia degli spot.
+         */
+        const renderSpots = () => {
+            if (!spotGridEl) return;
+            spotGridEl.innerHTML = SPOT_DATA.map(spot => `
+                <div class="spot-card rounded-xl shadow-lg" data-spot-id="${spot.id}" onclick="openModal('${spot.id}')">
+                    <!-- Utilizzo del simbolo al posto dell'immagine -->
+                    <div class="spot-symbol">${spot.image}</div>
+                    <div class="card-content">
+                        <h3>
+                            ${spot.name}
+                            ${spot.localBadge ? '<span class="badge">Consigliato dai locali</span>' : ''}
+                        </h3>
+                        <p class="text-sm" style="opacity: 0.8; height: 3.2rem; overflow: hidden;">${spot.description}</p>
+                        <div class="tech-tags">
+                            ${spot.techniques.map(t => `<span>${t}</span>`).join('')}
+                        </div>
+                        <p class="text-sm mt-2 font-semibold">Orari: ${spot.bestTime}</p>
+                        <button class="btn btn-primary btn-sm mt-3" aria-label="Apri dettagli per ${spot.name}">Apri dettagli</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Popola il selettore spot nel diario
+            diarySpotSelectEl.innerHTML = SPOT_DATA.map(spot => `<option value="${spot.id}">${spot.name}</option>`).join('');
+        };
+        
+        /**
+         * Renderizza la griglia delle specie con filtro.
+         * @param {string} filter - 'all', 'mare', or 'fiume'.
+         */
+        const renderSpecies = (filter = 'all') => {
+            if (!speciesGridEl) return;
+            
+            const filteredSpecies = SPECIES_DATA.filter(s => filter === 'all' || s.environment.toLowerCase() === filter);
+
+            speciesGridEl.innerHTML = filteredSpecies.map(s => `
+                <div class="spot-card rounded-xl shadow-lg">
+                    <!-- Utilizzo del simbolo al posto dell'immagine -->
+                    <div class="spot-symbol">${s.image}</div>
+                    <div class="card-content">
+                        <h3>${s.name}</h3>
+                        <p class="text-sm"><strong class="text-accent">${s.environment}</strong> • Difficoltà: ${s.difficulty}</p>
+                        <p class="text-sm">Stagione Ideale: ${s.idealSeason}</p>
+                        <p class="text-sm mt-1"><strong>Esche Top:</strong> ${s.baits.join(', ')}</p>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        /**
+         * 6. Logica Modale (Dettagli Spot)
+         */
+        
+        /**
+         * Apre il modal con i dettagli dello spot.
+         * @param {string} spotId 
+         */
+        window.openModal = (spotId) => {
+            const spot = SPOT_DATA.find(s => s.id === spotId);
+            if (!spot) return;
+
+            const modalTitleEl = document.getElementById('modal-title');
+            const modalContentEl = document.getElementById('modal-content');
+            const shareSpotBtn = document.getElementById('share-spot-btn');
+
+            modalTitleEl.textContent = `Dettagli: ${spot.name}`;
+            modalContentEl.innerHTML = `
+                <!-- Simbolo nel modal -->
+                <div class="spot-symbol" style="height: 100px; font-size: 3rem; margin-bottom: 1rem;">${spot.image}</div>
+                <p><strong>Descrizione:</strong> ${spot.description}</p>
+                <p class="mt-2"><strong>Tecniche Consigliate:</strong> ${spot.techniques.join(', ')}</p>
+                <p><strong>Esche Top:</strong> ${spot.recommendedBaits.join(', ')}</p>
+                <p><strong>Orari Migliori:</strong> ${spot.bestTime}</p>
+                <p class="text-sm mt-3" style="opacity: 0.7;">Coordinate Meteo: Lat ${spot.lat}, Lon ${spot.lon}</p>
+            `;
+            
+            shareSpotBtn.style.display = 'block';
+            shareSpotBtn.onclick = () => shareSpot(spot);
+
+            spotModalEl.classList.add('open');
+        };
+
+        /**
+         * Chiude il modal.
+         */
+        window.closeModal = () => {
+            spotModalEl.classList.remove('open');
+            document.getElementById('share-spot-btn').style.display = 'none';
+        };
+
+        // Chiusura modal cliccando sul backdrop
+        spotModalEl.addEventListener('click', (e) => {
+            if (e.target === spotModalEl) {
+                closeModal();
+            }
+        });
+        
+        /**
+         * 7. Web Share API (Nice-to-have)
+         * @param {Spot} spot 
+         */
+        const shareSpot = (spot) => {
+            const shareData = {
+                title: `Spot PescaLife: ${spot.name}`,
+                text: `Scopri lo spot di pesca ${spot.name} in Val di Cecina! Tecniche: ${spot.techniques.join(', ')}. Esche: ${spot.recommendedBaits.join(', ')}. Info su PescaLife.`,
+                url: window.location.href + '#spot'
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData).catch(error => console.error('Errore durante la condivisione:', error));
+            } else {
+                // Fallback: copia negli appunti
+                const textToCopy = `${shareData.title}\n${shareData.text}`;
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = textToCopy;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                try {
+                    document.execCommand('copy');
+                    alertMessage('Dettagli spot copiati negli appunti!', 'success');
+                } catch (err) {
+                    alertMessage('Impossibile copiare i dettagli.', 'error');
+                }
+                document.body.removeChild(tempTextArea);
+            }
+        };
+
+        /**
+         * 8. Logica Meteo (Open-Meteo API)
+         */
+
+        // Marina di Cecina: Lat 43.32, Lon 10.49
+        const DEFAULT_LAT = 43.32;
+        const DEFAULT_LON = 10.49;
+        
+        /**
+         * Fetches weather data from Open-Meteo.
+         * @returns {Promise<Object|null>}
+         */
+        const fetchMeteo = async () => {
+            // Endpoint Open-Meteo documentato:
+            const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${DEFAULT_LAT}&longitude=${DEFAULT_LON}&hourly=temperature_2m,windspeed_10m,pressure_msl&daily=sunrise,sunset&timezone=Europe/Rome&forecast_days=1`;
+            
+            try {
+                meteoSourceEl.textContent = `Fonte dati: Open-Meteo per Lat ${DEFAULT_LAT}, Lon ${DEFAULT_LON}`;
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error("Errore nel fetch dei dati meteo:", error);
+                alertMessage("Impossibile caricare i dati meteo. Mostro dati placeholder.", 'error');
+                return null;
+            }
+        };
+        
+        /**
+         * Renderizza i dati meteo o un fallback.
+         */
+        const renderMeteo = async () => {
+            const data = await fetchMeteo();
+            
+            meteoLoadingEl.style.display = 'none';
+            meteoDataEl.style.display = 'grid';
+
+            // Dati statici di fallback se il fetch fallisce o l'API non restituisce dati validi
+            const fallbackData = {
+                temperature: '18°C', wind: '4 m/s (NW)', pressure: '1015 hPa',
+                sunrise: '07:15', sunset: '17:30', rain: '0 mm', activity: 'Medio',
+                activityIcon: '☀️'
+            };
+
+            let currentData = fallbackData;
+            
+            if (data && data.hourly && data.daily) {
+                // Prende i dati per l'ora corrente (o la prima ora disponibile)
+                const now = new Date();
+                const currentHourIndex = data.hourly.time.findIndex(t => new Date(t).getHours() === now.getHours());
+                const index = currentHourIndex !== -1 ? currentHourIndex : 0;
+                
+                const temp = data.hourly.temperature_2m[index];
+                const windSpeed = data.hourly.windspeed_10m[index];
+                const pressure = data.hourly.pressure_msl[index];
+                
+                const sunriseISO = data.daily.sunrise[0];
+                const sunsetISO = data.daily.sunset[0];
+
+                const sunrise = sunriseISO ? new Date(sunriseISO).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+                const sunset = sunsetISO ? new Date(sunsetISO).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+
+                // Logica Solunare/Activity Score (semplificata)
+                let activity = 'Bassa';
+                let activityIcon = '❌';
+                
+                if (windSpeed < 6 && pressure > 1010) {
+                    activity = 'Alta';
+                    activityIcon = '✅';
+                } else if (windSpeed < 10) {
+                    activity = 'Media';
+                    activityIcon = '⚠️';
+                }
+
+                currentData = {
+                    temperature: `${temp}°C`,
+                    wind: `${windSpeed} m/s`,
+                    pressure: `${pressure} hPa`,
+                    sunrise,
+                    sunset,
+                    rain: '0 mm (Placeholder)', // Open-Meteo richiede un altro parametro per le precipitazioni
+                    activity,
+                    activityIcon
+                };
+            }
+            
+            // Inietta i dati nel widget
+            meteoDataEl.innerHTML = `
+                <div class="meteo-card">
+                    <span class="icon">🌡️</span>
+                    <span>Temperatura</span>
+                    <strong>${currentData.temperature}</strong>
+                </div>
+                <div class="meteo-card">
+                    <span class="icon">💨</span>
+                    <span>Vento</span>
+                    <strong>${currentData.wind}</strong>
+                </div>
+                <div class="meteo-card">
+                    <span class="icon">🧭</span>
+                    <span>Pressione</span>
+                    <strong>${currentData.pressure}</strong>
+                </div>
+                <div class="meteo-card">
+                    <span class="icon">🌅</span>
+                    <span>Alba</span>
+                    <strong>${currentData.sunrise}</strong>
+                </div>
+                <div class="meteo-card">
+                    <span class="icon">🌇</span>
+                    <span>Tramonto</span>
+                    <strong>${currentData.sunset}</strong>
+                </div>
+                <div class="meteo-card">
+                    <span class="icon">🌧️</span>
+                    <span>Pioggia (24h)</span>
+                    <strong>${currentData.rain}</strong>
+                </div>
+            `;
+            
+            solunarStatusEl.textContent = `${currentData.activityIcon} ${currentData.activity}`;
+        };
+
+        /**
+         * 9. Logica Diario (Form e Lista)
+         */
+
+        /**
+         * Renderizza l'elenco delle uscite del diario.
+         */
+        const renderDiaryList = () => {
+            if (!diaryListEl) return;
+            
+            // Ordina per data decrescente
+            const sortedEntries = [...diaryEntries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            
+            if (sortedEntries.length === 0) {
+                noEntriesEl.style.display = 'block';
+                diaryListEl.innerHTML = ''; // Clear everything else
+                return;
+            }
+            noEntriesEl.style.display = 'none';
+
+            diaryListEl.innerHTML = sortedEntries.map(entry => {
+                const spotName = SPOT_DATA.find(s => s.id === entry.spotId)?.name || entry.spotId;
+                
+                return `
+                    <div class="diary-entry rounded-xl shadow-light" data-id="${entry.id}">
+                        <div style="flex-grow: 1;">
+                            <p><strong>Data:</strong> ${entry.date}</p>
+                            <p><strong>Spot:</strong> <span class="text-accent">${spotName}</span></p>
+                            <p><strong>Cattura:</strong> ${entry.species} 
+                                (${entry.weight ? entry.weight + 'kg' : ''} ${entry.length ? ' / ' + entry.length + 'cm' : ''})
+                            </p>
+                            <p class="text-sm" style="font-style: italic; opacity: 0.8;">Note: ${entry.notes.substring(0, 100)}...</p>
+                            ${entry.photoDataUrl ? `<img src="${entry.photoDataUrl}" class="diary-photo-preview" alt="Foto cattura">` : ''}
+                        </div>
+                        <div class="diary-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="editDiaryEntry('${entry.id}')" aria-label="Modifica uscita">Modifica</button>
+                            <button class="btn btn-primary btn-sm" style="background-color: #e63946;" onclick="deleteDiaryEntry('${entry.id}')" aria-label="Elimina uscita">Elimina</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        /**
+         * Salva o modifica un'uscita del diario.
+         * @param {Event} e 
+         */
+        const handleDiarySubmit = async (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('entry-id').value || crypto.randomUUID();
+            const date = document.getElementById('diary-date').value;
+            const spotId = document.getElementById('diary-spot').value;
+            const species = document.getElementById('diary-species').value;
+            const weightInput = document.getElementById('diary-weight').value;
+            const lengthInput = document.getElementById('diary-length').value;
+            const notes = document.getElementById('diary-notes').value;
+            const photoFile = document.getElementById('diary-photo').files[0];
+            
+            let photoDataUrl = null;
+            if (photoFile) {
+                try {
+                    // Limita le dimensioni del file per non saturare localStorage (max ~5MB)
+                    if (photoFile.size > 1024 * 512) { // 512KB limit
+                        alertMessage('La foto è troppo grande (>512KB). Usa un file più piccolo.', 'error');
+                        return;
+                    }
+                    photoDataUrl = await fileToBase64(photoFile);
+                } catch (error) {
+                    alertMessage('Errore nella conversione della foto.', 'error');
+                    console.error(error);
+                    return;
+                }
+            }
+
+            /** @type {DiaryEntry} */
+            const newEntry = {
+                id,
+                date,
+                spotId,
+                species,
+                weight: weightInput ? parseFloat(weightInput) : null,
+                length: lengthInput ? parseInt(lengthInput, 10) : null,
+                notes,
+                photoDataUrl
+            };
+            
+            const existingIndex = diaryEntries.findIndex(entry => entry.id === id);
+            
+            if (existingIndex > -1) {
+                // Modifica esistente
+                // Preserva la vecchia foto se non ne è stata caricata una nuova
+                if (!photoDataUrl && !document.getElementById('diary-photo').dataset.clear) {
+                    newEntry.photoDataUrl = diaryEntries[existingIndex].photoDataUrl;
+                }
+                diaryEntries[existingIndex] = newEntry;
+                alertMessage("Uscita modificata con successo!", 'success');
+            } else {
+                // Nuova aggiunta
+                diaryEntries.push(newEntry);
+                alertMessage("Nuova uscita salvata!", 'success');
+            }
+
+            saveDiary();
+            
+            // Resetta il form
+            diaryFormEl.reset();
+            document.getElementById('entry-id').value = '';
+            document.getElementById('diary-photo-preview-form').style.display = 'none';
+            document.getElementById('diary-photo').dataset.clear = 'true';
+            document.getElementById('save-diary-btn').textContent = 'Salva Uscita';
+        };
+
+        /**
+         * Prepara il form per modificare un'uscita.
+         * @param {string} id 
+         */
+        window.editDiaryEntry = (id) => {
+            const entry = diaryEntries.find(e => e.id === id);
+            if (!entry) return;
+
+            document.getElementById('entry-id').value = entry.id;
+            document.getElementById('diary-date').value = entry.date;
+            document.getElementById('diary-spot').value = entry.spotId;
+            document.getElementById('diary-species').value = entry.species;
+            document.getElementById('diary-weight').value = entry.weight || '';
+            document.getElementById('diary-length').value = entry.length || '';
+            document.getElementById('diary-notes').value = entry.notes;
+            
+            const photoPreviewFormEl = document.getElementById('diary-photo-preview-form');
+            if (entry.photoDataUrl) {
+                photoPreviewFormEl.src = entry.photoDataUrl;
+                photoPreviewFormEl.style.display = 'block';
+                document.getElementById('diary-photo').dataset.clear = 'false';
+            } else {
+                photoPreviewFormEl.style.display = 'none';
+                document.getElementById('diary-photo').dataset.clear = 'true';
+            }
+
+            document.getElementById('save-diary-btn').textContent = 'Aggiorna Uscita';
+            
+            // Scrolla al form
+            diaryFormEl.scrollIntoView({ behavior: 'smooth' });
+        };
+        
+        /**
+         * Elimina un'uscita.
+         * @param {string} id 
+         */
+        window.deleteDiaryEntry = (id) => {
+            // Sostituisce alert/confirm con un messaggio diretto
+            if (confirm('Sei sicuro di voler eliminare questa uscita?')) {
+                diaryEntries = diaryEntries.filter(e => e.id !== id);
+                saveDiary();
+                alertMessage("Uscita eliminata.", 'success');
+            }
+        };
+
+        /**
+         * Esporta il diario in formato JSON.
+         */
+        const exportDiary = () => {
+            const json = JSON.stringify({ entries: diaryEntries }, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `pescalife_diary_export_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alertMessage("Diario esportato in JSON.", 'success');
+        };
+
+        // 10. Funzione Messaggio di Sistema (sostituisce alert)
+        
+        /**
+         * Mostra un messaggio di sistema temporaneo.
+         * @param {string} message 
+         * @param {'success'|'error'} type 
+         */
+        const alertMessage = (message, type) => {
+            let msgEl = document.getElementById('system-message');
+            if (!msgEl) {
+                msgEl = document.createElement('div');
+                msgEl.id = 'system-message';
+                msgEl.style.cssText = `
+                    position: fixed; top: 1rem; right: 1rem; padding: 1rem 1.5rem; 
+                    border-radius: var(--border-radius); z-index: 101; font-weight: 600;
+                    box-shadow: var(--shadow-heavy); opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
+                    transform: translateY(-20px); max-width: 90%;
+                `;
+                document.body.appendChild(msgEl);
+            }
+            
+            if (type === 'success') {
+                msgEl.style.backgroundColor = 'var(--color-accent)';
+                msgEl.style.color = 'var(--color-primary)';
+            } else if (type === 'error') {
+                msgEl.style.backgroundColor = '#e63946';
+                msgEl.style.color = 'var(--color-text-light)';
+            }
+            
+            msgEl.textContent = message;
+            msgEl.style.opacity = 1;
+            msgEl.style.transform = 'translateY(0)';
+
+            setTimeout(() => {
+                msgEl.style.opacity = 0;
+                msgEl.style.transform = 'translateY(-20px)';
+            }, 3000);
+        };
+        
+        // 11. Event Listeners e Inizializzazione
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Renderizza gli spot e le specie iniziali
+            renderSpots();
+            renderSpecies('all');
+            
+            // 2. Carica e renderizza il diario
+            loadDiary();
+            renderDiaryList();
+            
+            // 3. Carica i dati meteo
+            renderMeteo();
+
+            // 4. Listeners per il Diario
+            diaryFormEl.addEventListener('submit', handleDiarySubmit);
+            document.getElementById('export-diary-btn').addEventListener('click', exportDiary);
+            
+            // 5. Listeners per il filtro specie
+            document.querySelectorAll('#specie button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const filter = e.target.dataset.filter;
+                    renderSpecies(filter);
+                    // Aggiorna classi bottoni
+                    document.querySelectorAll('#specie button').forEach(b => {
+                        b.classList.remove('btn-primary', 'btn-secondary');
+                        b.classList.add(b.dataset.filter === filter ? 'btn-primary' : 'btn-secondary');
+                    });
+                });
+            });
+            
+            // 6. Listener Hotspot Mappa
+            document.querySelectorAll('.map-hotspot').forEach(hotspot => {
+                hotspot.addEventListener('click', (e) => {
+                    const spotId = e.target.dataset.spotId;
+                    if (spotId) {
+                        openModal(spotId);
+                    }
+                });
+            });
+            
+            // 7. Listener per anteprima foto diario
+            document.getElementById('diary-photo').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                const previewEl = document.getElementById('diary-photo-preview-form');
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewEl.src = e.target.result;
+                        previewEl.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewEl.style.display = 'none';
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>
