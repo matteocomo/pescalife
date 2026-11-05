@@ -3,491 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PescaLife — Val di Cecina: sito amatoriale e informativo sulla pesca, senza scopo di lucro.">
+    <meta name="robots" content="index,follow">
     <title>PescaLife — Val di Cecina</title>
-    <!-- Google Fonts for a slightly better look, with system font fallback -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS Critico e Design System inlined -->
     <style>
         :root {
-            /* Palette */
-            --color-primary: #0A1A2F; /* Blu Notte */
-            --color-accent: #3AAFC6; /* Blu Acqua */
-            --color-secondary: #7AD7DF; /* Azzurro Mare */
-            --color-background: #F5FDFE; /* Bianco */
+            --color-primary: #0A1A2F;
+            --color-accent: #3AAFC6;
+            --color-secondary: #7AD7DF;
+            --color-background: #F5FDFE;
             --color-text: var(--color-primary);
             --color-text-light: var(--color-background);
-
-            /* Typography */
-            --font-family-system: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --font-family-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
             --font-size-base: 1rem;
             --border-radius: 0.75rem;
             --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
             --shadow-heavy: 0 10px 30px rgba(58, 175, 198, 0.2);
         }
 
-        /* Reset and Base Styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: var(--font-family-system);
-            background-color: var(--color-background);
+            background: var(--color-background);
             color: var(--color-text);
             line-height: 1.6;
-            scroll-behavior: smooth;
         }
-
-        section {
-            padding: 2rem 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h1, h2, h3 {
-            color: var(--color-primary);
-            margin-bottom: 0.5rem;
-            line-height: 1.2;
-        }
-
+        body.dialog-open { overflow: hidden; }
+        section { padding: 2rem 1rem; max-width: 1200px; margin: 0 auto; }
+        h1, h2, h3 { color: var(--color-primary); margin-bottom: 0.5rem; line-height: 1.2; }
         h1 { font-size: 2.5rem; }
         h2 { font-size: 1.8rem; border-bottom: 3px solid var(--color-accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
         h3 { font-size: 1.4rem; }
-
-        /* Utility Classes */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
+        p + p { margin-top: 0.65rem; }
+        a { color: #087c91; }
+        a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 3px solid #f3b33d;
+            outline-offset: 3px;
         }
-
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
         .text-accent { color: var(--color-accent); }
         .bg-primary { background-color: var(--color-primary); }
-        .bg-secondary { background-color: var(--color-secondary); }
         .rounded-xl { border-radius: var(--border-radius); }
         .shadow-lg { box-shadow: var(--shadow-heavy); }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .text-sm { font-size: 0.9rem; }
+        .text-center { text-align: center; }
 
-        /* Button Styling */
         .btn {
             display: inline-block;
-            padding: 0.75rem 1.5rem;
+            padding: 0.7rem 1.2rem;
+            font: inherit;
             font-weight: 600;
             text-align: center;
             border-radius: var(--border-radius);
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
             text-decoration: none;
-            border: none;
+            border: 0;
         }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(58, 175, 198, 0.35); }
+        .btn-primary { background: var(--color-accent); color: var(--color-primary); }
+        .btn-secondary { background: transparent; color: var(--color-primary); border: 2px solid var(--color-accent); }
+        .btn-danger { background: #e63946; color: white; }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(58, 175, 198, 0.4);
-        }
-
-        .btn-primary {
-            background-color: var(--color-accent);
-            color: var(--color-text);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--color-accent);
-            border: 2px solid var(--color-accent);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-            box-shadow: var(--shadow-light);
-        }
-
-        /* Header */
         header {
-            background-color: var(--color-primary);
-            color: var(--color-text-light);
-            padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 20;
+            background: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 1rem 0;
             box-shadow: var(--shadow-heavy);
         }
-
         header .content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: auto;
             padding: 0 1rem;
         }
+        .logo-group { display: flex; align-items: center; flex-shrink: 0; }
+        .logo-group h1 { color: var(--color-text-light); font-size: 1.2rem; margin: 0; }
+        .logo-group p { font-size: 0.7rem; opacity: 0.8; margin: 0; }
+        .nav-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.8rem; }
+        .nav-links a { color: var(--color-text-light); text-decoration: none; font-size: 0.9rem; opacity: 0.8; }
+        .nav-links a:hover, .nav-links a:focus { opacity: 1; }
 
-        .logo-group {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-group h1 {
-            color: var(--color-text-light);
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0;
-        }
-        .logo-group p {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            margin-top: -0.2rem;
-        }
-        
-        .nav-links a {
-            color: var(--color-text-light);
-            text-decoration: none;
-            margin-left: 1rem;
-            font-size: 0.9rem;
-            padding: 0.5rem 0;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        .nav-links a:hover, .nav-links a:focus {
-            opacity: 1;
-        }
-
-        /* Hero Section */
         .hero {
             position: relative;
             height: 50vh;
+            min-height: 340px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             overflow: hidden;
-            /* Immagine Hero Aggiornata */
-            background-image: url('https://placehold.co/1200x600/457b9d/f1faee?text=Panorama+Costa+Val+di+Cecina'); 
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(135deg, #0A1A2F 5%, #164b70 52%, #3AAFC6 100%);
         }
-
         .hero::before {
-            content: '';
+            content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 1;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(10, 26, 47, 0.38), rgba(10, 26, 47, 0.12));
         }
+        .hero-content { position: relative; z-index: 2; color: var(--color-text-light); max-width: 80%; }
+        .hero-content h2 { color: var(--color-text-light); font-size: 2.5rem; border: 0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); }
+        .wave-container { position: absolute; bottom: -5px; left: 0; width: 100%; line-height: 0; transform: rotate(180deg); z-index: 5; }
+        .wave-path { fill: var(--color-background); animation: wave-movement 15s linear infinite alternate; }
+        @keyframes wave-movement { from { transform: translateX(-10%); } to { transform: translateX(0); } }
 
-        .hero-content {
-            z-index: 2;
-            color: var(--color-text-light);
-            max-width: 80%;
-        }
-
-        .hero-content h2 {
-            font-size: 2.5rem;
-            border-bottom: none;
-            color: var(--color-text-light);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Animated Wave SVG */
-        .wave-container {
-            position: absolute;
-            bottom: -5px; /* Sovrapposizione leggera per coprire eventuali spazi bianchi */
-            left: 0;
-            width: 100%;
-            line-height: 0;
-            transform: rotate(180deg);
-            z-index: 5;
-        }
-
-        .wave-path {
-            fill: var(--color-background);
-            /* Animazione per un leggero movimento continuo */
-            animation: wave-movement 15s linear infinite alternate;
-        }
-
-        @keyframes wave-movement {
-            from { transform: translateX(-10%); }
-            to { transform: translateX(0%); }
-        }
-
-        /* Spot Grid and Cards */
-        .spot-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .spot-card {
-            background-color: var(--color-text-light);
-            border: 1px solid var(--color-secondary);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .spot-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-heavy);
-        }
-        
-        /* NUOVO STILE PER SIMBOLI */
+        .spot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+        .spot-card { background: var(--color-text-light); border: 1px solid var(--color-secondary); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .spot-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-heavy); }
         .spot-symbol {
             width: 100%;
-            height: 200px; /* Altezza fissa come l'immagine precedente */
+            height: 180px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 4rem; /* Dimensione grande per l'emoji */
-            background-color: var(--color-primary);
-            color: var(--color-text-light); /* Colore del testo per eventuali SVG, ma l'emoji ha il suo colore */
+            font-size: 4rem;
+            background: var(--color-primary);
             border-bottom: 3px solid var(--color-accent);
         }
-        /* FINE NUOVO STILE */
+        .card-content { padding: 1rem; }
+        .card-content h3 { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+        .badge { display: inline-block; font-size: 0.72rem; background: var(--color-accent); color: var(--color-primary); padding: 0.2rem 0.5rem; border-radius: 999px; font-weight: 700; }
+        .badge-warning { background: #ffd166; color: #372b00; }
+        .tech-tags { display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+        .tech-tags span { font-size: 0.8rem; padding: 0.2rem 0.5rem; background: var(--color-secondary); border-radius: var(--border-radius); color: var(--color-primary); }
 
-        .card-content {
-            padding: 1rem;
-        }
-        
-        .card-content h3 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .card-content h3 .badge {
-            font-size: 0.7rem;
-            background-color: var(--color-accent);
-            color: var(--color-primary);
-            padding: 0.2rem 0.5rem;
-            border-radius: 999px;
-            font-weight: 700;
-        }
-
-        .tech-tags {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tech-tags span {
-            font-size: 0.8rem;
-            padding: 0.2rem 0.5rem;
-            background-color: var(--color-secondary);
-            border-radius: var(--border-radius);
-            color: var(--color-primary);
-        }
-
-        /* Modal Styling */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal.open {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
-            background-color: var(--color-background);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .modal.open .modal-content {
-            transform: scale(1);
-        }
-        
-        .modal-content img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 1rem;
-            border-radius: var(--border-radius);
-        }
-        
-        /* Stile specifico per il simbolo nel modal */
-        .modal .spot-symbol {
-            height: 100px;
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-
-        .close-btn {
-            float: right;
-            font-size: 1.5rem;
-            font-weight: bold;
-            line-height: 1;
-            color: var(--color-primary);
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .close-btn:hover {
-            color: var(--color-accent);
-        }
-
-        /* Meteo Widget */
-        #meteo-mare {
-            background-color: var(--color-primary);
-            color: var(--color-text-light);
-            padding: 2rem;
+        #meteo {
+            max-width: none;
             margin: 2rem 0;
-        }
-        
-        #meteo-mare h2 {
-            color: var(--color-text-light);
-            border-color: var(--color-secondary);
-        }
-
-        .meteo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-            text-align: center;
-        }
-
-        .meteo-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            font-size: 0.9rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .meteo-card .icon {
-            font-size: 2rem;
-            color: var(--color-accent);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Diary Section */
-        #diary-form {
-            background-color: var(--color-background);
-            padding: 1.5rem;
-            border: 1px solid var(--color-secondary);
-            margin-bottom: 2rem;
-        }
-
-        #diary-form label {
-            display: block;
-            margin-top: 1rem;
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-        }
-
-        #diary-form input[type="text"],
-        #diary-form input[type="date"],
-        #diary-form input[type="number"],
-        #diary-form select,
-        #diary-form textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ccc;
-            border-radius: 0.5rem;
-            font-size: var(--font-size-base);
-        }
-        
-        #diary-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .diary-entry {
-            border: 1px solid var(--color-secondary);
-            padding: 1rem;
-            background-color: var(--color-text-light);
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            position: relative;
-        }
-        
-        .diary-photo-preview {
-            max-width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-            margin-top: 0.5rem;
-            border: 1px solid #eee;
-        }
-        
-        .diary-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--color-primary);
-            color: var(--color-secondary);
             padding: 2rem 1rem;
-            text-align: center;
-            font-size: 0.85rem;
-            margin-top: 3rem;
-        }
-
-        footer a {
-            color: var(--color-accent);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        footer a:hover {
+            background: var(--color-primary);
             color: var(--color-text-light);
         }
+        #meteo h2 { color: var(--color-text-light); border-color: var(--color-secondary); }
+        .official-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .official-links a { display: block; height: 100%; padding: 1rem; color: var(--color-text-light); border: 1px solid rgba(122, 215, 223, 0.6); border-radius: var(--border-radius); text-decoration: none; }
+        .official-links a:hover { background: rgba(255,255,255,0.1); }
+        .safety-note { padding: 1rem; border-left: 4px solid var(--color-accent); background: rgba(255,255,255,0.1); }
 
-        /* Responsive adjustments */
+        #diary-form { background: var(--color-background); padding: 1.5rem; border: 1px solid var(--color-secondary); margin-bottom: 2rem; }
+        #diary-form label { display: block; margin: 1rem 0 0.3rem; font-weight: 600; }
+        #diary-form input[type="text"], #diary-form input[type="date"], #diary-form input[type="number"],
+        #diary-form input[type="file"], #diary-form select, #diary-form textarea {
+            width: 100%; padding: 0.75rem; border: 1px solid #9aa8b5; border-radius: 0.5rem; font: inherit;
+        }
+        .form-row { display: flex; gap: 1rem; }
+        .form-row > div { flex: 1; min-width: 0; }
+        .form-actions, .diary-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        #import-diary-file { display: none; }
+        #diary-list { display: flex; flex-direction: column; gap: 1rem; }
+        .diary-entry { border: 1px solid var(--color-secondary); padding: 1rem; background: white; display: flex; flex-direction: column; gap: 0.5rem; }
+        .diary-entry-content { flex: 1; min-width: 0; }
+        .diary-photo-preview { max-width: 100%; height: 150px; object-fit: cover; border-radius: 0.5rem; margin-top: 0.5rem; border: 1px solid #ddd; }
+        .empty-state { text-align: center; color: #596675; padding: 1rem; }
+
+        .modal {
+            position: fixed; inset: 0; z-index: 100;
+            display: none; align-items: center; justify-content: center;
+            background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(5px);
+            padding: 1rem; opacity: 0; transition: opacity 0.25s ease;
+        }
+        .modal.open { display: flex; opacity: 1; }
+        .modal-content { background: var(--color-background); padding: 1.5rem; border-radius: var(--border-radius); width: min(700px, 95vw); max-height: 90vh; overflow-y: auto; }
+        .close-btn { float: right; font-size: 1.5rem; font-weight: bold; line-height: 1; color: var(--color-primary); cursor: pointer; border: 0; background: transparent; }
+        .rules-block { padding: 1rem; margin-top: 1rem; background: #e4f6f8; border-left: 4px solid var(--color-accent); }
+
+        #note-legali { scroll-margin-top: 6rem; }
+        .legal-content { padding: 1.25rem; background: white; border: 1px solid var(--color-secondary); border-radius: var(--border-radius); }
+        .legal-content h3 { margin-top: 1rem; }
+        footer { background: var(--color-primary); color: var(--color-secondary); padding: 2rem 1rem; text-align: center; font-size: 0.9rem; margin-top: 3rem; }
+        footer a { color: var(--color-accent); }
+
+        .entry-dialog {
+            position: fixed; inset: 0; z-index: 200;
+            display: flex; justify-content: center; align-items: center;
+            padding: 1rem; background: rgba(10, 26, 47, 0.97);
+            color: var(--color-text-light);
+        }
+        .entry-dialog[hidden] { display: none; }
+        .entry-dialog-panel {
+            width: min(760px, 100%); max-height: 95vh; overflow-y: auto;
+            padding: clamp(1.5rem, 5vw, 3rem); background: var(--color-background);
+            color: var(--color-primary); border: 3px solid var(--color-accent);
+            border-radius: var(--border-radius); box-shadow: var(--shadow-heavy);
+        }
+        .entry-dialog-panel h2 { margin-bottom: 1rem; }
+        .entry-dialog-panel .btn { margin-top: 1.2rem; }
+        .entry-dialog-link { display: block; margin-top: 1rem; }
+
+        #system-message {
+            position: fixed; top: 1rem; right: 1rem; z-index: 250;
+            max-width: min(90vw, 500px); padding: 1rem 1.25rem;
+            border-radius: var(--border-radius); font-weight: 600;
+            box-shadow: var(--shadow-heavy);
+        }
+
         @media (min-width: 768px) {
-            header .content {
-                padding: 0 2rem;
-            }
+            header .content { padding: 0 2rem; }
             .logo-group h1 { font-size: 1.5rem; }
             .hero-content h2 { font-size: 3.5rem; }
             section { padding: 3rem 2rem; }
-            .meteo-grid { grid-template-columns: repeat(6, 1fr); }
             .diary-entry { flex-direction: row; justify-content: space-between; align-items: center; }
             .diary-actions { margin-top: 0; }
+        }
+        @media (max-width: 680px) {
+            header .content { align-items: flex-start; flex-direction: column; }
+            .nav-links { justify-content: flex-start; }
+            .nav-links a { font-size: 0.82rem; }
+            .form-row { flex-direction: column; gap: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+            .wave-path { animation: none; }
         }
     </style>
 </head>
 <body>
+    <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
+        <div class="entry-dialog-panel">
+            <h2 id="entry-title">Prima di entrare</h2>
+            <p id="entry-description">PescaLife è un sito amatoriale a scopo esclusivamente informativo, non ufficiale e senza scopo di lucro. Le informazioni possono essere incomplete o non aggiornate. Rispetta sempre la legge: licenze, misure minime, periodi di divieto, zone vietate o protette, proprietà private e ordinanze locali. Verifica sempre le regole sulle fonti ufficiali prima di pescare. Pesca in sicurezza e a tuo rischio.</p>
+            <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
+            <a class="entry-dialog-link" href="#note-legali" id="entry-legal-link">Note legali e privacy</a>
+        </div>
+    </div>
 
-    <!-- HEADER & NAVIGATION -->
     <header>
         <div class="content">
             <div class="logo-group">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: var(--color-accent);">
-                    <!-- Icona Onda + Canna -->
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:.5rem;color:var(--color-accent)" aria-hidden="true">
                     <path d="M10.2 14.2c.5.5 1.5 0 2 0s1.5 0 2 0c.5 0 1.5.5 2 0s1.5 0 2 0"></path>
                     <path d="M2.5 14.2c.5.5 1.5 0 2 0s1.5 0 2 0c.5 0 1.5.5 2 0s1.5 0 2 0"></path>
                     <path d="M12 2v6h1.5a4 4 0 0 1 0 8H12"></path>
@@ -498,876 +254,857 @@
                     <p>La tua guida alla pesca sportiva in Toscana</p>
                 </div>
             </div>
-            <nav class="nav-links">
+            <nav class="nav-links" aria-label="Navigazione principale">
                 <a href="#home">Home</a>
                 <a href="#spot">Spot</a>
                 <a href="#specie">Specie</a>
-                <a href="#meteo">Meteo</a>
+                <a href="#meteo">Meteo e mare</a>
                 <a href="#diario">Diario</a>
+                <a href="#note-legali">Note legali</a>
             </nav>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h2>Pescando tra mare e fiume</h2>
-            <p class="text-xl my-4">I migliori spot, le specie target e i consigli tecnici per la Val di Cecina.</p>
-            <a href="#spot" class="btn btn-primary mt-4">Esplora gli spot</a>
-        </div>
-        <!-- Animated Wave Separator -->
-        <div class="wave-container">
-            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path class="wave-path" d="M0,30 C360,80 1080,-20 1440,30 L1440,100 L0,100 Z"></path>
-            </svg>
-        </div>
-    </section>
-
-    <!-- SPOT SECTION -->
-    <section id="spot">
-        <h2>Spot di Pesca Imperdibili</h2>
-        <p>Una selezione dei migliori luoghi dove lanciare l'amo nella Val di Cecina. Clicca per i dettagli tecnici.</p>
-        <div class="spot-grid mt-6" id="spot-grid">
-            <!-- Spot Cards will be injected here by JS -->
-        </div>
-    </section>
-
-    <!-- MAPPA STATICA (Placeholder) -->
-    <section id="mappa">
-        <h2>Mappa della Val di Cecina</h2>
-        <p>Naviga gli spot interattivamente. Clicca sulle zone di interesse!</p>
-        <div class="rounded-xl shadow-lg mt-4" style="background-color: #f0f8ff; padding: 1rem;">
-            <!-- Placeholder SVG/Image for the map -->
-            <svg viewBox="0 0 800 500" width="100%" height="auto" style="display: block;">
-                <rect x="0" y="0" width="800" height="500" fill="#a8dadc"/>
-                <circle cx="200" cy="400" r="100" fill="#457b9d"/>
-                <rect x="150" y="100" width="100" height="250" fill="#1d3557"/>
-                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#f1faee">Mappa Statica (Val di Cecina)</text>
-                
-                <!-- Hotspot 1: Marina di Cecina -->
-                <circle class="map-hotspot" data-spot-id="marina_cecina" cx="150" cy="430" r="15" fill="red" opacity="0.6" style="cursor: pointer; transition: opacity 0.3s;" onmouseover="this.setAttribute('opacity', 1)" onmouseout="this.setAttribute('opacity', 0.6)"/>
-                <text x="150" y="460" font-size="12" text-anchor="middle" fill="red">M. Cecina</text>
-                
-                <!-- Hotspot 2: Fiume Cecina -->
-                <circle class="map-hotspot" data-spot-id="fiume_cecina" cx="300" cy="200" r="15" fill="red" opacity="0.6" style="cursor: pointer; transition: opacity 0.3s;" onmouseover="this.setAttribute('opacity', 1)" onmouseout="this.setAttribute('opacity', 0.6)"/>
-                <text x="300" y="230" font-size="12" text-anchor="middle" fill="red">F. Cecina</text>
-                
-            </svg>
-            <p class="text-center mt-2 text-sm text-primary">I cerchi rossi sono hotspot cliccabili.</p>
-        </div>
-    </section>
-
-    <!-- SPECIE SECTION -->
-    <section id="specie">
-        <h2>Specie Target</h2>
-        <p>Le specie più comuni e desiderate nei nostri spot, con i migliori consigli.</p>
-        
-        <div class="flex gap-4 mb-4">
-            <button class="btn btn-primary" data-filter="all">Tutte</button>
-            <button class="btn btn-secondary" data-filter="mare">Mare</button>
-            <button class="btn btn-secondary" data-filter="fiume">Fiume</button>
-        </div>
-        
-        <div class="spot-grid" id="species-grid">
-            <!-- Species Cards will be injected here by JS -->
-        </div>
-    </section>
-
-    <!-- METEO & MARE WIDGET -->
-    <section id="meteo-mare" class="bg-primary">
-        <div class="container">
-            <h2>Meteo & Condizioni del Mare</h2>
-            <p>Dati in tempo reale (o quasi) per Marina di Cecina. (Lat: 43.32, Lon: 10.49)</p>
-            
-            <div id="meteo-loading" style="text-align: center; margin-top: 1rem;">Caricamento dati meteo...</div>
-            <div id="meteo-data" class="meteo-grid" style="display: none;">
-                <!-- Meteo data will be injected here by JS -->
+    <main>
+        <section class="hero" id="home">
+            <!-- sostituire con foto propria, ospitata nel progetto -->
+            <div class="hero-content">
+                <h2>Pescando tra mare e fiume</h2>
+                <p>I migliori spot, le specie target e i consigli tecnici per la Val di Cecina.</p>
+                <a href="#spot" class="btn btn-primary mt-4">Esplora gli spot</a>
             </div>
-
-            <div id="activity-score" class="meteo-card mt-6" style="background-color: var(--color-secondary); color: var(--color-primary); text-align: center;">
-                <h3 class="mb-0">Activity Score (Formula PescaLife)</h3>
-                <p id="solunar-status" style="font-size: 1.5rem; font-weight: 700;">...</p>
-                <p class="text-sm">Vento e pressione sono i fattori chiave!</p>
+            <div class="wave-container" aria-hidden="true">
+                <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="wave-path" d="M0,30 C360,80 1080,-20 1440,30 L1440,100 L0,100 Z"></path>
+                </svg>
             </div>
-            <p id="meteo-source" class="text-sm mt-4" style="opacity: 0.7;"></p>
-        </div>
-    </section>
+        </section>
 
-    <!-- DIARIO LOCALE SECTION -->
-    <section id="diario">
-        <h2>Diario di Pesca Locale</h2>
-        <p>Salva le tue uscite. I dati sono memorizzati **solo sul tuo browser** (localStorage).</p>
-        
-        <form id="diary-form" class="rounded-xl shadow-lg">
-            <input type="hidden" id="entry-id">
-            
-            <label for="diary-date">Data Uscita:</label>
-            <input type="date" id="diary-date" required>
+        <section id="spot">
+            <h2>Spot di pesca</h2>
+            <p>Le schede vengono pubblicate solo dopo la verifica delle informazioni di accesso e delle regole locali.</p>
+            <div class="spot-grid mt-6" id="spot-grid" aria-live="polite"></div>
+        </section>
 
-            <label for="diary-spot">Spot:</label>
-            <select id="diary-spot" required>
-                <!-- Options populated by JS -->
-            </select>
+        <section id="specie">
+            <h2>Specie target</h2>
+            <p>Specie e indicazioni sono orientative e non sostituiscono le norme vigenti.</p>
+            <p class="rules-block">Misure minime, periodi di divieto e specie protette: consulta le norme ufficiali vigenti.
+                <a href="https://www.regione.toscana.it/-/pesca-dilettantistica" target="_blank" rel="noopener noreferrer">Regione Toscana (pesca)</a> e
+                <a href="https://www.masaf.gov.it/" target="_blank" rel="noopener noreferrer">Ministero dell'Agricoltura (MASAF)</a>.
+            </p>
+            <div class="filter-actions mt-4 mb-4" aria-label="Filtra le specie">
+                <button type="button" class="btn btn-primary" data-filter="all">Tutte</button>
+                <button type="button" class="btn btn-secondary" data-filter="mare">Mare</button>
+                <button type="button" class="btn btn-secondary" data-filter="fiume">Fiume</button>
+            </div>
+            <div class="spot-grid" id="species-grid"></div>
+            <p class="mt-4">Rilascia sempre le specie protette o sotto misura.</p>
+        </section>
 
-            <label for="diary-species">Specie Catturata:</label>
-            <input type="text" id="diary-species" placeholder="Es. Spigola, Trota Fario" required>
-
-            <div style="display: flex; gap: 1rem;">
-                <div style="flex: 1;">
-                    <label for="diary-weight">Peso (kg - opzionale):</label>
-                    <input type="number" step="0.01" id="diary-weight">
+        <section id="meteo">
+            <div class="container">
+                <h2>Meteo e mare: consulta le fonti ufficiali</h2>
+                <p>PescaLife non fornisce previsioni meteo: consulta direttamente gli aggiornamenti degli enti competenti.</p>
+                <div class="official-links">
+                    <a href="https://www.lamma.rete.toscana.it/" target="_blank" rel="noopener noreferrer"><strong>LaMMA Toscana</strong><br>Previsioni e informazioni meteorologiche</a>
+                    <a href="https://www.regione.toscana.it/allertameteo" target="_blank" rel="noopener noreferrer"><strong>Allerta meteo Regione Toscana</strong><br>Avvisi e allerte regionali</a>
+                    <a href="https://www.meteoam.it/" target="_blank" rel="noopener noreferrer"><strong>Servizio Meteorologico dell'Aeronautica Militare</strong><br>Previsioni meteorologiche ufficiali</a>
+                    <a href="https://www.guardiacostiera.gov.it/" target="_blank" rel="noopener noreferrer"><strong>Capitaneria di Porto</strong><br>Informazioni e sicurezza in mare</a>
                 </div>
-                <div style="flex: 1;">
-                    <label for="diary-length">Lunghezza (cm - opzionale):</label>
-                    <input type="number" step="1" id="diary-length">
-                </div>
+                <p class="safety-note">Prima di uscire controlla sempre allerte e condizioni del mare. Mare mosso, scogli e foci possono essere pericolosi.</p>
             </div>
-            
-            <label for="diary-notes">Note:</label>
-            <textarea id="diary-notes" rows="3" placeholder="Condizioni meteo, esca usata, feedback tecnici..."></textarea>
-            
-            <label for="diary-photo">Foto (carica locale):</label>
-            <input type="file" id="diary-photo" accept="image/*">
-            <img id="diary-photo-preview-form" style="display: none;" class="diary-photo-preview" alt="Anteprima foto">
+        </section>
 
-            <button type="submit" class="btn btn-primary mt-4" id="save-diary-btn">Salva Uscita</button>
-            <button type="button" class="btn btn-secondary mt-4" id="export-diary-btn">Esporta JSON</button>
-        </form>
+        <section id="diario">
+            <h2>Diario di pesca locale</h2>
+            <p>I dati restano solo sul tuo dispositivo. Non vengono inviati a nessuno.</p>
+            <form id="diary-form" class="rounded-xl shadow-lg">
+                <input type="hidden" id="entry-id">
+                <label for="diary-date">Data uscita:</label>
+                <input type="date" id="diary-date" required>
 
-        <h3>Le mie catture</h3>
-        <div id="diary-list">
-            <!-- Diary entries will be injected here by JS -->
-            <p id="no-entries" style="text-align: center; color: #777;">Ancora nessuna cattura salvata. Vai a pesca!</p>
-        </div>
-    </section>
+                <label for="diary-spot">Spot:</label>
+                <select id="diary-spot" required></select>
 
-    <!-- DETAIL MODAL -->
-    <div id="spot-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+                <label for="diary-species">Specie catturata:</label>
+                <input type="text" id="diary-species" placeholder="Es. Spigola" maxlength="80" required>
+
+                <div class="form-row">
+                    <div>
+                        <label for="diary-weight">Peso (kg, opzionale):</label>
+                        <input type="number" step="0.01" min="0" id="diary-weight">
+                    </div>
+                    <div>
+                        <label for="diary-length">Lunghezza (cm, opzionale):</label>
+                        <input type="number" step="1" min="0" id="diary-length">
+                    </div>
+                </div>
+
+                <label for="diary-notes">Note:</label>
+                <textarea id="diary-notes" rows="3" maxlength="2000" placeholder="Condizioni, esca usata, osservazioni personali..."></textarea>
+
+                <label for="diary-photo">Foto (caricata dal dispositivo):</label>
+                <input type="file" id="diary-photo" accept="image/*">
+                <img id="diary-photo-preview-form" class="diary-photo-preview" alt="Anteprima foto della cattura" hidden>
+                <button type="button" class="btn btn-secondary mt-2" id="remove-photo-btn" hidden>Rimuovi foto</button>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="save-diary-btn">Salva Uscita</button>
+                    <button type="button" class="btn btn-secondary" id="export-diary-btn">Esporta JSON</button>
+                    <button type="button" class="btn btn-secondary" id="import-diary-btn">Importa JSON</button>
+                    <input type="file" id="import-diary-file" accept="application/json,.json">
+                    <button type="button" class="btn btn-secondary" id="export-summary-btn">Scarica riepilogo stagione</button>
+                    <button type="button" class="btn btn-danger" id="clear-diary-btn">Cancella tutti i dati del diario</button>
+                </div>
+                <p class="text-sm mt-2">Le foto vengono ridimensionate e compresse prima del salvataggio locale. Se lo spazio del browser non basta, il diario mostrerà un messaggio di errore.</p>
+            </form>
+
+            <h3>Le mie catture</h3>
+            <div id="diary-list" aria-live="polite"></div>
+        </section>
+
+        <section id="note-legali">
+            <h2>Note legali e privacy</h2>
+            <div class="legal-content">
+                <h3>Natura del sito</h3>
+                <p>PescaLife è un sito amatoriale, informativo, non ufficiale e senza scopo di lucro. Non contiene pubblicità, link di affiliazione o vendite.</p>
+                <h3>Informazioni e responsabilità</h3>
+                <p>Non è garantita la completezza o l'attualità dei contenuti. L'utente deve verificare le norme ufficiali prima di pescare; l'uso delle informazioni avviene a proprio rischio. Non si assume responsabilità per danni o sanzioni derivanti dall'uso delle informazioni pubblicate.</p>
+                <h3>Privacy</h3>
+                <p>Il sito non raccoglie, non trasmette e non conserva dati personali sui propri server, non usa cookie né strumenti di analisi e non carica risorse da servizi di terzi. Il diario è salvato solo nel browser dell'utente (localStorage) e può essere cancellato in ogni momento. sessionStorage serve solo a ricordare l'accettazione del banner durante la visita. I link esterni portano a siti di terzi, regolati dalle rispettive informative e condizioni.</p>
+                <h3>Contenuti e marchi</h3>
+                <p>Testi e grafica sono originali; marchi e nomi citati appartengono ai rispettivi proprietari. Il nome del sito deve essere verificato per eventuali marchi omonimi.</p>
+                <h3>Contatti</h3>
+                <p><!-- inserire email di contatto --></p>
+            </div>
+        </section>
+    </main>
+
+    <div id="spot-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-content rounded-xl shadow-lg">
-            <span class="close-btn" onclick="closeModal()" aria-label="Chiudi Dettagli">&times;</span>
-            <h3 id="modal-title" style="color: var(--color-accent);">Dettagli Spot</h3>
-            <div id="modal-content">
-                <!-- Content injected by JS -->
-            </div>
-            <button id="share-spot-btn" class="btn btn-secondary mt-4" style="display: none;">
-                Condividi Spot 
-                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-            </button>
+            <button type="button" class="close-btn" id="close-spot-modal" aria-label="Chiudi dettagli dello spot">&times;</button>
+            <h3 id="modal-title">Dettagli spot</h3>
+            <div id="modal-content"></div>
+            <button type="button" id="share-spot-btn" class="btn btn-secondary mt-4" aria-label="Condividi informazioni sullo spot" hidden>Condividi spot</button>
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer>
         <div class="container">
-            <p class="mb-2">Progetto PescaLife — Val di Cecina. Dati a scopo puramente informativo.</p>
-            <p>Link utili: <a href="https://circolonautico.it/" target="_blank">Circolo Nautico Foce Cecina</a></p>
-            <p class="mt-2 text-xs">
-                Disclaimer e Note Legali: Rispettare sempre le normative locali sulla pesca, in particolare gli orari di pesca notturna e le misure minime.
-                Non siamo responsabili per l'accuratezza dei dati meteo.
-            </p>
+            <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Dati a scopo informativo.</p>
+            <p class="mt-2"><a href="#note-legali">Note legali e privacy</a></p>
         </div>
     </footer>
 
-    <!-- JavaScript / TypeScript-like Logic -->
-    <script type="module">
-        /**
-         * @fileoverview Logica principale di PescaLife - Val di Cecina.
-         * Usa classi/interfacce definite in JSDoc per simulare TypeScript.
-         * Il codice è JS moderno (ESM) pronto per essere eseguito direttamente.
-         */
-
-        // 1. Tipi e Interfacce (JSDoc per TypeScript-like structure)
-        
-        /**
-         * @typedef {Object} Spot
-         * @property {string} id - ID univoco dello spot (es. 'marina_cecina').
-         * @property {string} name - Nome dello spot.
-         * @property {string} description - Descrizione breve.
-         * @property {string} image - Simbolo/Emoji dello spot (rimpiazza l'URL dell'immagine).
-         * @property {string[]} techniques - Tecniche consigliate (es. 'Surfcasting', 'Spinning').
-         * @property {string[]} recommendedBaits - Esche consigliate.
-         * @property {string} bestTime - Orari migliori (es. 'Alba e Tramonto').
-         * @property {number} lat - Latitudine per il meteo.
-         * @property {number} lon - Longitudine per il meteo.
-         * @property {boolean} [localBadge=false] - Badge "Consigliato dai locali".
-         */
-
-        /**
-         * @typedef {Object} Species
-         * @property {string} name - Nome della specie.
-         * @property {string} image - Simbolo/Emoji della specie (rimpiazza l'URL dell'immagine).
-         * @property {string} environment - Ambiente ('Mare' o 'Fiume').
-         * @property {string} idealSeason - Periodo ideale.
-         * @property {string[]} baits - Esche consigliate.
-         * @property {string} difficulty - Livello di difficoltà.
-         */
-
-        /**
-         * @typedef {Object} DiaryEntry
-         * @property {string} id - ID univoco dell'uscita.
-         * @property {string} date - Data dell'uscita (YYYY-MM-DD).
-         * @property {string} spotId - ID dello spot.
-         * @property {string} species - Specie catturata.
-         * @property {number | null} weight - Peso (kg).
-         * @property {number | null} length - Lunghezza (cm).
-         * @property {string} notes - Note sull'uscita.
-         * @property {string | null} photoDataUrl - Base64 DataURL della foto.
-         */
-
-        // 2. Dati Fittizi (Sample Data) - Aggiornati con simboli
-        
-        /** @type {Spot[]} */
+    <script>
+        // Imposta verified:true SOLO dopo aver controllato: accesso pubblico, divieti, licenze, ordinanze (Regione Toscana, Capitaneria di Porto, Comune).
         const SPOT_DATA = [
-            { id: 'foce_cecina', name: 'Foce del Cecina', description: 'Ottimo spot per la spigola e l\'orata, misto sabbia/roccia.', 
-              image: '🌊🎣', // Wave + Fishing Rod
-              techniques: ['Spinning', 'Bolognese', 'Inglese'], recommendedBaits: ['Gambero', 'Bigattino', 'Artificiali'], bestTime: 'Migliore con mare mosso, alba/tramonto.', lat: 43.318, lon: 10.490, localBadge: true },
-            
-            { id: 'marina_cecina', name: 'Marina di Cecina (Pontile)', description: 'Spot facile, ideale per famiglie, con accesso al pontile.', 
-              image: '⚓️🧍', // Anchor + Person
-              techniques: ['Feeder', 'Legering', 'Surfcasting'], recommendedBaits: ['Arenicola', 'Muriddu', 'Pezzetto'], bestTime: 'Tutto il giorno, specialmente la sera.', lat: 43.320, lon: 10.495 },
-            
-            { id: 'bocca_fine', name: 'Bocca di Fine', description: 'Spiaggia con fondale sabbioso ideale per il surfcasting.', 
-              image: '🏖️ sand', // Beach + Sand
-              techniques: ['Surfcasting', 'Beach Ledgering'], recommendedBaits: ['Tremolina', 'Coreano', 'Sardina'], bestTime: 'Notte e prime ore del mattino.', lat: 43.280, lon: 10.470 },
-            
-            { id: 'la_mazzanta', name: 'La Mazzanta', description: 'Spiaggia libera molto lunga, adatta per la ricerca delle mormore.', 
-              image: '🔭🌅', // Telescope + Sunrise
-              techniques: ['Surfcasting', 'Teleferica'], recommendedBaits: ['Arenicola', 'Muriddu'], bestTime: 'Mare calmo, ore serali.', lat: 43.360, lon: 10.450 },
-            
-            { id: 'fiume_cecina', name: 'Fiume Cecina (La Steccaia)', description: 'Tratto interno con corrente, ottimo per trote e cavedani.', 
-              image: '🏞️💧', // River + Water Drop
-              techniques: ['Spinning', 'Mosca', 'Passata'], recommendedBaits: ['Cucchiaini', 'Mosche secche', 'Mais'], bestTime: 'Mattina presto, prima del sole alto.', lat: 43.365, lon: 10.550, localBadge: true },
-            
-            { id: 'laghetto_gabbiano', name: 'Laghetto Gabbiano (No-Kill)', description: 'Lago privato per la pesca sportiva (catch & release).', 
-              image: '🦢🐠', // Swan + Fish
-              techniques: ['Carpa Fishing', 'ledgering', 'Mosca'], recommendedBaits: ['Boilies', 'Pastura', 'Artificiali'], bestTime: 'Dipende dalle regole del laghetto.', lat: 43.350, lon: 10.510 }
+            {
+                id: "foce_cecina", name: "Foce del Cecina", description: "Area costiera presso la foce del Cecina.",
+                image: "🌊🎣", techniques: ["Spinning", "Bolognese", "Inglese"], recommendedBaits: ["Gambero", "Bigattino", "Artificiali"],
+                bestTime: "Orari indicativi: alba o tramonto.", lat: 43.318, lon: 10.490, verified: false, access: "da verificare",
+                rulesNote: "Verifica divieti, distanze da stabilimenti/foci/manufatti, zone protette e licenza (acque interne) sui siti ufficiali."
+            },
+            {
+                id: "marina_cecina", name: "Marina di Cecina (lungomare e spiaggia libera)", description: "Tratto costiero di Marina di Cecina.",
+                image: "🌊🏖️", techniques: ["Feeder", "Legering", "Surfcasting"], recommendedBaits: ["Arenicola", "Muriddu", "Pezzetto"],
+                bestTime: "Orari indicativi: da valutare in base alle condizioni locali.", lat: 43.320, lon: 10.495, verified: false, access: "da verificare",
+                rulesNote: "Verifica divieti, distanze da stabilimenti/foci/manufatti, zone protette e licenza (acque interne) sui siti ufficiali."
+            },
+            {
+                id: "la_mazzanta", name: "La Mazzanta", description: "Tratto costiero della Mazzanta.",
+                image: "🌅🌊", techniques: ["Surfcasting", "Teleferica"], recommendedBaits: ["Arenicola", "Muriddu"],
+                bestTime: "Orari ed esche indicative: verifica condizioni e regole locali.", lat: 43.360, lon: 10.450, verified: false, access: "da verificare",
+                rulesNote: "Verifica divieti, distanze da stabilimenti/foci/manufatti, zone protette e licenza (acque interne) sui siti ufficiali."
+            },
+            {
+                id: "fiume_cecina", name: "Fiume Cecina (tratto Steccaia)", description: "Tratto del fiume Cecina in località Steccaia.",
+                image: "🏞️💧", techniques: ["Spinning", "Mosca", "Passata"], recommendedBaits: ["Cucchiaini", "Mosche secche", "Mais"],
+                bestTime: "Orari ed esche indicative: verifica condizioni e regole locali.", lat: 43.365, lon: 10.550, verified: false, access: "da verificare",
+                rulesNote: "Verifica divieti, distanze da stabilimenti/foci/manufatti, zone protette e licenza (acque interne) sui siti ufficiali."
+            }
         ];
+        const SHOW_UNVERIFIED = false;
 
-        /** @type {Species[]} */
         const SPECIES_DATA = [
-            { name: 'Spigola (Branzino)', 
-              image: '🐺', // Wolf for sea bass
-              environment: 'Mare', idealSeason: 'Autunno/Inverno', baits: ['Gambero', 'Artificiali Siliconici', 'Minnow'], difficulty: 'Media' },
-            
-            { name: 'Orata', 
-              image: '👑', // Crown for sea bream
-              environment: 'Mare', idealSeason: 'Primavera/Estate', baits: ['Muriddu', 'Coreano', 'Vongola'], difficulty: 'Media-Alta' },
-            
-            { name: 'Serra (Pesce Serra)', 
-              image: '🔪', // Knife for bluefish
-              environment: 'Mare', idealSeason: 'Estate/Autunno', baits: ['Minnow Topwater', 'Popper', 'Vivo'], difficulty: 'Alta' },
-            
-            { name: 'Mormora', 
-              image: '🐚', // Seashell for sand dwelling
-              environment: 'Mare', idealSeason: 'Tutto l\'anno', baits: ['Arenicola', 'Tremolina', 'Muriddu'], difficulty: 'Bassa-Media' },
-            
-            { name: 'Cefalo (Muggine)', 
-              image: '🥖', // Bread/Bait for mullet
-              environment: 'Mare', idealSeason: 'Tutto l\'anno', baits: ['Pastella', 'Bigattino', 'Pane'], difficulty: 'Bassa' },
-            
-            { name: 'Trota Fario', 
-              image: '🐟', // Trout/Fish
-              environment: 'Fiume', idealSeason: 'Primavera/Estate', baits: ['Cucchiaini', 'Mosche Secche', 'Camole'], difficulty: 'Media' },
-            
-            { name: 'Cavedano', 
-              image: '🏞️', // River fish icon
-              environment: 'Fiume', idealSeason: 'Tutto l\'anno', baits: ['Baco', 'Mais', 'Piccoli Artificiali'], difficulty: 'Bassa' }
+            { name: "Spigola (Branzino)", image: "🐺", environment: "Mare", idealSeason: "Stagione indicativa: autunno/inverno", baits: ["Gambero", "Artificiali siliconici", "Minnow"] },
+            { name: "Orata", image: "👑", environment: "Mare", idealSeason: "Stagione indicativa: primavera/estate", baits: ["Muriddu", "Coreano", "Vongola"] },
+            { name: "Serra (Pesce Serra)", image: "🐟", environment: "Mare", idealSeason: "Stagione indicativa: estate/autunno", baits: ["Minnow", "Popper", "Vivo"] },
+            { name: "Mormora", image: "🐚", environment: "Mare", idealSeason: "Stagione indicativa: variabile", baits: ["Arenicola", "Tremolina", "Muriddu"] },
+            { name: "Cefalo (Muggine)", image: "🐟", environment: "Mare", idealSeason: "Stagione indicativa: variabile", baits: ["Pastella", "Bigattino", "Pane"] },
+            { name: "Cavedano", image: "🏞️", environment: "Fiume", idealSeason: "Stagione indicativa: variabile", baits: ["Baco", "Mais", "Piccoli artificiali"] }
+        ];
+        const SPECIES_UNVERIFIED = [
+            { name: "Trota Fario", image: "🐟", environment: "Fiume", idealSeason: "Stagione indicativa: da verificare", baits: ["Cucchiaini", "Mosche secche", "Camole"] }
         ];
 
-        // 3. Logica Iniziale e Stati
-        
+        const DIARY_STORAGE_KEY = "pescalife_diary_v1";
+        const SESSION_NOTICE_KEY = "pescalife_notice_accepted";
         let diaryEntries = [];
-        const DIARY_STORAGE_KEY = 'pescalife_diary_v1';
-        
-        const spotGridEl = document.getElementById('spot-grid');
-        const speciesGridEl = document.getElementById('species-grid');
-        const spotModalEl = document.getElementById('spot-modal');
-        const diaryFormEl = document.getElementById('diary-form');
-        const diaryListEl = document.getElementById('diary-list');
-        const meteoLoadingEl = document.getElementById('meteo-loading');
-        const meteoDataEl = document.getElementById('meteo-data');
-        const solunarStatusEl = document.getElementById('solunar-status');
-        const meteoSourceEl = document.getElementById('meteo-source');
-        const noEntriesEl = document.getElementById('no-entries');
-        const diarySpotSelectEl = document.getElementById('diary-spot');
+        let photoRemovedDuringEdit = false;
+        let previousModalFocus = null;
+        const visibleSpots = () => SPOT_DATA.filter(spot => spot.verified === true || SHOW_UNVERIFIED);
+        const byId = id => document.getElementById(id);
 
-        /**
-         * 4. Funzioni di Utilità (Photo and LocalStorage)
-         */
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, char => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            })[char]);
+        }
 
-        /**
-         * Carica il diario da localStorage.
-         * @returns {DiaryEntry[]}
-         */
-        const loadDiary = () => {
+        function showMessage(message, type = "success") {
+            let element = byId("system-message");
+            if (!element) {
+                element = document.createElement("div");
+                element.id = "system-message";
+                element.setAttribute("role", "status");
+                element.setAttribute("aria-live", "polite");
+                document.body.appendChild(element);
+            }
+            element.textContent = message;
+            element.style.background = type === "error" ? "#b42332" : "var(--color-accent)";
+            element.style.color = type === "error" ? "#fff" : "var(--color-primary)";
+            clearTimeout(element.messageTimeout);
+            element.messageTimeout = setTimeout(() => element.remove(), 5000);
+        }
+
+        function dateInItalian(dateString) {
+            const date = new Date(`${dateString}T12:00:00`);
+            return Number.isNaN(date.getTime()) ? dateString : new Intl.DateTimeFormat("it-IT", { dateStyle: "long" }).format(date);
+        }
+
+        function loadDiary() {
             try {
                 const stored = localStorage.getItem(DIARY_STORAGE_KEY);
-                const data = stored ? JSON.parse(stored) : { entries: [] };
-                diaryEntries = data.entries || [];
-                return diaryEntries;
-            } catch (e) {
-                console.error("Errore nel caricamento del diario da localStorage:", e);
-                return [];
-            }
-        };
-
-        /**
-         * Salva il diario in localStorage.
-         */
-        const saveDiary = () => {
-            try {
-                localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify({ entries: diaryEntries }));
-                renderDiaryList();
-            } catch (e) {
-                console.error("Errore nel salvataggio del diario in localStorage:", e);
-            }
-        };
-        
-        /**
-         * Converte un file Image in Base64 DataURL (per localStorage).
-         * @param {File} file
-         * @returns {Promise<string>}
-         */
-        const fileToBase64 = (file) => {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = (error) => reject(error);
-                reader.readAsDataURL(file);
-            });
-        };
-        
-        /**
-         * 5. Funzioni di Rendering
-         */
-
-        /**
-         * Renderizza la griglia degli spot.
-         */
-        const renderSpots = () => {
-            if (!spotGridEl) return;
-            spotGridEl.innerHTML = SPOT_DATA.map(spot => `
-                <div class="spot-card rounded-xl shadow-lg" data-spot-id="${spot.id}" onclick="openModal('${spot.id}')">
-                    <!-- Utilizzo del simbolo al posto dell'immagine -->
-                    <div class="spot-symbol">${spot.image}</div>
-                    <div class="card-content">
-                        <h3>
-                            ${spot.name}
-                            ${spot.localBadge ? '<span class="badge">Consigliato dai locali</span>' : ''}
-                        </h3>
-                        <p class="text-sm" style="opacity: 0.8; height: 3.2rem; overflow: hidden;">${spot.description}</p>
-                        <div class="tech-tags">
-                            ${spot.techniques.map(t => `<span>${t}</span>`).join('')}
-                        </div>
-                        <p class="text-sm mt-2 font-semibold">Orari: ${spot.bestTime}</p>
-                        <button class="btn btn-primary btn-sm mt-3" aria-label="Apri dettagli per ${spot.name}">Apri dettagli</button>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Popola il selettore spot nel diario
-            diarySpotSelectEl.innerHTML = SPOT_DATA.map(spot => `<option value="${spot.id}">${spot.name}</option>`).join('');
-        };
-        
-        /**
-         * Renderizza la griglia delle specie con filtro.
-         * @param {string} filter - 'all', 'mare', or 'fiume'.
-         */
-        const renderSpecies = (filter = 'all') => {
-            if (!speciesGridEl) return;
-            
-            const filteredSpecies = SPECIES_DATA.filter(s => filter === 'all' || s.environment.toLowerCase() === filter);
-
-            speciesGridEl.innerHTML = filteredSpecies.map(s => `
-                <div class="spot-card rounded-xl shadow-lg">
-                    <!-- Utilizzo del simbolo al posto dell'immagine -->
-                    <div class="spot-symbol">${s.image}</div>
-                    <div class="card-content">
-                        <h3>${s.name}</h3>
-                        <p class="text-sm"><strong class="text-accent">${s.environment}</strong> • Difficoltà: ${s.difficulty}</p>
-                        <p class="text-sm">Stagione Ideale: ${s.idealSeason}</p>
-                        <p class="text-sm mt-1"><strong>Esche Top:</strong> ${s.baits.join(', ')}</p>
-                    </div>
-                </div>
-            `).join('');
-        };
-
-        /**
-         * 6. Logica Modale (Dettagli Spot)
-         */
-        
-        /**
-         * Apre il modal con i dettagli dello spot.
-         * @param {string} spotId 
-         */
-        window.openModal = (spotId) => {
-            const spot = SPOT_DATA.find(s => s.id === spotId);
-            if (!spot) return;
-
-            const modalTitleEl = document.getElementById('modal-title');
-            const modalContentEl = document.getElementById('modal-content');
-            const shareSpotBtn = document.getElementById('share-spot-btn');
-
-            modalTitleEl.textContent = `Dettagli: ${spot.name}`;
-            modalContentEl.innerHTML = `
-                <!-- Simbolo nel modal -->
-                <div class="spot-symbol" style="height: 100px; font-size: 3rem; margin-bottom: 1rem;">${spot.image}</div>
-                <p><strong>Descrizione:</strong> ${spot.description}</p>
-                <p class="mt-2"><strong>Tecniche Consigliate:</strong> ${spot.techniques.join(', ')}</p>
-                <p><strong>Esche Top:</strong> ${spot.recommendedBaits.join(', ')}</p>
-                <p><strong>Orari Migliori:</strong> ${spot.bestTime}</p>
-                <p class="text-sm mt-3" style="opacity: 0.7;">Coordinate Meteo: Lat ${spot.lat}, Lon ${spot.lon}</p>
-            `;
-            
-            shareSpotBtn.style.display = 'block';
-            shareSpotBtn.onclick = () => shareSpot(spot);
-
-            spotModalEl.classList.add('open');
-        };
-
-        /**
-         * Chiude il modal.
-         */
-        window.closeModal = () => {
-            spotModalEl.classList.remove('open');
-            document.getElementById('share-spot-btn').style.display = 'none';
-        };
-
-        // Chiusura modal cliccando sul backdrop
-        spotModalEl.addEventListener('click', (e) => {
-            if (e.target === spotModalEl) {
-                closeModal();
-            }
-        });
-        
-        /**
-         * 7. Web Share API (Nice-to-have)
-         * @param {Spot} spot 
-         */
-        const shareSpot = (spot) => {
-            const shareData = {
-                title: `Spot PescaLife: ${spot.name}`,
-                text: `Scopri lo spot di pesca ${spot.name} in Val di Cecina! Tecniche: ${spot.techniques.join(', ')}. Esche: ${spot.recommendedBaits.join(', ')}. Info su PescaLife.`,
-                url: window.location.href + '#spot'
-            };
-
-            if (navigator.share) {
-                navigator.share(shareData).catch(error => console.error('Errore durante la condivisione:', error));
-            } else {
-                // Fallback: copia negli appunti
-                const textToCopy = `${shareData.title}\n${shareData.text}`;
-                const tempTextArea = document.createElement('textarea');
-                tempTextArea.value = textToCopy;
-                document.body.appendChild(tempTextArea);
-                tempTextArea.select();
-                try {
-                    document.execCommand('copy');
-                    alertMessage('Dettagli spot copiati negli appunti!', 'success');
-                } catch (err) {
-                    alertMessage('Impossibile copiare i dettagli.', 'error');
-                }
-                document.body.removeChild(tempTextArea);
-            }
-        };
-
-        /**
-         * 8. Logica Meteo (Open-Meteo API)
-         */
-
-        // Marina di Cecina: Lat 43.32, Lon 10.49
-        const DEFAULT_LAT = 43.32;
-        const DEFAULT_LON = 10.49;
-        
-        /**
-         * Fetches weather data from Open-Meteo.
-         * @returns {Promise<Object|null>}
-         */
-        const fetchMeteo = async () => {
-            // Endpoint Open-Meteo documentato:
-            const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${DEFAULT_LAT}&longitude=${DEFAULT_LON}&hourly=temperature_2m,windspeed_10m,pressure_msl&daily=sunrise,sunset&timezone=Europe/Rome&forecast_days=1`;
-            
-            try {
-                meteoSourceEl.textContent = `Fonte dati: Open-Meteo per Lat ${DEFAULT_LAT}, Lon ${DEFAULT_LON}`;
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                return data;
+                const parsed = stored ? JSON.parse(stored) : { entries: [] };
+                diaryEntries = Array.isArray(parsed.entries) ? parsed.entries.filter(isValidEntry) : [];
             } catch (error) {
-                console.error("Errore nel fetch dei dati meteo:", error);
-                alertMessage("Impossibile caricare i dati meteo. Mostro dati placeholder.", 'error');
-                return null;
+                console.error("Errore nel caricamento del diario locale:", error);
+                diaryEntries = [];
+                showMessage("Impossibile leggere il diario salvato. I dati presenti potrebbero non essere validi o accessibili.", "error");
             }
-        };
-        
-        /**
-         * Renderizza i dati meteo o un fallback.
-         */
-        const renderMeteo = async () => {
-            const data = await fetchMeteo();
-            
-            meteoLoadingEl.style.display = 'none';
-            meteoDataEl.style.display = 'grid';
+        }
 
-            // Dati statici di fallback se il fetch fallisce o l'API non restituisce dati validi
-            const fallbackData = {
-                temperature: '18°C', wind: '4 m/s (NW)', pressure: '1015 hPa',
-                sunrise: '07:15', sunset: '17:30', rain: '0 mm', activity: 'Medio',
-                activityIcon: '☀️'
-            };
+        function isValidEntry(entry) {
+            return Boolean(entry && typeof entry === "object" &&
+                typeof entry.id === "string" && entry.id.length > 0 && entry.id.length <= 200 &&
+                typeof entry.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) &&
+                !Number.isNaN(Date.parse(`${entry.date}T00:00:00Z`)) &&
+                new Date(`${entry.date}T00:00:00Z`).toISOString().slice(0, 10) === entry.date &&
+                typeof entry.spotId === "string" && entry.spotId.length <= 120 &&
+                typeof entry.species === "string" && entry.species.trim().length > 0 && entry.species.length <= 80 &&
+                (entry.weight === null || (typeof entry.weight === "number" && Number.isFinite(entry.weight) && entry.weight >= 0)) &&
+                (entry.length === null || (typeof entry.length === "number" && Number.isFinite(entry.length) && entry.length >= 0)) &&
+                typeof entry.notes === "string" && entry.notes.length <= 2000 &&
+                (entry.photoDataUrl === null || (typeof entry.photoDataUrl === "string" && /^data:image\/(?:jpeg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(entry.photoDataUrl))));
+        }
 
-            let currentData = fallbackData;
-            
-            if (data && data.hourly && data.daily) {
-                // Prende i dati per l'ora corrente (o la prima ora disponibile)
-                const now = new Date();
-                const currentHourIndex = data.hourly.time.findIndex(t => new Date(t).getHours() === now.getHours());
-                const index = currentHourIndex !== -1 ? currentHourIndex : 0;
-                
-                const temp = data.hourly.temperature_2m[index];
-                const windSpeed = data.hourly.windspeed_10m[index];
-                const pressure = data.hourly.pressure_msl[index];
-                
-                const sunriseISO = data.daily.sunrise[0];
-                const sunsetISO = data.daily.sunset[0];
+        function persistEntries(entries) {
+            try {
+                localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify({ entries }));
+                diaryEntries = entries;
+                renderDiaryList();
+                return true;
+            } catch (error) {
+                console.error("Errore nel salvataggio del diario locale:", error);
+                showMessage("Salvataggio non riuscito: lo spazio del browser potrebbe essere esaurito. Riduci o rimuovi le foto e riprova.", "error");
+                return false;
+            }
+        }
 
-                const sunrise = sunriseISO ? new Date(sunriseISO).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
-                const sunset = sunsetISO ? new Date(sunsetISO).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+        function renderSpots() {
+            const spots = visibleSpots();
+            byId("spot-grid").innerHTML = spots.length ? spots.map(spot => `
+                <article class="spot-card rounded-xl shadow-lg" data-spot-id="${escapeHtml(spot.id)}" tabindex="0" role="button" aria-label="Apri dettagli: ${escapeHtml(spot.name)}">
+                    <div class="spot-symbol" aria-hidden="true">${escapeHtml(spot.image)}</div>
+                    <div class="card-content">
+                        <h3>${escapeHtml(spot.name)} ${!spot.verified ? '<span class="badge badge-warning">DA VERIFICARE</span>' : ""}</h3>
+                        <p>${escapeHtml(spot.description)}</p>
+                        <div class="tech-tags">${spot.techniques.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+                        <p class="text-sm mt-2"><strong>Accesso:</strong> ${escapeHtml(spot.access)}</p>
+                    </div>
+                </article>`).join("") : '<p class="empty-state">Al momento non ci sono spot verificati da mostrare. Le schede saranno attivate dopo aver controllato accesso e regole ufficiali.</p>';
+            byId("diary-spot").innerHTML = spots.length
+                ? `<option value="" disabled selected>Seleziona uno spot</option>${spots.map(spot => `<option value="${escapeHtml(spot.id)}">${escapeHtml(spot.name)}${spot.verified ? "" : " — DA VERIFICARE"}</option>`).join("")}`
+                : '<option value="non_indicato">Spot non indicato (nessuno spot verificato)</option>';
+        }
 
-                // Logica Solunare/Activity Score (semplificata)
-                let activity = 'Bassa';
-                let activityIcon = '❌';
-                
-                if (windSpeed < 6 && pressure > 1010) {
-                    activity = 'Alta';
-                    activityIcon = '✅';
-                } else if (windSpeed < 10) {
-                    activity = 'Media';
-                    activityIcon = '⚠️';
+        function renderSpecies(filter) {
+            const species = SPECIES_DATA.filter(item => filter === "all" || item.environment.toLowerCase() === filter);
+            byId("species-grid").innerHTML = species.map(item => `
+                <article class="spot-card rounded-xl">
+                    <div class="spot-symbol" aria-hidden="true">${escapeHtml(item.image)}</div>
+                    <div class="card-content">
+                        <h3>${escapeHtml(item.name)}</h3>
+                        <p><strong>Ambiente:</strong> ${escapeHtml(item.environment)}</p>
+                        <p><strong>Stagione:</strong> ${escapeHtml(item.idealSeason.replace(/^Stagione indicativa:\s*/, ""))} (indicativa)</p>
+                        <p><strong>Esche indicative:</strong> ${item.baits.map(escapeHtml).join(", ")}</p>
+                    </div>
+                </article>`).join("");
+        }
+
+        function openSpotModal(spotId) {
+            const spot = visibleSpots().find(item => item.id === spotId);
+            if (!spot) return;
+            previousModalFocus = document.activeElement;
+            byId("modal-title").textContent = `Dettagli: ${spot.name}`;
+            byId("modal-content").innerHTML = `
+                <div class="spot-symbol" aria-hidden="true">${escapeHtml(spot.image)}</div>
+                <p><strong>Descrizione:</strong> ${escapeHtml(spot.description)}</p>
+                <p class="mt-2"><strong>Tecniche indicative:</strong> ${spot.techniques.map(escapeHtml).join(", ")}</p>
+                <p><strong>Esche indicative:</strong> ${spot.recommendedBaits.map(escapeHtml).join(", ")}</p>
+                <p><strong>Orari:</strong> ${escapeHtml(spot.bestTime)}</p>
+                <p><strong>Accesso:</strong> ${escapeHtml(spot.access)}${spot.verified ? "" : ' <span class="badge badge-warning">DA VERIFICARE</span>'}</p>
+                <div class="rules-block"><strong>Regole e verifiche</strong><p>${escapeHtml(spot.rulesNote)}</p><p><strong>Controlla sempre le regole ufficiali aggiornate.</strong></p>${spot.officialLink ? `<p><a href="${escapeHtml(spot.officialLink)}" target="_blank" rel="noopener noreferrer">Fonte ufficiale</a></p>` : ""}</div>`;
+            byId("share-spot-btn").hidden = false;
+            byId("share-spot-btn").onclick = () => shareSpot(spot);
+            const modal = byId("spot-modal");
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("dialog-open");
+            byId("close-spot-modal").focus();
+        }
+
+        function closeSpotModal() {
+            const modal = byId("spot-modal");
+            modal.classList.remove("open");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("dialog-open");
+            byId("share-spot-btn").hidden = true;
+            if (previousModalFocus && typeof previousModalFocus.focus === "function") previousModalFocus.focus();
+        }
+
+        async function shareSpot(spot) {
+            const text = `Spot PescaLife: ${spot.name}\n${spot.description}\nRegole: ${spot.rulesNote}`;
+            if (navigator.clipboard && window.isSecureContext) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    showMessage("Dettagli copiati negli appunti.");
+                    return;
+                } catch (error) {
+                    console.error("Copia negli appunti non riuscita:", error);
                 }
-
-                currentData = {
-                    temperature: `${temp}°C`,
-                    wind: `${windSpeed} m/s`,
-                    pressure: `${pressure} hPa`,
-                    sunrise,
-                    sunset,
-                    rain: '0 mm (Placeholder)', // Open-Meteo richiede un altro parametro per le precipitazioni
-                    activity,
-                    activityIcon
-                };
             }
-            
-            // Inietta i dati nel widget
-            meteoDataEl.innerHTML = `
-                <div class="meteo-card">
-                    <span class="icon">🌡️</span>
-                    <span>Temperatura</span>
-                    <strong>${currentData.temperature}</strong>
-                </div>
-                <div class="meteo-card">
-                    <span class="icon">💨</span>
-                    <span>Vento</span>
-                    <strong>${currentData.wind}</strong>
-                </div>
-                <div class="meteo-card">
-                    <span class="icon">🧭</span>
-                    <span>Pressione</span>
-                    <strong>${currentData.pressure}</strong>
-                </div>
-                <div class="meteo-card">
-                    <span class="icon">🌅</span>
-                    <span>Alba</span>
-                    <strong>${currentData.sunrise}</strong>
-                </div>
-                <div class="meteo-card">
-                    <span class="icon">🌇</span>
-                    <span>Tramonto</span>
-                    <strong>${currentData.sunset}</strong>
-                </div>
-                <div class="meteo-card">
-                    <span class="icon">🌧️</span>
-                    <span>Pioggia (24h)</span>
-                    <strong>${currentData.rain}</strong>
-                </div>
-            `;
-            
-            solunarStatusEl.textContent = `${currentData.activityIcon} ${currentData.activity}`;
-        };
+            window.prompt("Copia manualmente le informazioni sullo spot:", text);
+        }
 
-        /**
-         * 9. Logica Diario (Form e Lista)
-         */
+        function compressPhoto(file) {
+            return new Promise((resolve, reject) => {
+                const image = new Image();
+                const objectUrl = URL.createObjectURL(file);
+                image.onload = () => {
+                    URL.revokeObjectURL(objectUrl);
+                    const scale = Math.min(1, 1000 / Math.max(image.naturalWidth, image.naturalHeight));
+                    const canvas = document.createElement("canvas");
+                    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+                    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+                    const context = canvas.getContext("2d");
+                    if (!context) { reject(new Error("Canvas non disponibile")); return; }
+                    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL("image/jpeg", 0.8));
+                };
+                image.onerror = () => {
+                    URL.revokeObjectURL(objectUrl);
+                    reject(new Error("Impossibile leggere il file immagine"));
+                };
+                image.src = objectUrl;
+            });
+        }
 
-        /**
-         * Renderizza l'elenco delle uscite del diario.
-         */
-        const renderDiaryList = () => {
-            if (!diaryListEl) return;
-            
-            // Ordina per data decrescente
-            const sortedEntries = [...diaryEntries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-            
-            if (sortedEntries.length === 0) {
-                noEntriesEl.style.display = 'block';
-                diaryListEl.innerHTML = ''; // Clear everything else
+        function renderDiaryList() {
+            const list = byId("diary-list");
+            const sorted = [...diaryEntries].sort((a, b) => b.date.localeCompare(a.date));
+            if (!sorted.length) {
+                list.innerHTML = '<p class="empty-state" id="no-entries">Ancora nessuna uscita salvata. Aggiungi la tua prima scheda di pesca.</p>';
                 return;
             }
-            noEntriesEl.style.display = 'none';
-
-            diaryListEl.innerHTML = sortedEntries.map(entry => {
-                const spotName = SPOT_DATA.find(s => s.id === entry.spotId)?.name || entry.spotId;
-                
-                return `
-                    <div class="diary-entry rounded-xl shadow-light" data-id="${entry.id}">
-                        <div style="flex-grow: 1;">
-                            <p><strong>Data:</strong> ${entry.date}</p>
-                            <p><strong>Spot:</strong> <span class="text-accent">${spotName}</span></p>
-                            <p><strong>Cattura:</strong> ${entry.species} 
-                                (${entry.weight ? entry.weight + 'kg' : ''} ${entry.length ? ' / ' + entry.length + 'cm' : ''})
-                            </p>
-                            <p class="text-sm" style="font-style: italic; opacity: 0.8;">Note: ${entry.notes.substring(0, 100)}...</p>
-                            ${entry.photoDataUrl ? `<img src="${entry.photoDataUrl}" class="diary-photo-preview" alt="Foto cattura">` : ''}
-                        </div>
-                        <div class="diary-actions">
-                            <button class="btn btn-secondary btn-sm" onclick="editDiaryEntry('${entry.id}')" aria-label="Modifica uscita">Modifica</button>
-                            <button class="btn btn-primary btn-sm" style="background-color: #e63946;" onclick="deleteDiaryEntry('${entry.id}')" aria-label="Elimina uscita">Elimina</button>
-                        </div>
+            list.innerHTML = sorted.map(entry => {
+                const spotName = SPOT_DATA.find(spot => spot.id === entry.spotId)?.name || (entry.spotId === "non_indicato" ? "Spot non indicato" : entry.spotId);
+                const notes = entry.notes || "";
+                const notesPreview = notes.length > 100 ? `${notes.slice(0, 100)}…` : notes;
+                return `<article class="diary-entry rounded-xl shadow-lg" data-id="${escapeHtml(entry.id)}">
+                    <div class="diary-entry-content">
+                        <p><strong>Data:</strong> ${escapeHtml(dateInItalian(entry.date))}</p>
+                        <p><strong>Spot:</strong> <span class="text-accent">${escapeHtml(spotName)}</span></p>
+                        <p><strong>Cattura:</strong> ${escapeHtml(entry.species)}
+                            ${entry.weight !== null ? `(${escapeHtml(entry.weight)} kg` : ""}
+                            ${entry.length !== null ? `${entry.weight !== null ? " / " : "("}${escapeHtml(entry.length)} cm` : ""}
+                            ${(entry.weight !== null || entry.length !== null) ? ")" : ""}
+                        </p>
+                        ${notes ? `<p class="text-sm"><strong>Note:</strong> ${escapeHtml(notesPreview)}</p>` : ""}
+                        ${entry.photoDataUrl ? `<img src="${escapeHtml(entry.photoDataUrl)}" class="diary-photo-preview" alt="Foto locale della cattura">` : ""}
                     </div>
-                `;
-            }).join('');
-        };
+                    <div class="diary-actions">
+                        <button type="button" class="btn btn-secondary" data-action="download" data-id="${escapeHtml(entry.id)}" aria-label="Scarica scheda di ${escapeHtml(entry.species)}">Scarica scheda</button>
+                        <button type="button" class="btn btn-secondary" data-action="edit" data-id="${escapeHtml(entry.id)}" aria-label="Modifica uscita del ${escapeHtml(entry.date)}">Modifica</button>
+                        <button type="button" class="btn btn-danger" data-action="delete" data-id="${escapeHtml(entry.id)}" aria-label="Elimina uscita del ${escapeHtml(entry.date)}">Elimina</button>
+                    </div>
+                </article>`;
+            }).join("");
+        }
 
-        /**
-         * Salva o modifica un'uscita del diario.
-         * @param {Event} e 
-         */
-        const handleDiarySubmit = async (e) => {
-            e.preventDefault();
-
-            const id = document.getElementById('entry-id').value || crypto.randomUUID();
-            const date = document.getElementById('diary-date').value;
-            const spotId = document.getElementById('diary-spot').value;
-            const species = document.getElementById('diary-species').value;
-            const weightInput = document.getElementById('diary-weight').value;
-            const lengthInput = document.getElementById('diary-length').value;
-            const notes = document.getElementById('diary-notes').value;
-            const photoFile = document.getElementById('diary-photo').files[0];
-            
-            let photoDataUrl = null;
+        async function handleDiarySubmit(event) {
+            event.preventDefault();
+            const entryId = byId("entry-id").value;
+            const existing = diaryEntries.find(entry => entry.id === entryId);
+            let photoDataUrl = existing && !photoRemovedDuringEdit ? existing.photoDataUrl : null;
+            const photoFile = byId("diary-photo").files[0];
             if (photoFile) {
                 try {
-                    // Limita le dimensioni del file per non saturare localStorage (max ~5MB)
-                    if (photoFile.size > 1024 * 512) { // 512KB limit
-                        alertMessage('La foto è troppo grande (>512KB). Usa un file più piccolo.', 'error');
-                        return;
-                    }
-                    photoDataUrl = await fileToBase64(photoFile);
+                    photoDataUrl = await compressPhoto(photoFile);
                 } catch (error) {
-                    alertMessage('Errore nella conversione della foto.', 'error');
-                    console.error(error);
+                    console.error("Errore nella compressione della foto:", error);
+                    showMessage("La foto non può essere letta o compressa. Prova con un altro file.", "error");
                     return;
                 }
             }
-
-            /** @type {DiaryEntry} */
-            const newEntry = {
-                id,
-                date,
-                spotId,
-                species,
-                weight: weightInput ? parseFloat(weightInput) : null,
-                length: lengthInput ? parseInt(lengthInput, 10) : null,
-                notes,
+            const entry = {
+                id: entryId || (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`),
+                date: byId("diary-date").value,
+                spotId: byId("diary-spot").value,
+                species: byId("diary-species").value.trim(),
+                weight: byId("diary-weight").value ? Number(byId("diary-weight").value) : null,
+                length: byId("diary-length").value ? Number(byId("diary-length").value) : null,
+                notes: byId("diary-notes").value.trim(),
                 photoDataUrl
             };
-            
-            const existingIndex = diaryEntries.findIndex(entry => entry.id === id);
-            
-            if (existingIndex > -1) {
-                // Modifica esistente
-                // Preserva la vecchia foto se non ne è stata caricata una nuova
-                if (!photoDataUrl && !document.getElementById('diary-photo').dataset.clear) {
-                    newEntry.photoDataUrl = diaryEntries[existingIndex].photoDataUrl;
-                }
-                diaryEntries[existingIndex] = newEntry;
-                alertMessage("Uscita modificata con successo!", 'success');
-            } else {
-                // Nuova aggiunta
-                diaryEntries.push(newEntry);
-                alertMessage("Nuova uscita salvata!", 'success');
+            if (!isValidEntry(entry)) {
+                showMessage("Controlla i dati inseriti e riprova.", "error");
+                return;
             }
+            const nextEntries = existing
+                ? diaryEntries.map(item => item.id === entry.id ? entry : item)
+                : [...diaryEntries, entry];
+            if (!persistEntries(nextEntries)) return;
+            resetDiaryForm();
+            showMessage(existing ? "Uscita aggiornata." : "Uscita salvata.");
+        }
 
-            saveDiary();
-            
-            // Resetta il form
-            diaryFormEl.reset();
-            document.getElementById('entry-id').value = '';
-            document.getElementById('diary-photo-preview-form').style.display = 'none';
-            document.getElementById('diary-photo').dataset.clear = 'true';
-            document.getElementById('save-diary-btn').textContent = 'Salva Uscita';
-        };
+        function resetDiaryForm() {
+            byId("diary-form").reset();
+            byId("entry-id").value = "";
+            byId("save-diary-btn").textContent = "Salva Uscita";
+            byId("diary-photo-preview-form").hidden = true;
+            byId("diary-photo-preview-form").removeAttribute("src");
+            byId("remove-photo-btn").hidden = true;
+            photoRemovedDuringEdit = false;
+            const spots = visibleSpots();
+            if (spots.length) byId("diary-spot").selectedIndex = 0;
+        }
 
-        /**
-         * Prepara il form per modificare un'uscita.
-         * @param {string} id 
-         */
-        window.editDiaryEntry = (id) => {
-            const entry = diaryEntries.find(e => e.id === id);
+        function editDiaryEntry(id) {
+            const entry = diaryEntries.find(item => item.id === id);
             if (!entry) return;
-
-            document.getElementById('entry-id').value = entry.id;
-            document.getElementById('diary-date').value = entry.date;
-            document.getElementById('diary-spot').value = entry.spotId;
-            document.getElementById('diary-species').value = entry.species;
-            document.getElementById('diary-weight').value = entry.weight || '';
-            document.getElementById('diary-length').value = entry.length || '';
-            document.getElementById('diary-notes').value = entry.notes;
-            
-            const photoPreviewFormEl = document.getElementById('diary-photo-preview-form');
+            byId("entry-id").value = entry.id;
+            byId("diary-date").value = entry.date;
+            byId("diary-spot").value = entry.spotId;
+            byId("diary-species").value = entry.species;
+            byId("diary-weight").value = entry.weight ?? "";
+            byId("diary-length").value = entry.length ?? "";
+            byId("diary-notes").value = entry.notes;
+            photoRemovedDuringEdit = false;
             if (entry.photoDataUrl) {
-                photoPreviewFormEl.src = entry.photoDataUrl;
-                photoPreviewFormEl.style.display = 'block';
-                document.getElementById('diary-photo').dataset.clear = 'false';
+                byId("diary-photo-preview-form").src = entry.photoDataUrl;
+                byId("diary-photo-preview-form").hidden = false;
+                byId("remove-photo-btn").hidden = false;
             } else {
-                photoPreviewFormEl.style.display = 'none';
-                document.getElementById('diary-photo').dataset.clear = 'true';
+                byId("diary-photo-preview-form").hidden = true;
+                byId("remove-photo-btn").hidden = true;
             }
+            byId("save-diary-btn").textContent = "Aggiorna Uscita";
+            byId("diary-form").scrollIntoView({ behavior: "smooth" });
+        }
 
-            document.getElementById('save-diary-btn').textContent = 'Aggiorna Uscita';
-            
-            // Scrolla al form
-            diaryFormEl.scrollIntoView({ behavior: 'smooth' });
-        };
-        
-        /**
-         * Elimina un'uscita.
-         * @param {string} id 
-         */
-        window.deleteDiaryEntry = (id) => {
-            // Sostituisce alert/confirm con un messaggio diretto
-            if (confirm('Sei sicuro di voler eliminare questa uscita?')) {
-                diaryEntries = diaryEntries.filter(e => e.id !== id);
-                saveDiary();
-                alertMessage("Uscita eliminata.", 'success');
-            }
-        };
+        function deleteDiaryEntry(id) {
+            if (!window.confirm("Sei sicuro di voler eliminare questa uscita?")) return;
+            if (persistEntries(diaryEntries.filter(entry => entry.id !== id))) showMessage("Uscita eliminata.");
+        }
 
-        /**
-         * Esporta il diario in formato JSON.
-         */
-        const exportDiary = () => {
-            const json = JSON.stringify({ entries: diaryEntries }, null, 2);
-            const blob = new Blob([json], { type: 'application/json' });
+        function exportDiary() {
+            downloadBlob(new Blob([JSON.stringify({ entries: diaryEntries }, null, 2)], { type: "application/json" }),
+                `pescalife_diary_export_${new Date().toISOString().slice(0, 10)}.json`);
+            showMessage("Diario esportato in JSON.");
+        }
+
+        function downloadBlob(blob, filename) {
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `pescalife_diary_export_${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            alertMessage("Diario esportato in JSON.", 'success');
-        };
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
 
-        // 10. Funzione Messaggio di Sistema (sostituisce alert)
-        
-        /**
-         * Mostra un messaggio di sistema temporaneo.
-         * @param {string} message 
-         * @param {'success'|'error'} type 
-         */
-        const alertMessage = (message, type) => {
-            let msgEl = document.getElementById('system-message');
-            if (!msgEl) {
-                msgEl = document.createElement('div');
-                msgEl.id = 'system-message';
-                msgEl.style.cssText = `
-                    position: fixed; top: 1rem; right: 1rem; padding: 1rem 1.5rem; 
-                    border-radius: var(--border-radius); z-index: 101; font-weight: 600;
-                    box-shadow: var(--shadow-heavy); opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
-                    transform: translateY(-20px); max-width: 90%;
-                `;
-                document.body.appendChild(msgEl);
+        async function importDiary(file) {
+            try {
+                const parsed = JSON.parse(await file.text());
+                if (!parsed || !Array.isArray(parsed.entries) || !parsed.entries.every(isValidEntry)) {
+                    throw new Error("Struttura o campi non validi");
+                }
+                const existingIds = new Set(diaryEntries.map(entry => entry.id));
+                const imported = parsed.entries.filter(entry => {
+                    if (existingIds.has(entry.id)) return false;
+                    existingIds.add(entry.id);
+                    return true;
+                });
+                if (persistEntries([...diaryEntries, ...imported])) showMessage(`Importazione completata: ${imported.length} voci importate.`);
+            } catch (error) {
+                console.error("Errore durante l'importazione del diario:", error);
+                showMessage("File JSON non valido o con campi non riconosciuti. Nessuna voce importata.", "error");
+            } finally {
+                byId("import-diary-file").value = "";
             }
-            
-            if (type === 'success') {
-                msgEl.style.backgroundColor = 'var(--color-accent)';
-                msgEl.style.color = 'var(--color-primary)';
-            } else if (type === 'error') {
-                msgEl.style.backgroundColor = '#e63946';
-                msgEl.style.color = 'var(--color-text-light)';
-            }
-            
-            msgEl.textContent = message;
-            msgEl.style.opacity = 1;
-            msgEl.style.transform = 'translateY(0)';
+        }
 
-            setTimeout(() => {
-                msgEl.style.opacity = 0;
-                msgEl.style.transform = 'translateY(-20px)';
-            }, 3000);
-        };
-        
-        // 11. Event Listeners e Inizializzazione
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Renderizza gli spot e le specie iniziali
+        function clearDiary() {
+            if (!window.confirm("Vuoi cancellare definitivamente tutte le uscite e le foto salvate in questo browser?")) return;
+            try {
+                localStorage.removeItem(DIARY_STORAGE_KEY);
+                diaryEntries = [];
+                renderDiaryList();
+                resetDiaryForm();
+                showMessage("Tutti i dati del diario sono stati cancellati.");
+            } catch (error) {
+                console.error("Errore nella cancellazione del diario:", error);
+                showMessage("Non è stato possibile cancellare i dati dal browser.", "error");
+            }
+        }
+
+        function roundedRect(context, x, y, width, height, radius, fill, stroke, lineWidth = 1) {
+            context.beginPath();
+            context.roundRect(x, y, width, height, radius);
+            if (fill) { context.fillStyle = fill; context.fill(); }
+            if (stroke) { context.strokeStyle = stroke; context.lineWidth = lineWidth; context.stroke(); }
+        }
+
+        function drawCardBase(context) {
+            context.fillStyle = "#0A1A2F";
+            context.fillRect(0, 0, 1080, 1350);
+            context.save();
+            context.beginPath();
+            context.moveTo(0, 1160);
+            context.bezierCurveTo(270, 1080, 440, 1260, 700, 1160);
+            context.bezierCurveTo(850, 1100, 960, 1120, 1080, 1155);
+            context.lineTo(1080, 1350);
+            context.lineTo(0, 1350);
+            context.closePath();
+            context.fillStyle = "#17617b";
+            context.fill();
+            context.beginPath();
+            context.moveTo(0, 1210);
+            context.bezierCurveTo(280, 1140, 500, 1290, 760, 1205);
+            context.bezierCurveTo(900, 1160, 1000, 1180, 1080, 1200);
+            context.lineTo(1080, 1350);
+            context.lineTo(0, 1350);
+            context.closePath();
+            context.fillStyle = "#3AAFC6";
+            context.fill();
+            context.restore();
+            roundedRect(context, 22, 22, 1036, 1306, 36, null, "#3AAFC6", 5);
+            drawCanvasLogo(context);
+        }
+
+        function drawCanvasLogo(context) {
+            context.save();
+            context.strokeStyle = "#3AAFC6";
+            context.lineWidth = 7;
+            context.lineCap = "round";
+            context.beginPath();
+            context.moveTo(75, 95); context.bezierCurveTo(95, 75, 115, 115, 135, 95);
+            context.moveTo(75, 125); context.bezierCurveTo(95, 105, 115, 145, 135, 125);
+            context.moveTo(117, 93); context.lineTo(117, 52); context.lineTo(133, 52);
+            context.quadraticCurveTo(165, 55, 152, 100); context.moveTo(152, 130); context.lineTo(152, 148);
+            context.stroke();
+            context.fillStyle = "#F5FDFE";
+            context.font = "bold 34px system-ui, sans-serif";
+            context.fillText("PescaLife — Val di Cecina", 190, 110);
+            context.restore();
+        }
+
+        function drawWrappedText(context, text, x, y, maxWidth, lineHeight, maxLines) {
+            const words = String(text || "").split(/\s+/).filter(Boolean);
+            const lines = [];
+            let line = "";
+            let index = 0;
+            for (; index < words.length; index++) {
+                const candidate = line ? `${line} ${words[index]}` : words[index];
+                if (context.measureText(candidate).width > maxWidth && line) {
+                    lines.push(line);
+                    line = words[index];
+                    if (lines.length === maxLines) break;
+                } else {
+                    line = candidate;
+                }
+            }
+            if (line && lines.length < maxLines) lines.push(line);
+            const truncated = index < words.length;
+            if (truncated && lines.length) {
+                let last = lines[lines.length - 1];
+                while (last && context.measureText(`${last}…`).width > maxWidth) last = last.slice(0, -1);
+                lines[lines.length - 1] = `${last.trimEnd()}…`;
+            }
+            lines.forEach((value, lineIndex) => context.fillText(value, x, y + lineIndex * lineHeight));
+        }
+
+        function drawInfoBox(context, label, value, x, y, width, height, maxLines = 2) {
+            roundedRect(context, x, y, width, height, 20, "#102943", "#3AAFC6", 2);
+            context.fillStyle = "#7AD7DF";
+            context.font = "bold 22px system-ui, sans-serif";
+            context.fillText(label, x + 24, y + 34);
+            context.fillStyle = "#F5FDFE";
+            context.font = "26px system-ui, sans-serif";
+            drawWrappedText(context, value || "—", x + 24, y + 74, width - 48, 34, maxLines);
+        }
+
+        function loadLocalImage(dataUrl) {
+            return new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.onerror = () => reject(new Error("La foto locale non è leggibile"));
+                image.src = dataUrl;
+            });
+        }
+
+        async function drawEntryCard(entry) {
+            const canvas = document.createElement("canvas");
+            canvas.width = 1080;
+            canvas.height = 1350;
+            const context = canvas.getContext("2d");
+            if (!context) throw new Error("Canvas non disponibile");
+            drawCardBase(context);
+            const spot = SPOT_DATA.find(item => item.id === entry.spotId);
+            context.fillStyle = "#F5FDFE";
+            context.font = "bold 48px system-ui, sans-serif";
+            drawWrappedText(context, entry.species, 75, 205, 930, 56, 1);
+            context.fillStyle = "#7AD7DF";
+            context.font = "28px system-ui, sans-serif";
+            drawWrappedText(context, `${spot?.name || (entry.spotId === "non_indicato" ? "Spot non indicato" : entry.spotId)} • ${dateInItalian(entry.date)}`, 75, 250, 930, 38, 2);
+
+            const photoX = 75, photoY = 285, photoW = 930, photoH = 420;
+            roundedRect(context, photoX, photoY, photoW, photoH, 26, "#102943", "#3AAFC6", 4);
+            if (entry.photoDataUrl) {
+                const image = await loadLocalImage(entry.photoDataUrl);
+                const scale = Math.max(photoW / image.width, photoH / image.height);
+                const cropW = photoW / scale, cropH = photoH / scale;
+                context.save();
+                context.beginPath();
+                context.roundRect(photoX + 5, photoY + 5, photoW - 10, photoH - 10, 22);
+                context.clip();
+                context.drawImage(image, (image.width - cropW) / 2, (image.height - cropH) / 2, cropW, cropH, photoX + 5, photoY + 5, photoW - 10, photoH - 10);
+                context.restore();
+                roundedRect(context, photoX, photoY, photoW, photoH, 26, null, "#3AAFC6", 4);
+            } else {
+                context.textAlign = "center";
+                context.font = "120px system-ui, sans-serif";
+                context.fillStyle = "#F5FDFE";
+                context.fillText(SPECIES_DATA.find(item => item.name.toLowerCase() === entry.species.toLowerCase())?.image || spot?.image || "🎣", 540, 535);
+                context.textAlign = "left";
+            }
+
+            drawInfoBox(context, "PESO", entry.weight === null ? "Non indicato" : `${entry.weight} kg`, 75, 735, 440, 112);
+            drawInfoBox(context, "LUNGHEZZA", entry.length === null ? "Non indicata" : `${entry.length} cm`, 535, 735, 470, 112);
+            drawInfoBox(context, "NOTE", entry.notes || "Nessuna nota", 75, 875, 930, 230, 4);
+            context.fillStyle = "#F5FDFE";
+            context.font = "bold 20px system-ui, sans-serif";
+            context.fillText("Scheda cattura personale • Rispetta sempre la legge", 75, 1265);
+            context.beginPath();
+            context.arc(930, 1250, 52, 0, Math.PI * 2);
+            context.fillStyle = "#0A1A2F";
+            context.fill();
+            context.strokeStyle = "#F5FDFE";
+            context.lineWidth = 3;
+            context.stroke();
+            context.fillStyle = "#F5FDFE";
+            context.font = "bold 17px system-ui, sans-serif";
+            context.textAlign = "center";
+            context.fillText("PescaLife", 930, 1256);
+            context.textAlign = "left";
+            return canvas;
+        }
+
+        function slugify(value) {
+            return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "specie";
+        }
+
+        function canvasToBlob(canvas) {
+            return new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("Impossibile generare il PNG")), "image/png"));
+        }
+
+        async function downloadEntryCard(id) {
+            const entry = diaryEntries.find(item => item.id === id);
+            if (!entry) return;
+            try {
+                const blob = await canvasToBlob(await drawEntryCard(entry));
+                downloadBlob(blob, `pescalife_scheda_${entry.date}_${slugify(entry.species)}.png`);
+            } catch (error) {
+                console.error("Errore nella creazione della scheda PNG:", error);
+                showMessage("Non è stato possibile creare la scheda PNG. Verifica che la foto salvata sia leggibile.", "error");
+            }
+        }
+
+        async function downloadSeasonSummary() {
+            const canvas = document.createElement("canvas");
+            canvas.width = 1080;
+            canvas.height = 1350;
+            const context = canvas.getContext("2d");
+            if (!context) { showMessage("Canvas non disponibile per creare il riepilogo.", "error"); return; }
+            drawCardBase(context);
+            const countBy = key => diaryEntries.reduce((counts, entry) => {
+                const value = key === "spotId" ? (SPOT_DATA.find(item => item.id === entry.spotId)?.name || entry.spotId) : entry[key];
+                counts[value] = (counts[value] || 0) + 1;
+                return counts;
+            }, {});
+            const mostFrequent = key => Object.entries(countBy(key)).sort((a, b) => b[1] - a[1])[0]?.[0] || "—";
+            context.fillStyle = "#F5FDFE";
+            context.font = "bold 48px system-ui, sans-serif";
+            context.fillText("Riepilogo stagione", 75, 205);
+            context.fillStyle = "#7AD7DF";
+            context.font = "27px system-ui, sans-serif";
+            context.fillText(`Totale uscite: ${diaryEntries.length}`, 75, 265);
+            context.fillText(`Totale catture: ${diaryEntries.length}`, 75, 310);
+            context.fillText(`Specie più frequente: ${mostFrequent("species")}`, 75, 355);
+            drawWrappedText(context, `Spot più frequente: ${mostFrequent("spotId")}`, 75, 400, 920, 38, 2);
+            roundedRect(context, 75, 465, 930, 625, 24, "#102943", "#3AAFC6", 3);
+            context.fillStyle = "#F5FDFE";
+            context.font = "bold 30px system-ui, sans-serif";
+            context.fillText("Ultime 5 uscite", 110, 520);
+            const latest = [...diaryEntries].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+            context.font = "24px system-ui, sans-serif";
+            latest.forEach((entry, index) => {
+                const spot = SPOT_DATA.find(item => item.id === entry.spotId)?.name || (entry.spotId === "non_indicato" ? "Spot non indicato" : entry.spotId);
+                const label = `${dateInItalian(entry.date)} • ${entry.species} • ${spot}`;
+                context.fillStyle = "#7AD7DF";
+                drawWrappedText(context, label, 110, 585 + index * 92, 850, 32, 2);
+            });
+            context.fillStyle = "#F5FDFE";
+            context.font = "bold 20px system-ui, sans-serif";
+            context.fillText("Scheda cattura personale • Rispetta sempre la legge", 75, 1265);
+            context.beginPath(); context.arc(930, 1250, 52, 0, Math.PI * 2);
+            context.fillStyle = "#0A1A2F"; context.fill();
+            context.strokeStyle = "#F5FDFE"; context.lineWidth = 3; context.stroke();
+            context.fillStyle = "#F5FDFE"; context.font = "bold 17px system-ui, sans-serif"; context.textAlign = "center";
+            context.fillText("PescaLife", 930, 1256); context.textAlign = "left";
+            try {
+                downloadBlob(await canvasToBlob(canvas), `pescalife_riepilogo_${new Date().toISOString().slice(0, 10)}.png`);
+            } catch (error) {
+                console.error("Errore nella creazione del riepilogo PNG:", error);
+                showMessage("Non è stato possibile creare il riepilogo PNG.", "error");
+            }
+        }
+
+        function setupEntryDialog() {
+            const dialog = byId("entry-dialog");
+            let accepted = false;
+            try { accepted = sessionStorage.getItem(SESSION_NOTICE_KEY) === "true"; }
+            catch (error) { console.warn("sessionStorage non disponibile; il banner verrà mostrato."); }
+            if (accepted) return;
+            dialog.hidden = false;
+            document.body.classList.add("dialog-open");
+            byId("entry-accept").focus();
+
+            const close = () => {
+                try { sessionStorage.setItem(SESSION_NOTICE_KEY, "true"); }
+                catch (error) { console.warn("Non è stato possibile memorizzare l'accettazione del banner in sessionStorage."); }
+                dialog.hidden = true;
+                document.body.classList.remove("dialog-open");
+            };
+            byId("entry-accept").addEventListener("click", close);
+            byId("entry-legal-link").addEventListener("click", event => {
+                event.preventDefault();
+                close();
+                location.hash = "note-legali";
+                byId("note-legali").scrollIntoView();
+            });
+            dialog.addEventListener("keydown", event => {
+                if (event.key === "Enter" && event.target !== byId("entry-legal-link")) {
+                    event.preventDefault();
+                    close();
+                }
+                if (event.key === "Tab") {
+                    const focusables = [byId("entry-accept"), byId("entry-legal-link")];
+                    const current = focusables.indexOf(document.activeElement);
+                    if (event.shiftKey && current <= 0) {
+                        event.preventDefault();
+                        focusables[focusables.length - 1].focus();
+                    } else if (!event.shiftKey && (current === focusables.length - 1 || current === -1)) {
+                        event.preventDefault();
+                        focusables[0].focus();
+                    }
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setupEntryDialog();
             renderSpots();
-            renderSpecies('all');
-            
-            // 2. Carica e renderizza il diario
+            renderSpecies("all");
             loadDiary();
             renderDiaryList();
-            
-            // 3. Carica i dati meteo
-            renderMeteo();
 
-            // 4. Listeners per il Diario
-            diaryFormEl.addEventListener('submit', handleDiarySubmit);
-            document.getElementById('export-diary-btn').addEventListener('click', exportDiary);
-            
-            // 5. Listeners per il filtro specie
-            document.querySelectorAll('#specie button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const filter = e.target.dataset.filter;
-                    renderSpecies(filter);
-                    // Aggiorna classi bottoni
-                    document.querySelectorAll('#specie button').forEach(b => {
-                        b.classList.remove('btn-primary', 'btn-secondary');
-                        b.classList.add(b.dataset.filter === filter ? 'btn-primary' : 'btn-secondary');
-                    });
-                });
+            byId("diary-form").addEventListener("submit", handleDiarySubmit);
+            byId("export-diary-btn").addEventListener("click", exportDiary);
+            byId("export-summary-btn").addEventListener("click", downloadSeasonSummary);
+            byId("import-diary-btn").addEventListener("click", () => byId("import-diary-file").click());
+            byId("import-diary-file").addEventListener("change", event => {
+                const file = event.target.files[0];
+                if (file) importDiary(file);
             });
-            
-            // 6. Listener Hotspot Mappa
-            document.querySelectorAll('.map-hotspot').forEach(hotspot => {
-                hotspot.addEventListener('click', (e) => {
-                    const spotId = e.target.dataset.spotId;
-                    if (spotId) {
-                        openModal(spotId);
-                    }
-                });
+            byId("clear-diary-btn").addEventListener("click", clearDiary);
+            byId("remove-photo-btn").addEventListener("click", () => {
+                photoRemovedDuringEdit = true;
+                byId("diary-photo").value = "";
+                byId("diary-photo-preview-form").hidden = true;
+                byId("diary-photo-preview-form").removeAttribute("src");
+                byId("remove-photo-btn").hidden = true;
             });
-            
-            // 7. Listener per anteprima foto diario
-            document.getElementById('diary-photo').addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                const previewEl = document.getElementById('diary-photo-preview-form');
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        previewEl.src = e.target.result;
-                        previewEl.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    previewEl.style.display = 'none';
+            byId("diary-photo").addEventListener("change", event => {
+                const file = event.target.files[0];
+                if (!file) return;
+                photoRemovedDuringEdit = true;
+                const previewUrl = URL.createObjectURL(file);
+                const preview = byId("diary-photo-preview-form");
+                preview.onload = () => URL.revokeObjectURL(previewUrl);
+                preview.src = previewUrl;
+                preview.hidden = false;
+                byId("remove-photo-btn").hidden = false;
+            });
+            byId("diary-list").addEventListener("click", event => {
+                const button = event.target.closest("button[data-action]");
+                if (!button) return;
+                const { action, id } = button.dataset;
+                if (action === "download") downloadEntryCard(id);
+                if (action === "edit") editDiaryEntry(id);
+                if (action === "delete") deleteDiaryEntry(id);
+            });
+            byId("spot-grid").addEventListener("click", event => {
+                const card = event.target.closest("[data-spot-id]");
+                if (card) openSpotModal(card.dataset.spotId);
+            });
+            byId("spot-grid").addEventListener("keydown", event => {
+                if ((event.key === "Enter" || event.key === " ") && event.target.matches("[data-spot-id]")) {
+                    event.preventDefault();
+                    openSpotModal(event.target.dataset.spotId);
                 }
             });
+            document.querySelectorAll(".filter-actions button").forEach(button => button.addEventListener("click", () => {
+                renderSpecies(button.dataset.filter);
+                document.querySelectorAll(".filter-actions button").forEach(item => {
+                    item.classList.toggle("btn-primary", item === button);
+                    item.classList.toggle("btn-secondary", item !== button);
+                });
+            }));
+            byId("close-spot-modal").addEventListener("click", closeSpotModal);
+            byId("spot-modal").addEventListener("click", event => {
+                if (event.target === byId("spot-modal")) closeSpotModal();
+            });
+            document.addEventListener("keydown", event => {
+                if (event.key === "Escape" && byId("spot-modal").classList.contains("open")) closeSpotModal();
+            });
         });
-        
     </script>
 </body>
 </html>
