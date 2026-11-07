@@ -30,6 +30,7 @@
             line-height: 1.6;
         }
         body.dialog-open { overflow: hidden; }
+        body.menu-open { overflow: hidden; }
         section { padding: 2rem 1rem; max-width: 1200px; margin: 0 auto; }
         h1, h2, h3 { color: var(--color-primary); margin-bottom: 0.5rem; line-height: 1.2; }
         h1 { font-size: 2.5rem; }
@@ -92,9 +93,100 @@
         .logo-group { display: flex; align-items: center; flex-shrink: 0; }
         .logo-group h1 { color: var(--color-text-light); font-size: 1.2rem; margin: 0; }
         .logo-group p { font-size: 0.7rem; opacity: 0.8; margin: 0; }
-        .nav-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.8rem; }
-        .nav-links a { color: var(--color-text-light); text-decoration: none; font-size: 0.9rem; opacity: 0.8; }
-        .nav-links a:hover, .nav-links a:focus { opacity: 1; }
+        .menu-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.75rem;
+            height: 2.75rem;
+            color: var(--color-text-light);
+            background: transparent;
+            border: 1px solid rgba(122, 215, 223, 0.65);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+        }
+        .menu-toggle svg { width: 1.5rem; height: 1.5rem; }
+
+        .site-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 150;
+            visibility: hidden;
+            pointer-events: none;
+            transition: visibility 0s linear 0.35s;
+        }
+        .site-menu.open { visibility: visible; pointer-events: auto; transition-delay: 0s; }
+        .site-menu-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 26, 47, 0.68);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+        .site-menu.open .site-menu-backdrop { opacity: 1; }
+        .site-menu-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            width: min(440px, 100%);
+            height: 100vh;
+            height: 100dvh;
+            padding: clamp(1.25rem, 5vw, 2rem);
+            overflow-y: auto;
+            background: var(--color-background);
+            box-shadow: var(--shadow-heavy);
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .site-menu.open .site-menu-panel { transform: translateX(0); }
+        .site-menu-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem;
+            color: var(--color-text-light);
+            background: var(--color-primary);
+            border: 1px solid var(--color-secondary);
+            border-radius: var(--border-radius);
+        }
+        .site-menu-heading p { margin: 0; font-size: 0.8rem; color: var(--color-secondary); }
+        .site-menu-heading h2 { margin: 0; padding: 0; color: var(--color-text-light); border: 0; font-size: 1.35rem; }
+        .menu-close {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            width: 2.5rem;
+            height: 2.5rem;
+            color: var(--color-text-light);
+            background: transparent;
+            border: 1px solid rgba(122, 215, 223, 0.65);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .site-menu-links { display: grid; gap: 0.65rem; margin-top: 1.5rem; list-style: none; }
+        .site-menu-links a {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 1rem;
+            min-height: 3.25rem;
+            padding: 0.75rem 1rem;
+            color: var(--color-primary);
+            background: white;
+            border: 1px solid var(--color-secondary);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .site-menu-links a:hover { border-color: var(--color-accent); transform: translateY(-2px); box-shadow: var(--shadow-light); }
+        .site-menu-links svg { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; color: #087c91; }
+        .site-menu-note { margin-top: auto; padding-top: 1.5rem; color: #596675; font-size: 0.85rem; }
 
         .hero {
             position: relative;
@@ -116,9 +208,23 @@
         }
         .hero-content { position: relative; z-index: 2; color: var(--color-text-light); max-width: 80%; }
         .hero-content h2 { color: var(--color-text-light); font-size: 2.5rem; border: 0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); }
-        .wave-container { position: absolute; bottom: -5px; left: 0; width: 100%; line-height: 0; transform: rotate(180deg); z-index: 5; }
-        .wave-path { fill: var(--color-background); animation: wave-movement 15s linear infinite alternate; }
-        @keyframes wave-movement { from { transform: translateX(-10%); } to { transform: translateX(0); } }
+        .quick-nav { padding-top: 1.5rem; padding-bottom: 0; }
+        .quick-nav-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; list-style: none; }
+        .quick-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            min-height: 3.5rem;
+            padding: 0.75rem;
+            color: var(--color-primary);
+            background: white;
+            border: 1px solid var(--color-secondary);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .quick-nav a:hover { border-color: var(--color-accent); background: var(--color-background); }
+        .quick-nav svg { width: 1.35rem; height: 1.35rem; flex: 0 0 auto; color: #087c91; }
 
         .spot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
         .spot-card { background: var(--color-text-light); border: 1px solid var(--color-secondary); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
@@ -180,7 +286,7 @@
         .close-btn { float: right; font-size: 1.5rem; font-weight: bold; line-height: 1; color: var(--color-primary); cursor: pointer; border: 0; background: transparent; }
         .rules-block { padding: 1rem; margin-top: 1rem; background: #e4f6f8; border-left: 4px solid var(--color-accent); }
 
-        #note-legali { scroll-margin-top: 6rem; }
+        #spot, #specie, #tecniche, #meteo, #diario, #normativa, #note-legali { scroll-margin-top: 6rem; }
         .legal-content { padding: 1.25rem; background: white; border: 1px solid var(--color-secondary); border-radius: var(--border-radius); }
         .legal-content h3 { margin-top: 1rem; }
         footer { background: var(--color-primary); color: var(--color-secondary); padding: 2rem 1rem; text-align: center; font-size: 0.9rem; margin-top: 3rem; }
@@ -219,14 +325,13 @@
             .diary-actions { margin-top: 0; }
         }
         @media (max-width: 680px) {
-            header .content { align-items: flex-start; flex-direction: column; }
-            .nav-links { justify-content: flex-start; }
-            .nav-links a { font-size: 0.82rem; }
+            header .content { align-items: center; }
+            .quick-nav-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            #spot, #specie, #tecniche, #meteo, #diario, #normativa, #note-legali { scroll-margin-top: 9rem; }
             .form-row { flex-direction: column; gap: 0; }
         }
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-            .wave-path { animation: none; }
         }
     </style>
 </head>
@@ -254,16 +359,39 @@
                     <p>La tua guida alla pesca sportiva in Toscana</p>
                 </div>
             </div>
-            <nav class="nav-links" aria-label="Navigazione principale">
-                <a href="#home">Home</a>
-                <a href="#spot">Spot</a>
-                <a href="#specie">Specie</a>
-                <a href="#meteo">Meteo e mare</a>
-                <a href="#diario">Diario</a>
-                <a href="#note-legali">Note legali</a>
-            </nav>
+            <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false" aria-controls="site-menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
         </div>
     </header>
+
+    <div class="site-menu" id="site-menu" role="dialog" aria-modal="true" aria-labelledby="site-menu-title" aria-hidden="true" inert>
+        <div class="site-menu-backdrop" aria-hidden="true"></div>
+        <div class="site-menu-panel">
+            <div class="site-menu-heading">
+                <div>
+                    <p>Navigazione</p>
+                    <h2 id="site-menu-title">PescaLife</h2>
+                </div>
+                <button type="button" class="menu-close" id="menu-close" aria-label="Chiudi il menu">&times;</button>
+            </div>
+            <nav aria-label="Sezioni del sito">
+                <ul class="site-menu-links">
+                    <li><a href="#home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7"></path><path d="M5 9v11h14V9M9 20v-6h6v6"></path></svg><span>Home</span></a></li>
+                    <li><a href="#spot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg><span>Luoghi di pesca</span></a></li>
+                    <li><a href="#specie"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12s3.2-5 9-5c3.3 0 5.6 2 7 5-1.4 3-3.7 5-7 5-5.8 0-9-5-9-5Z"></path><path d="m19 12 3-3v6l-3-3Z"></path><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"></circle></svg><span>Guida alle specie</span></a></li>
+                    <li><a href="#tecniche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 5h10"></path><path d="m13 5 5 5"></path><path d="M18 10v4a3 3 0 0 1-6 0v-1"></path><path d="M3 5v4"></path><path d="M3 9c0 2 1.5 3 3 3s3-1 3-3"></path></svg><span>Tecniche di pesca</span></a></li>
+                    <li><a href="#meteo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path><path d="M8 21h.01M12 21h.01M16 21h.01"></path></svg><span>Condizioni ambientali</span></a></li>
+                    <li><a href="#normativa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Regole e normativa</span></a></li>
+                    <li><a href="#diario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h14v17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M7 8h10M7 12h10M7 16h6"></path><path d="M7 4v17"></path></svg><span>Diario di pesca</span></a></li>
+                    <li><a href="#note-legali"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Note legali e privacy</span></a></li>
+                </ul>
+            </nav>
+            <p class="site-menu-note">La tua guida alla pesca sportiva in Toscana</p>
+        </div>
+    </div>
 
     <main>
         <section class="hero" id="home">
@@ -273,12 +401,71 @@
                 <p>I migliori spot, le specie target e i consigli tecnici per la Val di Cecina.</p>
                 <a href="#spot" class="btn btn-primary mt-4">Esplora gli spot</a>
             </div>
-            <div class="wave-container" aria-hidden="true">
-                <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <path class="wave-path" d="M0,30 C360,80 1080,-20 1440,30 L1440,100 L0,100 Z"></path>
-                </svg>
-            </div>
         </section>
+
+        <nav class="quick-nav container" aria-label="Collegamenti rapidi alle funzionalità">
+            <ul class="quick-nav-list">
+                <li>
+                    <a href="#spot">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path>
+                            <circle cx="12" cy="9" r="2.3"></circle>
+                        </svg>
+                        <span>Luoghi di pesca</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#specie">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M3 12s3.2-5 9-5c3.3 0 5.6 2 7 5-1.4 3-3.7 5-7 5-5.8 0-9-5-9-5Z"></path>
+                            <path d="m19 12 3-3v6l-3-3Z"></path>
+                            <circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"></circle>
+                        </svg>
+                        <span>Guida alle specie</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#tecniche">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M3 5h10"></path>
+                            <path d="m13 5 5 5"></path>
+                            <path d="M18 10v4a3 3 0 0 1-6 0v-1"></path>
+                            <path d="M3 5v4"></path>
+                            <path d="M3 9c0 2 1.5 3 3 3s3-1 3-3"></path>
+                        </svg>
+                        <span>Tecniche di pesca</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#meteo">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path>
+                            <path d="M8 21h.01M12 21h.01M16 21h.01"></path>
+                        </svg>
+                        <span>Condizioni ambientali</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#normativa">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path>
+                            <path d="M14 3v5h5M8 13h8M8 17h5"></path>
+                        </svg>
+                        <span>Regole e normativa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#diario">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M5 4h14v17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path>
+                            <path d="M7 8h10M7 12h10M7 16h6"></path>
+                            <path d="M7 4v17"></path>
+                        </svg>
+                        <span>Diario di pesca</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
         <section id="spot">
             <h2>Spot di pesca</h2>
@@ -289,7 +476,7 @@
         <section id="specie">
             <h2>Specie target</h2>
             <p>Specie e indicazioni sono orientative e non sostituiscono le norme vigenti.</p>
-            <p class="rules-block">Misure minime, periodi di divieto e specie protette: consulta le norme ufficiali vigenti.
+            <p id="normativa" class="rules-block">Misure minime, periodi di divieto e specie protette: consulta le norme ufficiali vigenti.
                 <a href="https://www.regione.toscana.it/-/pesca-dilettantistica" target="_blank" rel="noopener noreferrer">Regione Toscana (pesca)</a> e
                 <a href="https://www.masaf.gov.it/" target="_blank" rel="noopener noreferrer">Ministero dell'Agricoltura (MASAF)</a>.
             </p>
@@ -300,6 +487,11 @@
             </div>
             <div class="spot-grid" id="species-grid"></div>
             <p class="mt-4">Rilascia sempre le specie protette o sotto misura.</p>
+        </section>
+
+        <section id="tecniche">
+            <h2>Tecniche di pesca</h2>
+            <p>Contenuti in preparazione.</p>
         </section>
 
         <section id="meteo">
@@ -1038,7 +1230,54 @@
             });
         }
 
+        function setupSiteMenu() {
+            const menu = byId("site-menu");
+            const toggle = byId("menu-toggle");
+            const closeButton = byId("menu-close");
+            const closeMenu = () => {
+                if (!menu.classList.contains("open")) return;
+                menu.classList.remove("open");
+                menu.setAttribute("aria-hidden", "true");
+                menu.inert = true;
+                toggle.setAttribute("aria-expanded", "false");
+                document.body.classList.remove("menu-open");
+                toggle.focus();
+            };
+            const openMenu = () => {
+                menu.inert = false;
+                menu.setAttribute("aria-hidden", "false");
+                menu.classList.add("open");
+                toggle.setAttribute("aria-expanded", "true");
+                document.body.classList.add("menu-open");
+                closeButton.focus();
+            };
+
+            toggle.addEventListener("click", openMenu);
+            closeButton.addEventListener("click", closeMenu);
+            menu.querySelector(".site-menu-backdrop").addEventListener("click", closeMenu);
+            menu.querySelectorAll(".site-menu-links a").forEach(link => link.addEventListener("click", closeMenu));
+            menu.addEventListener("keydown", event => {
+                if (event.key === "Escape") {
+                    event.preventDefault();
+                    closeMenu();
+                    return;
+                }
+                if (event.key !== "Tab") return;
+                const focusables = [...menu.querySelectorAll("a[href], button:not([disabled])")];
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
+                }
+            });
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
+            setupSiteMenu();
             setupEntryDialog();
             renderSpots();
             renderSpecies("all");
