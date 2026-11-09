@@ -515,7 +515,7 @@
                     .setLngLat(center)
                     .setPopup(new maplibregl.Popup({ offset: 24 }).setText("La tua posizione, rilevata su richiesta"))
                     .addTo(map);
-                setStatus("Mappa centrata sulla tua posizione. La posizione non viene salvata.");
+                setStatus("Mappa centrata sulla tua posizione, che potrebbe non essere precisa al 100%. La posizione non viene salvata.");
                 locationButton.disabled = false;
             },
             error => {

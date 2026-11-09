@@ -13,7 +13,8 @@
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/style.css?v=feedback-1">
-        <script src="js/site.js?v=feedback-3" defer></script>
+    <link rel="stylesheet" href="css/environment.css?v=6">
+    <script src="js/site.js?v=feedback-3" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
@@ -65,18 +66,168 @@
     </div>
 
     <main>
-        <section class="weather-section">
-            <h2 class="page-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path><path d="M8 21h.01M12 21h.01M16 21h.01"></path></svg><span>Condizioni ambientali</span></h2>
-            <div class="container">
-                <h2>Meteo e mare: consulta le fonti ufficiali</h2>
-                <p>PescaLife non fornisce previsioni meteo: consulta direttamente gli aggiornamenti degli enti competenti.</p>
-                <div class="official-links">
-                    <a href="https://www.lamma.rete.toscana.it/" target="_blank" rel="noopener noreferrer"><strong>LaMMA Toscana</strong><br>Previsioni e informazioni meteorologiche</a>
-                    <a href="https://www.regione.toscana.it/allertameteo" target="_blank" rel="noopener noreferrer"><strong>Allerta meteo Regione Toscana</strong><br>Avvisi e allerte regionali</a>
-                    <a href="https://www.meteoam.it/" target="_blank" rel="noopener noreferrer"><strong>Servizio Meteorologico dell'Aeronautica Militare</strong><br>Previsioni meteorologiche ufficiali</a>
-                    <a href="https://www.guardiacostiera.gov.it/" target="_blank" rel="noopener noreferrer"><strong>Capitaneria di Porto</strong><br>Informazioni e sicurezza in mare</a>
+        <section class="weather-section environment-page">
+            <aside class="environment-accuracy-notice" aria-labelledby="environment-accuracy-heading">
+                <p class="environment-accuracy-score">0%</p>
+                <div>
+                    <h2 id="environment-accuracy-heading">Punti meteo verificati</h2>
+                    <p>La percentuale indica la quota di località con coordinate validate sul territorio: al momento <strong>0 su 15</strong>. Nove località usano punti abitati GeoNames solo indicativi; sei non hanno coordinate operative. Non è una misura dell’accuratezza delle previsioni: il punto rappresentativo e la cella del modello possono differire, quindi i valori locali vanno considerati orientativi.</p>
                 </div>
-                <p class="safety-note">Prima di uscire controlla sempre allerte e condizioni del mare. Mare mosso, scogli e foci possono essere pericolosi.</p>
+            </aside>
+            <div class="environment-heading">
+                <h2 class="page-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path><path d="M8 21h.01M12 21h.01M16 21h.01"></path></svg><span>Condizioni ambientali</span></h2>
+            </div>
+
+            <div class="environment-content">
+                <section class="environment-location-bar" aria-label="Selezione della località">
+                    <div class="environment-location-control">
+                        <label for="environment-location">Località</label>
+                        <select id="environment-location" name="location"></select>
+                    </div>
+                    <p id="environment-location-status" class="environment-status is-unavailable" role="status" aria-live="polite">Dati meteo non disponibili per questa località: punto geografico da verificare</p>
+                </section>
+
+                <section class="environment-panel environment-current-panel is-empty" aria-labelledby="environment-current-heading">
+                    <div class="environment-panel-heading">
+                        <div>
+                            <p class="environment-eyebrow">Previsione modellistica</p>
+                            <h2 id="environment-current-heading">Meteo attuale</h2>
+                        </div>
+                        <p id="environment-updated" class="environment-updated" hidden></p>
+                    </div>
+                    <p id="environment-current-empty" class="environment-empty">Non disponibile</p>
+                    <div id="environment-current" class="environment-current-data" hidden>
+                        <div class="environment-current-primary">
+                            <span id="environment-weather-icon" class="environment-weather-icon" aria-hidden="true"></span>
+                            <p id="environment-temperature" class="environment-temperature">—</p>
+                            <div class="environment-current-text">
+                                <p id="environment-condition" class="environment-condition"></p>
+                                <p id="environment-apparent" class="environment-apparent"></p>
+                            </div>
+                        </div>
+                        <dl id="environment-secondary" class="environment-secondary"></dl>
+                    </div>
+                </section>
+
+                <section class="environment-panel environment-sun-panel is-empty" aria-labelledby="environment-sun-heading">
+                    <div class="environment-panel-heading">
+                        <div>
+                            <p class="environment-eyebrow">Fuso Europe/Rome</p>
+                            <h2 id="environment-sun-heading">Alba e tramonto</h2>
+                        </div>
+                    </div>
+                    <p id="environment-sun-empty" class="environment-empty">Non disponibile</p>
+                    <div id="environment-sun" class="environment-sun-content" hidden>
+                        <svg class="environment-sun-path" viewBox="0 0 400 100" role="img" aria-labelledby="sun-graphic-title sun-graphic-desc">
+                            <title id="sun-graphic-title">Percorso del sole tra alba e tramonto</title>
+                            <desc id="sun-graphic-desc">Arco tra gli orari di alba e tramonto; il punto indica l'ora attuale quando il sole è sopra l'orizzonte.</desc>
+                            <line class="environment-sun-horizon" x1="8" y1="78" x2="392" y2="78"></line>
+                            <path class="environment-sun-fill" d="M20 78 Q200 2 380 78Z"></path>
+                            <path class="environment-sun-track" d="M20 78 Q200 2 380 78"></path>
+                            <circle class="environment-sun-start" cx="20" cy="78" r="5"></circle>
+                            <circle class="environment-sun-end" cx="380" cy="78" r="5"></circle>
+                            <circle id="environment-sun-marker" class="environment-sun-marker" cx="200" cy="40" r="7" hidden></circle>
+                        </svg>
+                        <p id="environment-sun-state" class="environment-sun-state"></p>
+                        <div class="environment-sun-times">
+                            <div><span>Alba</span><strong id="environment-sunrise">—</strong></div>
+                            <div class="environment-sun-duration"><span>Luce diurna</span><strong id="environment-daylight">—</strong></div>
+                            <div><span>Tramonto</span><strong id="environment-sunset">—</strong></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="environment-panel is-empty" aria-labelledby="environment-hourly-heading">
+                    <div class="environment-panel-heading">
+                        <div>
+                            <p class="environment-eyebrow">Prossime ore</p>
+                            <h2 id="environment-hourly-heading">Previsione oraria</h2>
+                        </div>
+                    </div>
+                    <p id="environment-hourly-empty" class="environment-empty">Non disponibile</p>
+                    <div id="environment-hourly-scroll" class="environment-scroll" tabindex="0" role="region" aria-label="Previsione oraria, scorri per vedere le ore successive" hidden>
+                        <ul id="environment-hourly" class="environment-hourly-list"></ul>
+                    </div>
+                </section>
+
+                <section class="environment-panel is-empty" aria-labelledby="environment-daily-heading">
+                    <div class="environment-panel-heading">
+                        <div>
+                            <p class="environment-eyebrow">Prossimi giorni</p>
+                            <h2 id="environment-daily-heading">Previsione giornaliera</h2>
+                        </div>
+                    </div>
+                    <p id="environment-daily-empty" class="environment-empty">Non disponibile</p>
+                    <ul id="environment-daily" class="environment-daily-list" hidden></ul>
+                </section>
+
+                <section class="environment-panel environment-marine-panel" aria-labelledby="environment-marine-heading">
+                    <div class="environment-panel-heading">
+                        <div>
+                            <p class="environment-eyebrow">Costa e mare</p>
+                            <h2 id="environment-marine-heading">Condizioni marine</h2>
+                        </div>
+                        <span class="environment-badge">Copertura in preparazione</span>
+                    </div>
+                    <div class="environment-marine-grid">
+                        <div class="environment-marine-group">
+                            <h3>Onde</h3>
+                            <dl>
+                                <div><dt>Altezza</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
+                                <div><dt>Direzione</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
+                                <div><dt>Periodo</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
+                            </dl>
+                        </div>
+                        <div class="environment-marine-group">
+                            <h3>Moto ondoso secondario</h3>
+                            <dl>
+                                <div><dt>Altezza</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
+                                <div><dt>Direzione</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
+                                <div><dt>Periodo</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
+                            </dl>
+                        </div>
+                        <div class="environment-marine-group">
+                            <h3>Mare</h3>
+                            <dl>
+                                <div><dt>Temperatura superficiale</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
+                            </dl>
+                        </div>
+                    </div>
+                    <p class="environment-marine-note">Previsioni modellistiche, non adatte alla navigazione. I dati saranno attivati con punti offshore approvati.</p>
+                </section>
+
+                <section class="environment-panel environment-stations-panel" aria-labelledby="environment-stations-heading">
+                    <div class="environment-panel-heading">
+                        <div>
+                            <p class="environment-eyebrow">Dati idrologici regionali</p>
+                            <h2 id="environment-stations-heading">Stazioni idrometriche SIR</h2>
+                        </div>
+                        <span class="environment-station-count">8 stazioni</span>
+                    </div>
+                    <p class="environment-station-notice"><strong>Snapshot storici, non dati in tempo reale.</strong> Gli archivi CSV non vengono scaricati dalla pagina.</p>
+                    <div id="environment-stations" class="environment-station-list"></div>
+                </section>
+
+                <aside class="environment-sources" aria-labelledby="environment-sources-heading">
+                    <div class="environment-sources-head">
+                        <h2 id="environment-sources-heading">Fonti e avvertenze</h2>
+                        <p class="environment-disclaimer">Meteo e mare sono previsioni modellistiche, non misurazioni locali: il punto usato dal modello può differire da quello richiesto. Le condizioni marine non sono indicazioni per la navigazione.</p>
+                    </div>
+                    <nav aria-label="Fonti meteorologiche e idrologiche">
+                        <ul class="environment-source-links">
+                            <li><a id="environment-open-meteo-link" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer"><strong>Weather data by Open-Meteo.com</strong><span>Previsioni meteo e marine modellistiche</span></a></li>
+                            <li>
+                                <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer"><strong>GeoNames</strong><span>Fonte dei punti abitati proposti; coordinate indicative, non stazioni meteo</span></a>
+                                <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Licenza CC BY 4.0</a>
+                            </li>
+                            <li><a href="https://www.lamma.rete.toscana.it/" target="_blank" rel="noopener noreferrer"><strong>LaMMA Toscana</strong><span>Previsioni e informazioni regionali</span></a></li>
+                            <li><a href="https://www.regione.toscana.it/allertameteo" target="_blank" rel="noopener noreferrer"><strong>Allerta Meteo Toscana</strong><span>Avvisi e allerte regionali</span></a></li>
+                            <li><a href="https://www.meteoam.it/" target="_blank" rel="noopener noreferrer"><strong>MeteoAM</strong><span>Servizio Meteorologico dell’Aeronautica Militare</span></a></li>
+                            <li><a href="https://www.guardiacostiera.gov.it/" target="_blank" rel="noopener noreferrer"><strong>Guardia Costiera</strong><span>Sicurezza e informazioni marittime</span></a></li>
+                            <li><a href="https://www.sir.toscana.it/" target="_blank" rel="noopener noreferrer"><strong>Portale SIR</strong><span>Rete e archivi idrologici regionali</span></a></li>
+                        </ul>
+                    </nav>
+                </aside>
             </div>
         </section>
     </main>
@@ -87,6 +238,575 @@
             <p class="mt-2"><a class="feedback-link" href="notelegali.html#segnalazioni">Hai riscontrato qualche problema o hai suggerimenti?</a></p>
         </div>
     </footer>
- 
+    <script type="module">
+        import { fetchForecast, OPEN_METEO_ATTRIBUTION } from "./js/environment-service.js";
+        import { ENVIRONMENT_LOCATIONS, HYDROMETRIC_STATIONS } from "./js/environment-locations.js?v=2";
+
+        const byId = id => document.getElementById(id);
+        const locationSelect = byId("environment-location");
+        const locationStatus = byId("environment-location-status");
+        const weatherDescriptions = new Map([
+            [0, "Sereno"], [1, "Prevalentemente sereno"], [2, "Parzialmente nuvoloso"], [3, "Coperto"],
+            [45, "Nebbia"], [48, "Nebbia con brina"],
+            [51, "Pioviggine debole"], [53, "Pioviggine moderata"], [55, "Pioviggine intensa"],
+            [56, "Pioviggine gelata debole"], [57, "Pioviggine gelata intensa"],
+            [61, "Pioggia debole"], [63, "Pioggia moderata"], [65, "Pioggia intensa"],
+            [66, "Pioggia gelata debole"], [67, "Pioggia gelata intensa"],
+            [71, "Neve debole"], [73, "Neve moderata"], [75, "Neve intensa"], [77, "Granelli di neve"],
+            [80, "Rovesci deboli"], [81, "Rovesci moderati"], [82, "Rovesci violenti"],
+            [85, "Rovesci di neve deboli"], [86, "Rovesci di neve intensi"],
+            [95, "Temporale"], [96, "Temporale con grandine debole"], [99, "Temporale con grandine intensa"]
+        ]);
+        let activeRequest = null;
+
+        const TIME_ZONE = "Europe/Rome";
+        const UNAVAILABLE_MESSAGE = "Dati meteo non disponibili per questa località: punto geografico da verificare";
+        const SVG_NS = "http://www.w3.org/2000/svg";
+        const romeParts = new Intl.DateTimeFormat("en-CA", {
+            timeZone: TIME_ZONE,
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            hourCycle: "h23"
+        });
+        const isoDay = new Intl.DateTimeFormat("it-IT", { dateStyle: "medium", timeZone: "UTC" });
+
+        const CLOUD = "M7 14h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 5.5 4.3 4.3 0 0 0 7 14Z";
+        const ICON_SHAPES = {
+            sun: [["circle", { cx: 12, cy: 12, r: 4 }], ["path", { d: "M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" }]],
+            partly: [["circle", { cx: 7.5, cy: 7.5, r: 2.5 }], ["path", { d: "M7.5 2v1M2 7.5h1M3.6 3.6l.7.7M11.4 3.6l-.7.7" }], ["path", { d: "M9 22h8a3.5 3.5 0 0 0 .3-7A5 5 0 0 0 7.8 13.8 4.1 4.1 0 0 0 9 22Z" }]],
+            cloud: [["path", { d: "M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z" }]],
+            fog: [["path", { d: "M4 7h16M6 11h12M4 15h16M8 19h8" }]],
+            rain: [["path", { d: CLOUD }], ["path", { d: "M8 17.5l-1 2.5M12 17.5l-1 2.5M16 17.5l-1 2.5" }]],
+            snow: [["path", { d: CLOUD }], ["path", { d: "M8 18h.01M12 19.5h.01M16 18h.01M10 21.5h.01M14 21.5h.01" }]],
+            storm: [["path", { d: CLOUD }], ["path", { d: "M12.5 14.5 10 18h3l-1.5 3.5" }]]
+        };
+
+        function weatherIconName(code) {
+            if (!Number.isFinite(code)) return null;
+            if (code <= 1) return "sun";
+            if (code === 2) return "partly";
+            if (code === 3) return "cloud";
+            if (code === 45 || code === 48) return "fog";
+            if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return "rain";
+            if ((code >= 71 && code <= 77) || code === 85 || code === 86) return "snow";
+            if (code >= 95) return "storm";
+            return "cloud";
+        }
+
+        // Icone statiche costruite da forme fisse: nessun contenuto API entra nel markup SVG.
+        function weatherIcon(code) {
+            const name = weatherIconName(code);
+            if (!name) return null;
+            const svg = document.createElementNS(SVG_NS, "svg");
+            svg.setAttribute("viewBox", "0 0 24 24");
+            svg.setAttribute("class", "environment-icon");
+            svg.setAttribute("aria-hidden", "true");
+            svg.setAttribute("focusable", "false");
+            ICON_SHAPES[name].forEach(([tag, attributes]) => {
+                const shape = document.createElementNS(SVG_NS, tag);
+                Object.entries(attributes).forEach(([key, value]) => shape.setAttribute(key, String(value)));
+                svg.append(shape);
+            });
+            return svg;
+        }
+
+        function setHidden(element, hidden) {
+            element.toggleAttribute("hidden", hidden);
+        }
+
+        function romeNow() {
+            const parts = Object.fromEntries(romeParts.formatToParts(new Date()).map(part => [part.type, part.value]));
+            const date = `${parts.year}-${parts.month}-${parts.day}`;
+            return {
+                date,
+                hourKey: `${date}T${parts.hour}:00`,
+                minutes: Number(parts.hour) * 60 + Number(parts.minute)
+            };
+        }
+
+        function compass(value) {
+            if (typeof value !== "number" || !Number.isFinite(value)) return null;
+            return ["N", "NE", "E", "SE", "S", "SO", "O", "NO"][Math.round(value / 45) % 8];
+        }
+
+        function isoDayLabel(value) {
+            const date = new Date(`${value}T12:00:00Z`);
+            return Number.isNaN(date.getTime()) ? value : isoDay.format(date);
+        }
+        const romeDateTime = new Intl.DateTimeFormat("it-IT", {
+            dateStyle: "medium",
+            timeStyle: "short",
+            timeZone: "Europe/Rome"
+        });
+        const modelClock = new Intl.DateTimeFormat("it-IT", {
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: "UTC"
+        });
+        const modelDay = new Intl.DateTimeFormat("it-IT", {
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+            timeZone: "UTC"
+        });
+
+        function makeElement(tag, className = "", text) {
+            const element = document.createElement(tag);
+            if (className) element.className = className;
+            if (text !== undefined) element.textContent = text;
+            return element;
+        }
+
+        function hasUsableForecastPoint(point) {
+            return Boolean(point && ["VERIFICATO", "PROPOSTO"].includes(point.status) &&
+                Number.isFinite(point.latitude) && Number.isFinite(point.longitude));
+        }
+
+        function number(value, suffix = "", digits = 1) {
+            if (typeof value !== "number" || !Number.isFinite(value)) return null;
+            const separator = suffix === "%" ? "" : " ";
+            return `${new Intl.NumberFormat("it-IT", { maximumFractionDigits: digits }).format(value)}${suffix ? `${separator}${suffix}` : ""}`;
+        }
+
+        function direction(value) {
+            if (typeof value !== "number" || !Number.isFinite(value)) return null;
+            const labels = ["N", "NE", "E", "SE", "S", "SO", "O", "NO"];
+            return `${Math.round(value)}° ${labels[Math.round(value / 45) % 8]}`;
+        }
+
+        function duration(seconds) {
+            if (typeof seconds !== "number" || !Number.isFinite(seconds)) return null;
+            const minutes = Math.round(seconds / 60);
+            return `${Math.floor(minutes / 60)} h ${String(minutes % 60).padStart(2, "0")} min`;
+        }
+
+        function modelTime(value) {
+            if (typeof value !== "string") return null;
+            const match = value.match(/^\d{4}-\d{2}-\d{2}T(\d{2}:\d{2})/);
+            if (match) return match[1];
+            const date = new Date(value);
+            return Number.isNaN(date.getTime()) ? null : modelClock.format(date);
+        }
+
+        function modelDate(value) {
+            if (typeof value !== "string") return null;
+            const match = value.match(/^(\d{4}-\d{2}-\d{2})/);
+            if (!match) return null;
+            const date = new Date(`${match[1]}T12:00:00Z`);
+            return Number.isNaN(date.getTime()) ? null : modelDay.format(date);
+        }
+
+        function formatRomeDateTime(value) {
+            const date = new Date(value);
+            return Number.isNaN(date.getTime()) ? null : romeDateTime.format(date);
+        }
+
+        function describeWeather(value) {
+            return Number.isFinite(value) ? weatherDescriptions.get(value) ?? "Condizione non specificata" : null;
+        }
+
+        function valueWithUnit(values, units, key, fallback) {
+            return number(values?.[key], units?.[key] || fallback);
+        }
+
+        function setStatus(message, state = "") {
+            locationStatus.textContent = message;
+            locationStatus.className = `environment-status${state ? ` is-${state}` : ""}`;
+        }
+
+        function setEmpty(kind, message, visible) {
+            const element = byId(`environment-${kind}-empty`);
+            element.textContent = message;
+            setHidden(element, !visible);
+            element.closest(".environment-panel").classList.toggle("is-empty", visible);
+        }
+
+        function appendMetric(container, label, value, wide = false) {
+            if (value === null || value === undefined || value === "") return;
+            const item = makeElement("div", wide ? "environment-metric is-wide" : "environment-metric");
+            item.append(makeElement("dt", "", label), makeElement("dd", "", value));
+            container.append(item);
+        }
+
+        function hasNumericData(values) {
+            return Object.values(values ?? {}).some(series =>
+                Array.isArray(series) && series.some(value => typeof value === "number" && Number.isFinite(value))
+            );
+        }
+
+        function resetForecast(message = "Non disponibile") {
+            setHidden(byId("environment-current"), true);
+            byId("environment-secondary").replaceChildren();
+            byId("environment-weather-icon").replaceChildren();
+            byId("environment-hourly").replaceChildren();
+            setHidden(byId("environment-hourly-scroll"), true);
+            byId("environment-daily").replaceChildren();
+            setHidden(byId("environment-daily"), true);
+            setHidden(byId("environment-sun"), true);
+            setHidden(byId("environment-sun-marker"), true);
+            const updated = byId("environment-updated");
+            updated.textContent = "";
+            updated.className = "environment-updated";
+            setHidden(updated, true);
+            ["current", "hourly", "daily", "sun"].forEach(kind => setEmpty(kind, message, true));
+        }
+
+        function renderCurrent(group, hourly) {
+            const { time: observedAt, values = {}, units = {} } = group ?? {};
+            const temperature = valueWithUnit(values, units, "temperature_2m", "°C");
+            const apparent = valueWithUnit(values, units, "apparent_temperature", "°C");
+            const condition = describeWeather(values.weather_code);
+
+            const metrics = byId("environment-secondary");
+            metrics.replaceChildren();
+            appendMetric(metrics, "Vento", [
+                valueWithUnit(values, units, "wind_speed_10m", "km/h"),
+                direction(values.wind_direction_10m)
+            ].filter(Boolean).join(" · "), true);
+            appendMetric(metrics, "Raffiche", valueWithUnit(values, units, "wind_gusts_10m", "km/h"));
+            appendMetric(metrics, "Umidità", valueWithUnit(values, units, "relative_humidity_2m", "%"));
+            appendMetric(metrics, "Pressione", valueWithUnit(values, units, "pressure_msl", "hPa"));
+            appendMetric(metrics, "Precipitazioni", valueWithUnit(values, units, "precipitation", "mm"));
+            // La probabilità è disponibile solo nella serie oraria: si usa l'ora in corso.
+            const hourIndex = typeof observedAt === "string" && Array.isArray(hourly?.time)
+                ? hourly.time.indexOf(`${observedAt.slice(0, 13)}:00`)
+                : -1;
+            appendMetric(metrics, "Prob. precipitazioni", hourIndex >= 0
+                ? number(hourly.values?.precipitation_probability?.[hourIndex], hourly.units?.precipitation_probability || "%", 0)
+                : null);
+            appendMetric(metrics, "Nuvolosità", valueWithUnit(values, units, "cloud_cover", "%"));
+
+            const hasData = Boolean(temperature || condition || metrics.childElementCount);
+            const icon = weatherIcon(values.weather_code);
+            byId("environment-weather-icon").replaceChildren(...(icon ? [icon] : []));
+
+            const temperatureElement = byId("environment-temperature");
+            temperatureElement.replaceChildren();
+            if (temperature) {
+                const [value, ...unitParts] = temperature.split(" ");
+                temperatureElement.append(value);
+                if (unitParts.length) temperatureElement.append(makeElement("span", "unit", ` ${unitParts.join(" ")}`));
+            } else {
+                temperatureElement.textContent = "—";
+            }
+            byId("environment-condition").textContent = condition ?? "";
+            byId("environment-apparent").textContent = apparent ? `Percepita ${apparent}` : "";
+            setHidden(byId("environment-current"), !hasData);
+            setEmpty("current", "Non disponibile", !hasData);
+        }
+
+        function renderHourly(group, now) {
+            const { time = [], values = {}, units = {} } = group ?? {};
+            const list = byId("environment-hourly");
+            list.replaceChildren();
+            // Parte dall'ora in corso; le ore già trascorse (cache datata) non vengono mostrate.
+            const startIndex = hasNumericData(values) ? time.findIndex(hour => hour >= now.hourKey) : -1;
+
+            if (startIndex >= 0) {
+                time.slice(startIndex, startIndex + 12).forEach((hour, offset) => {
+                    const index = startIndex + offset;
+                    const item = makeElement("li", "environment-hour-item");
+                    const dayLabel = offset === 0 || hour.endsWith("T00:00")
+                        ? (hour.slice(0, 10) === now.date ? "Oggi" : modelDate(hour) ?? "")
+                        : "";
+                    const clock = makeElement("time", "environment-hour-time", modelTime(hour) ?? "—");
+                    clock.dateTime = hour;
+                    item.append(makeElement("span", "environment-hour-day", dayLabel), clock);
+
+                    const icon = weatherIcon(values.weather_code?.[index]);
+                    if (icon) {
+                        const iconWrapper = makeElement("span", "environment-hour-icon");
+                        iconWrapper.append(icon);
+                        item.append(iconWrapper);
+                    }
+                    item.append(
+                        makeElement("strong", "environment-hour-temperature", number(values.temperature_2m?.[index], units.temperature_2m || "°C", 0) ?? "—"),
+                        makeElement("span", "environment-hour-condition", describeWeather(values.weather_code?.[index]) ?? "")
+                    );
+
+                    const probability = number(values.precipitation_probability?.[index], units.precipitation_probability || "%", 0);
+                    const rainValue = values.precipitation?.[index];
+                    const rain = typeof rainValue === "number" && rainValue > 0 ? number(rainValue, units.precipitation || "mm") : null;
+                    const rainText = [probability && `Prob. ${probability}`, rain].filter(Boolean).join(" · ");
+                    if (rainText) {
+                        const rainElement = makeElement("span", "environment-hour-detail", rainText);
+                        rainElement.title = "Probabilità e quantità di precipitazioni";
+                        item.append(rainElement);
+                    }
+                    const windSpeed = number(values.wind_speed_10m?.[index], units.wind_speed_10m || "km/h", 0);
+                    if (windSpeed) {
+                        item.append(makeElement("span", "environment-hour-detail", `Vento ${windSpeed}${compass(values.wind_direction_10m?.[index]) ? ` ${compass(values.wind_direction_10m[index])}` : ""}`));
+                    }
+                    list.append(item);
+                });
+            }
+            const available = list.childElementCount > 0;
+            setHidden(byId("environment-hourly-scroll"), !available);
+            setEmpty("hourly", "Non disponibile", !available);
+        }
+
+        function renderDaily(group, now) {
+            const { time = [], values = {}, units = {} } = group ?? {};
+            const list = byId("environment-daily");
+            list.replaceChildren();
+            if (hasNumericData(values)) {
+                time.forEach((day, index) => {
+                    if (day < now.date) return;
+                    const item = makeElement("li", "environment-day");
+                    const name = makeElement("span", "environment-day-name", modelDate(day) ?? "—");
+                    if (day === now.date) name.append(" ", makeElement("span", "environment-day-today", "Oggi"));
+
+                    const condition = makeElement("span", "environment-day-condition");
+                    const icon = weatherIcon(values.weather_code?.[index]);
+                    if (icon) condition.append(icon);
+                    condition.append(makeElement("span", "", describeWeather(values.weather_code?.[index]) ?? "—"));
+
+                    const unitLabel = units.temperature_2m_max || units.temperature_2m_min || "°C";
+                    const min = number(values.temperature_2m_min?.[index], "", 0);
+                    const max = number(values.temperature_2m_max?.[index], "", 0);
+                    const range = min && max ? `${min} / ${max} ${unitLabel}` : min || max ? `${min || max} ${unitLabel}` : "—";
+
+                    const rain = number(values.precipitation_sum?.[index], units.precipitation_sum || "mm");
+                    const chance = number(values.precipitation_probability_max?.[index], units.precipitation_probability_max || "%", 0);
+                    const rainElement = makeElement("span", "environment-day-rain");
+                    const abbreviation = makeElement("abbr", "", "Prec.");
+                    abbreviation.title = "Precipitazioni";
+                    const rainText = [rain, chance && `${chance} prob.`].filter(Boolean).join(" · ");
+                    if (rainText) rainElement.append(abbreviation, ` ${rainText}`);
+                    else rainElement.textContent = "—";
+
+                    item.append(name, condition, makeElement("span", "environment-day-temps", range), rainElement);
+                    list.append(item);
+                });
+            }
+            const available = list.childElementCount > 0;
+            setHidden(list, !available);
+            setEmpty("daily", "Non disponibile", !available);
+        }
+
+        function clockMinutes(value) {
+            const time = modelTime(value);
+            const clock = time ?? (typeof value === "string" && /^\d{2}:\d{2}$/.test(value) ? value : null);
+            if (!clock) return null;
+            const [hour, minute] = clock.split(":").map(Number);
+            return hour * 60 + minute;
+        }
+
+        function renderSun(group, now) {
+            const { time = [], values = {} } = group ?? {};
+            // Solo il giorno corrente: una cache datata non deve mostrare orari di altri giorni.
+            const index = time.indexOf(now.date);
+            const sunrise = index >= 0 ? values.sunrise?.[index] : null;
+            const sunset = index >= 0 ? values.sunset?.[index] : null;
+            const daylight = index >= 0 ? duration(values.daylight_duration?.[index]) : null;
+            const sunriseTime = modelTime(sunrise);
+            const sunsetTime = modelTime(sunset);
+            const content = byId("environment-sun");
+            const marker = byId("environment-sun-marker");
+            const state = byId("environment-sun-state");
+            setHidden(marker, true);
+            state.textContent = "";
+
+            if (!sunriseTime && !sunsetTime && !daylight) {
+                setHidden(content, true);
+                setEmpty("sun", "Non disponibile", true);
+                return;
+            }
+
+            byId("environment-sunrise").textContent = sunriseTime ?? "—";
+            byId("environment-sunset").textContent = sunsetTime ?? "—";
+            byId("environment-daylight").textContent = daylight ?? "—";
+            setHidden(content, false);
+            setEmpty("sun", "", false);
+
+            const start = clockMinutes(sunrise);
+            const end = clockMinutes(sunset);
+            if (start === null || end === null || end <= start) return;
+            if (now.minutes < start) {
+                state.textContent = "Il sole non è ancora sorto.";
+            } else if (now.minutes > end) {
+                state.textContent = "Il sole è già tramontato.";
+            } else {
+                const progress = (now.minutes - start) / (end - start);
+                marker.setAttribute("cx", String(20 + 360 * progress));
+                marker.setAttribute("cy", String(78 * (1 - progress) ** 2 + 4 * (1 - progress) * progress + 78 * progress ** 2));
+                setHidden(marker, false);
+                state.textContent = "Il sole è sopra l’orizzonte.";
+            }
+        }
+
+        function renderForecast(result, point) {
+            if (result.timezone !== TIME_ZONE) {
+                throw new Error("Fuso orario della risposta diverso da Europe/Rome: dati non mostrati.");
+            }
+            const now = romeNow();
+            const { current, hourly, daily, sun } = result.data;
+            renderCurrent(current, hourly);
+            renderHourly(hourly, now);
+            renderDaily(daily, now);
+            renderSun(sun, now);
+
+            const update = formatRomeDateTime(result.updatedAt);
+            const label = result.status === "stale" ? "Cache scaduta" : result.isCached ? "Dati in cache" : "Dati aggiornati";
+            const updated = byId("environment-updated");
+            updated.textContent = update ? `${label} · ${update}` : label;
+            updated.className = `environment-updated is-${result.status}`;
+            setHidden(updated, false);
+
+            const { requestedCoordinates: requested, modelCoordinates: model } = result;
+            const differs = requested.latitude !== model.latitude || requested.longitude !== model.longitude;
+            const staleError = result.status === "stale" && result.error?.message ? ` Aggiornamento fallito: ${result.error.message}` : "";
+            const proposedPoint = point.status === "PROPOSTO";
+            const pointNotice = proposedPoint
+                ? `Punto indicativo GeoNames (${point.name}), non verificato come stazione o punto costiero. `
+                : "";
+            setStatus(
+                `${pointNotice}${differs
+                    ? `Previsioni disponibili. Punto del modello: ${model.latitude}, ${model.longitude} (richiesto: ${requested.latitude}, ${requested.longitude}).`
+                    : proposedPoint ? "Previsioni disponibili per questo riferimento geografico." : "Previsioni disponibili per il punto verificato."}${staleError}`,
+                result.status === "stale" || proposedPoint ? "warning" : "success"
+            );
+        }
+
+        function stationMetric(label, value, wide = false) {
+            const item = makeElement("div", wide ? "environment-station-metric is-wide" : "environment-station-metric");
+            item.append(makeElement("dt", "", label), makeElement("dd", "", value));
+            return item;
+        }
+
+        function renderStations() {
+            const container = byId("environment-stations");
+            const fragment = document.createDocumentFragment();
+            // Archivi idrometrici (idro_l) verificati dalla ricognizione: solo le prime tre stazioni.
+            const verifiedArchiveIds = new Set(["TOS03005415", "TOS03005417", "TOS03005435"]);
+            HYDROMETRIC_STATIONS.forEach(station => {
+                const details = document.createElement("details");
+                details.className = "environment-station";
+                const summary = document.createElement("summary");
+                summary.append(
+                    makeElement("span", "environment-station-name", station.name),
+                    makeElement("span", "environment-station-summary-code", station.id)
+                );
+
+                const body = makeElement("div", "environment-station-details");
+                const metrics = document.createElement("dl");
+                metrics.className = "environment-station-metrics";
+                metrics.append(
+                    stationMetric("Corso d’acqua", station.river || "—"),
+                    stationMetric("Comune", station.municipality ? `${station.municipality}${station.province ? ` (${station.province})` : ""}` : "—"),
+                    stationMetric("Coordinate WGS84", `${station.latitude}, ${station.longitude}`, true)
+                );
+                body.append(metrics);
+
+                const sameSite = HYDROMETRIC_STATIONS.filter(other => other.id !== station.id &&
+                    other.latitude === station.latitude && other.longitude === station.longitude);
+                if (sameSite.length) {
+                    body.append(makeElement("p", "environment-station-same",
+                        `Stesse coordinate di ${sameSite.map(other => `${other.name} (${other.id})`).join(", ")}: il codice SIR è distinto.`));
+                }
+
+                const snapshot = station.liveSnapshot;
+                if (snapshot) {
+                    const observed = formatRomeDateTime(snapshot.observedAt);
+                    const readings = [
+                        number(snapshot.levelM, "m", 2) && `Livello ${number(snapshot.levelM, "m", 2)}`,
+                        number(snapshot.flowM3s, "m³/s", 2) && `Portata ${number(snapshot.flowM3s, "m³/s", 2)}`
+                    ].filter(Boolean);
+                    const block = makeElement("div", "environment-snapshot");
+                    block.append(
+                        makeElement("p", "environment-snapshot-title", "Snapshot storico del catalogo"),
+                        makeElement("p", "environment-snapshot-time", observed ? `Rilevato il ${observed} (Europe/Rome)` : "Data e ora non disponibili")
+                    );
+                    if (readings.length) block.append(makeElement("p", "", readings.join(" · ")));
+                    block.append(makeElement("p", "", `Non è un dato attuale${snapshot.validated === false ? " e non è validato" : ""}.`));
+                    body.append(block);
+                }
+
+                const archive = station.historicalArchive;
+                const hasVerifiedArchive = Boolean(archive?.url) && verifiedArchiveIds.has(station.id) &&
+                    archive.type === "idro_l" && archive.status === "VERIFICATO";
+                if (hasVerifiedArchive) {
+                    const link = makeElement("a", "environment-archive-link", "Archivio storico idrometrico (CSV)");
+                    link.href = archive.url;
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    body.append(link);
+                    if (archive.firstDate && archive.lastDate) {
+                        body.append(makeElement("p", "environment-archive-note", `Periodo dichiarato: ${isoDayLabel(archive.firstDate)} – ${isoDayLabel(archive.lastDate)}.`));
+                    }
+                } else {
+                    body.append(makeElement("p", "environment-archive-note", "Archivio storico idrometrico: disponibilità non verificata. Nessun collegamento proposto."));
+                }
+
+                details.append(summary, body);
+                fragment.append(details);
+            });
+            container.replaceChildren(fragment);
+        }
+
+        function renderLocationOptions() {
+            ENVIRONMENT_LOCATIONS.forEach(location => {
+                const option = document.createElement("option");
+                option.value = location.id;
+                option.textContent = hasUsableForecastPoint(location.forecastPoint) &&
+                    location.forecastPoint.status === "PROPOSTO"
+                    ? `${location.name} — punto indicativo`
+                    : location.name;
+                locationSelect.append(option);
+            });
+        }
+
+        const attributionLink = byId("environment-open-meteo-link");
+        attributionLink.href = OPEN_METEO_ATTRIBUTION.url;
+        attributionLink.querySelector("strong").textContent = OPEN_METEO_ATTRIBUTION.label;
+
+        async function loadSelectedLocation() {
+            activeRequest?.abort();
+            activeRequest = null;
+            const location = ENVIRONMENT_LOCATIONS.find(item => item.id === locationSelect.value);
+            if (!location || !hasUsableForecastPoint(location.forecastPoint)) {
+                resetForecast();
+                setStatus(UNAVAILABLE_MESSAGE, "unavailable");
+                return;
+            }
+
+            const point = location.forecastPoint;
+            const request = new AbortController();
+            activeRequest = request;
+            resetForecast("Caricamento…");
+            setStatus(
+                point.status === "PROPOSTO"
+                    ? "Caricamento per un punto indicativo da verificare…"
+                    : "Caricamento delle previsioni…",
+                "loading"
+            );
+
+            try {
+                const result = await fetchForecast({
+                    latitude: point.latitude,
+                    longitude: point.longitude,
+                    signal: request.signal
+                });
+                if (activeRequest !== request || request.signal.aborted) return;
+                renderForecast(result, point);
+            } catch (error) {
+                if (error?.code === "ABORTED" || request.signal.aborted || activeRequest !== request) return;
+                resetForecast();
+                const message = error instanceof Error ? error.message : "Errore durante il caricamento delle previsioni.";
+                setStatus(
+                    point.status === "PROPOSTO" ? `Punto indicativo da verificare. ${message}` : message,
+                    "error"
+                );
+            }
+        }
+
+        renderLocationOptions();
+        renderStations();
+        locationSelect.addEventListener("change", loadSelectedLocation);
+        loadSelectedLocation();
+    </script>
 </body>
 </html>

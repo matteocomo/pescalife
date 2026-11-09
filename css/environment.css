@@ -1,0 +1,986 @@
+.environment-page {
+    --env-muted: #4b5d70;
+    --env-line: #d6e9ed;
+    --env-soft: #f1f8fa;
+    --env-teal: #1a8da3;
+    --env-focus: #f3b33d;
+    max-width: none;
+    margin: 0;
+    padding: clamp(1.25rem, 3vw, 2.5rem) 1rem;
+}
+
+.environment-page > .environment-heading,
+.environment-accuracy-notice,
+.environment-content {
+    width: min(1120px, 100%);
+    margin-inline: auto;
+}
+
+.environment-accuracy-notice {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 1rem;
+    padding: 0.9rem 1rem;
+    color: #5d3d00;
+    background: #fff6e0;
+    border: 1px solid #e8c77d;
+    border-left: 4px solid #c27c00;
+    border-radius: var(--border-radius);
+}
+
+.environment-accuracy-score {
+    margin: 0;
+    color: #7a4b00;
+    font-size: clamp(1.7rem, 5vw, 2.2rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.environment-accuracy-notice h2 {
+    margin: 0 0 0.2rem;
+    color: #493300;
+    font-size: 0.95rem;
+}
+
+.environment-accuracy-notice p:last-child {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.environment-heading h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 3vw, 1.8rem);
+}
+
+.environment-content {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.environment-content > section,
+.environment-content > aside {
+    width: auto;
+    margin: 0;
+}
+
+.environment-location-bar,
+.environment-panel,
+.environment-sources {
+    min-width: 0;
+    padding: clamp(0.9rem, 2vw, 1.2rem);
+    color: var(--color-primary);
+    background: #fff;
+    border: 1px solid #c6e8ed;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+}
+
+.environment-panel,
+.environment-sources {
+    grid-column: 1 / -1;
+}
+
+.environment-eyebrow {
+    margin: 0;
+    color: #0b7185;
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.environment-panel h2,
+.environment-sources h2 {
+    margin: 0;
+    padding: 0;
+    color: var(--color-primary);
+    border: 0;
+    font-size: 1.18rem;
+    line-height: 1.25;
+}
+
+/* Località e stato geografico */
+.environment-location-bar {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    align-items: end;
+    gap: 0.75rem 1.25rem;
+    padding: 0.85rem 1rem;
+}
+
+.environment-location-control {
+    display: grid;
+    flex: 0 1 340px;
+    gap: 0.25rem;
+    min-width: min(100%, 220px);
+}
+
+.environment-location-control label {
+    color: var(--env-muted);
+    font-size: 0.78rem;
+    font-weight: 650;
+}
+
+.environment-location-control select {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.45rem 0.7rem;
+    color: var(--color-primary);
+    background: #fff;
+    border: 1px solid #718398;
+    border-radius: 0.5rem;
+    font: inherit;
+}
+
+.environment-status {
+    display: flex;
+    flex: 1 1 280px;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.75rem;
+    margin: 0;
+    padding: 0.4rem 0.8rem;
+    color: #2f4152;
+    background: var(--env-soft);
+    border-radius: 0.5rem;
+    font-size: 0.86rem;
+    line-height: 1.35;
+}
+
+.environment-status::before {
+    flex: 0 0 auto;
+    width: 0.6rem;
+    height: 0.6rem;
+    background: #6a8294;
+    border-radius: 50%;
+    content: "";
+}
+
+.environment-status.is-unavailable,
+.environment-status.is-warning {
+    color: #5d3d00;
+    background: #fff6e0;
+}
+
+.environment-status.is-unavailable::before,
+.environment-status.is-warning::before {
+    background: #c27c00;
+}
+
+.environment-status.is-loading::before {
+    background: var(--env-teal);
+}
+
+.environment-status.is-success {
+    color: #1f5a3b;
+    background: #e9f6ef;
+}
+
+.environment-status.is-success::before {
+    background: #2e8b5e;
+}
+
+.environment-status.is-error {
+    color: #7a1f1f;
+    background: #fdeaea;
+}
+
+.environment-status.is-error::before {
+    background: #c0392b;
+}
+
+/* Intestazioni dei riquadri e stato vuoto compatto */
+.environment-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.environment-updated {
+    margin: 0;
+    color: var(--env-muted);
+    font-size: 0.76rem;
+    text-align: right;
+}
+
+.environment-updated.is-stale {
+    color: #7a4b00;
+    font-weight: 650;
+}
+
+.environment-empty {
+    margin: 0;
+    color: var(--env-muted);
+    font-size: 0.85rem;
+}
+
+.environment-panel.is-empty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.7rem;
+    background: #fff;
+}
+
+.environment-panel.is-empty > .environment-panel-heading {
+    margin: 0;
+}
+
+.environment-panel.is-empty .environment-eyebrow,
+.environment-panel.is-empty .environment-updated {
+    display: none;
+}
+
+.environment-panel.is-empty h2 {
+    font-size: 1rem;
+}
+
+/* Meteo attuale */
+.environment-current-panel {
+    grid-column: span 7;
+    background:
+        linear-gradient(120deg, rgba(122, 215, 223, 0.14), transparent 60%),
+        #fff;
+}
+
+.environment-current-data {
+    display: grid;
+    gap: 1rem;
+}
+
+.environment-current-primary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem clamp(0.8rem, 2.5vw, 1.4rem);
+}
+
+.environment-weather-icon:empty {
+    display: none;
+}
+
+.environment-weather-icon .environment-icon {
+    width: clamp(3rem, 7vw, 4.2rem);
+    height: clamp(3rem, 7vw, 4.2rem);
+    color: var(--env-teal);
+}
+
+.environment-temperature {
+    margin: 0;
+    color: var(--color-primary);
+    font-size: clamp(3.2rem, 8vw, 4.8rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    line-height: 1;
+}
+
+.environment-temperature .unit {
+    color: var(--env-muted);
+    font-size: 0.4em;
+    font-weight: 650;
+    letter-spacing: 0;
+}
+
+.environment-current-text {
+    flex: 1 1 8rem;
+    min-width: 0;
+}
+
+.environment-condition {
+    margin: 0;
+    color: #163d56;
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.environment-apparent {
+    margin: 0.2rem 0 0;
+    color: var(--env-muted);
+    font-size: 0.9rem;
+}
+
+.environment-secondary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    gap: 0.5rem;
+    margin: 0;
+}
+
+.environment-metric {
+    min-width: 0;
+    padding: 0.5rem 0.65rem;
+    background: rgba(241, 248, 250, 0.95);
+    border: 1px solid var(--env-line);
+    border-radius: 0.5rem;
+}
+
+.environment-metric.is-wide {
+    grid-column: span 2;
+}
+
+.environment-metric dt,
+.environment-marine-group dt,
+.environment-station-metric dt {
+    color: var(--env-muted);
+    font-size: 0.72rem;
+}
+
+.environment-metric dd,
+.environment-marine-group dd,
+.environment-station-metric dd {
+    margin: 0.1rem 0 0;
+    color: var(--color-primary);
+    font-size: 0.92rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+}
+
+/* Icone meteo */
+.environment-icon {
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+}
+
+/* Alba e tramonto */
+.environment-sun-panel {
+    grid-column: span 5;
+}
+
+.environment-sun-content {
+    display: grid;
+    align-content: center;
+    gap: 0.35rem;
+}
+
+.environment-sun-path {
+    display: block;
+    width: 100%;
+    max-height: 6rem;
+    overflow: visible;
+}
+
+.environment-sun-horizon {
+    stroke: #c9e1e6;
+    stroke-linecap: round;
+    stroke-width: 2;
+}
+
+.environment-sun-fill {
+    fill: rgba(243, 179, 61, 0.14);
+    stroke: none;
+}
+
+.environment-sun-track {
+    fill: none;
+    stroke: #8fcbd6;
+    stroke-dasharray: 4 5;
+    stroke-linecap: round;
+    stroke-width: 3;
+}
+
+.environment-sun-start,
+.environment-sun-end {
+    fill: var(--color-accent);
+}
+
+.environment-sun-marker {
+    fill: #f3b33d;
+    stroke: #805900;
+    stroke-width: 2;
+}
+
+.environment-sun-state {
+    margin: 0;
+    color: var(--env-muted);
+    font-size: 0.78rem;
+    text-align: center;
+}
+
+.environment-sun-state:empty {
+    display: none;
+}
+
+.environment-sun-times {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    align-items: end;
+    gap: 0.4rem;
+}
+
+.environment-sun-times > div {
+    display: grid;
+    gap: 0.1rem;
+}
+
+.environment-sun-times > div:nth-child(2) {
+    text-align: center;
+}
+
+.environment-sun-times > div:last-child {
+    text-align: right;
+}
+
+.environment-sun-times span {
+    color: var(--env-muted);
+    font-size: 0.73rem;
+}
+
+.environment-sun-times strong {
+    color: var(--color-primary);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    font-variant-numeric: tabular-nums;
+}
+
+.environment-sun-duration strong {
+    font-size: 1rem;
+}
+
+/* Previsione oraria */
+.environment-scroll {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-color: #77b9c3 #edf8fa;
+}
+
+.environment-hourly-list {
+    display: grid;
+    grid-auto-columns: minmax(100px, 1fr);
+    grid-auto-flow: column;
+    gap: 0.5rem;
+    padding: 0.1rem 0.1rem 0.6rem;
+    list-style: none;
+}
+
+.environment-hour-item {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 0.15rem;
+    min-width: 0;
+    padding: 0.55rem 0.4rem 0.65rem;
+    text-align: center;
+    background: var(--env-soft);
+    border: 1px solid var(--env-line);
+    border-radius: 0.6rem;
+}
+
+.environment-hour-day {
+    color: #0b6a7e;
+    font-size: 0.66rem;
+    font-weight: 750;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.environment-hour-day:empty::before {
+    content: "\00a0";
+}
+
+.environment-hour-time {
+    color: var(--env-muted);
+    font-size: 0.82rem;
+    font-weight: 650;
+}
+
+.environment-hour-icon .environment-icon {
+    width: 1.9rem;
+    height: 1.9rem;
+    color: var(--env-teal);
+}
+
+.environment-hour-temperature {
+    color: var(--color-primary);
+    font-size: 1.12rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.environment-hour-condition,
+.environment-hour-detail {
+    font-size: 0.72rem;
+    line-height: 1.25;
+}
+
+.environment-hour-condition {
+    min-height: 2.5em;
+    color: #2f4a5f;
+}
+
+.environment-hour-detail {
+    color: var(--env-muted);
+}
+
+/* Previsione giornaliera */
+.environment-daily-list {
+    display: grid;
+    list-style: none;
+}
+
+.environment-day {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1fr) 7rem 11rem;
+    grid-template-areas: "name condition temps rain";
+    align-items: center;
+    gap: 0.4rem 1rem;
+    padding: 0.55rem 0.2rem;
+    border-top: 1px solid var(--env-line);
+}
+
+.environment-day:first-child {
+    border-top: 0;
+}
+
+.environment-day-name {
+    grid-area: name;
+    font-weight: 700;
+}
+
+.environment-day-today {
+    margin-left: 0.4rem;
+    padding: 0.05rem 0.45rem;
+    color: #115669;
+    background: #e0f3f6;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 700;
+}
+
+.environment-day-condition {
+    display: flex;
+    grid-area: condition;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    font-size: 0.88rem;
+}
+
+.environment-day-condition .environment-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex: 0 0 auto;
+    color: var(--env-teal);
+}
+
+.environment-day-temps {
+    grid-area: temps;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+
+.environment-day-rain {
+    grid-area: rain;
+    color: var(--env-muted);
+    font-size: 0.82rem;
+    text-align: right;
+}
+
+/* Condizioni marine */
+.environment-marine-panel {
+    background:
+        linear-gradient(120deg, rgba(122, 215, 223, 0.14), transparent 60%),
+        #fff;
+}
+
+.environment-badge,
+.environment-station-count {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.6rem;
+    padding: 0.15rem 0.6rem;
+    color: #364d5d;
+    background: #eaf3f5;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.environment-marine-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr;
+    gap: 0.6rem;
+}
+
+.environment-marine-group {
+    min-width: 0;
+    padding: 0.6rem 0.7rem;
+    background: var(--env-soft);
+    border: 1px solid var(--env-line);
+    border-radius: 0.55rem;
+}
+
+.environment-marine-group h3 {
+    margin: 0 0 0.35rem;
+    color: #2f4152;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.environment-marine-group dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr));
+    gap: 0.4rem;
+    margin: 0;
+}
+
+.environment-marine-group dd {
+    color: var(--env-muted);
+}
+
+.environment-marine-note {
+    margin: 0.65rem 0 0;
+    color: var(--env-muted);
+    font-size: 0.8rem;
+}
+
+/* Stazioni idrometriche */
+.environment-station-notice {
+    margin: 0;
+    padding: 0.55rem 0.8rem;
+    color: #4d3300;
+    background: #fff6e0;
+    border-left: 4px solid #c27c00;
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.environment-station-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem 0.6rem;
+    align-items: start;
+    margin-top: 0.75rem;
+}
+
+.environment-station {
+    overflow: hidden;
+    background: #f8fbfc;
+    border: 1px solid #dcecef;
+    border-radius: 0.5rem;
+}
+
+.environment-station summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    min-height: 2.9rem;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    list-style: none;
+}
+
+.environment-station summary::-webkit-details-marker {
+    display: none;
+}
+
+.environment-station summary::after {
+    flex: 0 0 auto;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid #0b7185;
+    border-bottom: 2px solid #0b7185;
+    content: "";
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.15s ease;
+}
+
+.environment-station[open] summary::after {
+    transform: rotate(225deg) translate(-2px, -1px);
+}
+
+.environment-station summary:hover {
+    background: #eef7f9;
+}
+
+.environment-station summary:focus-visible {
+    outline: 3px solid var(--env-focus);
+    outline-offset: -3px;
+}
+
+.environment-station-name {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.environment-station-summary-code {
+    margin-left: auto;
+    color: var(--env-muted);
+    font-size: 0.77rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.environment-station-details {
+    display: grid;
+    gap: 0.6rem;
+    padding: 0.7rem 0.75rem 0.85rem;
+    border-top: 1px solid #e1ecef;
+}
+
+.environment-station-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem 0.75rem;
+    margin: 0;
+}
+
+.environment-station-metric.is-wide {
+    grid-column: 1 / -1;
+}
+
+.environment-station-metric dd {
+    font-size: 0.88rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.environment-station-same {
+    margin: 0;
+    color: var(--env-muted);
+    font-size: 0.78rem;
+}
+
+.environment-snapshot {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.55rem 0.7rem;
+    background: #fff6e0;
+    border-left: 4px solid #c27c00;
+    border-radius: 0.25rem;
+}
+
+.environment-snapshot p {
+    margin: 0;
+    color: #4d3300;
+    font-size: 0.8rem;
+}
+
+.environment-snapshot .environment-snapshot-title {
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.environment-snapshot .environment-snapshot-time {
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.environment-archive-link {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    min-height: 2.75rem;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.environment-archive-note {
+    margin: 0;
+    color: var(--env-muted);
+    font-size: 0.8rem;
+}
+
+/* Fonti e avvertenze */
+.environment-sources {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.environment-sources-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.4rem 2rem;
+}
+
+.environment-disclaimer {
+    flex: 1 1 26rem;
+    max-width: 46rem;
+    margin: 0;
+    color: var(--env-muted);
+    font-size: 0.82rem;
+}
+
+.environment-source-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 1.5rem;
+    list-style: none;
+}
+
+.environment-source-links a {
+    display: block;
+    min-height: 2.75rem;
+    padding: 0.45rem 0;
+    text-decoration: none;
+    border-top: 1px solid var(--env-line);
+}
+
+.environment-source-links a:hover strong {
+    text-decoration: underline;
+}
+
+.environment-source-links strong {
+    display: block;
+    color: #0b7185;
+    font-size: 0.88rem;
+}
+
+.environment-source-links span {
+    display: block;
+    color: var(--env-muted);
+    font-size: 0.74rem;
+    line-height: 1.35;
+}
+
+/* Utilità */
+.environment-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.environment-scroll:focus-visible {
+    outline: 3px solid var(--env-focus);
+    outline-offset: 2px;
+}
+
+.environment-page [hidden] {
+    display: none !important;
+}
+
+@media (max-width: 900px) {
+    .environment-current-panel,
+    .environment-sun-panel {
+        grid-column: 1 / -1;
+    }
+
+    .environment-station-list {
+        grid-template-columns: 1fr;
+    }
+
+    .environment-source-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .environment-page {
+        padding: 1rem 0.65rem 1.4rem;
+    }
+
+    .environment-accuracy-notice {
+        align-items: start;
+        gap: 0.7rem;
+        padding: 0.8rem;
+    }
+
+    .environment-accuracy-notice p:last-child {
+        font-size: 0.78rem;
+    }
+
+    .environment-content {
+        gap: 0.65rem;
+    }
+
+    .environment-location-bar,
+    .environment-panel,
+    .environment-sources {
+        padding: 0.85rem;
+    }
+
+    .environment-location-control {
+        flex-basis: 100%;
+    }
+
+    .environment-status {
+        flex-basis: 100%;
+    }
+
+    .environment-panel-heading {
+        align-items: flex-start;
+    }
+
+    .environment-updated {
+        max-width: 55%;
+        font-size: 0.7rem;
+    }
+
+    .environment-current-panel .environment-panel-heading {
+        flex-direction: column;
+        gap: 0.15rem;
+    }
+
+    .environment-current-panel .environment-updated {
+        max-width: none;
+        text-align: left;
+    }
+
+    .environment-hourly-list {
+        grid-auto-columns: minmax(96px, 28vw);
+    }
+
+    .environment-day {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "name temps"
+            "condition rain";
+        gap: 0.2rem 0.75rem;
+    }
+
+    .environment-marine-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .environment-station-metrics {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .environment-source-links {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 360px) {
+    .environment-sun-times {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .environment-sun-times > div:nth-child(2) {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        text-align: left;
+    }
+
+    .environment-sun-times > div:last-child {
+        grid-column: 2;
+        grid-row: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .environment-station summary::after {
+        transition: none;
+    }
+}

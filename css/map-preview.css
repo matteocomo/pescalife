@@ -37,7 +37,7 @@
 .layer-key-road { background: #89999b; }
 .preview-map-frame { position: relative; overflow: hidden; border: 1px solid #c5d7d9; border-radius: 0.6rem; }
 #preview-map { width: 100%; height: clamp(440px, 66vh, 720px); background: #edf4ef; }
-.map-location-button { position: absolute; z-index: 2; top: 3.4rem; right: 0.65rem; display: grid; width: 44px; height: 44px; place-items: center; color: #1d4050; background: white; border: 1px solid #9aafb4; border-radius: 0.35rem; box-shadow: 0 1px 5px #0003; font-size: 1.7rem; cursor: pointer; }
+.map-location-button { position: absolute; z-index: 2; right: 0.65rem; bottom: 2.5rem; display: grid; width: 44px; height: 44px; place-items: center; color: #1d4050; background: white; border: 1px solid #9aafb4; border-radius: 0.35rem; box-shadow: 0 1px 5px #0003; font-size: 1.7rem; cursor: pointer; }
 .map-location-button:disabled { opacity: 0.6; cursor: wait; }
 .preview-map-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 0.75rem; }
 #map-status { margin: 0; color: #596675; font-size: 0.88rem; }
