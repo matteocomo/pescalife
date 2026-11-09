@@ -239,10 +239,37 @@
             if (stroke) { context.strokeStyle = stroke; context.lineWidth = lineWidth; context.stroke(); }
         }
 
-        function drawCardBase(context) {
-            context.fillStyle = "#0A1A2F";
+        let brandLogoPromise;
+
+        function loadBrandLogo() {
+            if (!brandLogoPromise) {
+                brandLogoPromise = new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.onload = () => resolve(image);
+                    image.onerror = () => reject(new Error("Impossibile caricare il logo PescaLife"));
+                    image.src = new URL("assets/favicon-pescalife/web-app-manifest-512x512.png", document.baseURI).href;
+                });
+            }
+            return brandLogoPromise;
+        }
+
+        async function drawCardBase(context) {
+            const background = context.createLinearGradient(0, 0, 1080, 1350);
+            background.addColorStop(0, "#102943");
+            background.addColorStop(0.58, "#0A1A2F");
+            background.addColorStop(1, "#123c52");
+            context.fillStyle = background;
             context.fillRect(0, 0, 1080, 1350);
             context.save();
+            context.globalAlpha = 0.12;
+            context.fillStyle = "#7AD7DF";
+            context.beginPath();
+            context.arc(1000, 180, 230, 0, Math.PI * 2);
+            context.fill();
+            context.beginPath();
+            context.arc(80, 980, 280, 0, Math.PI * 2);
+            context.fill();
+            context.globalAlpha = 1;
             context.beginPath();
             context.moveTo(0, 1160);
             context.bezierCurveTo(270, 1080, 440, 1260, 700, 1160);
@@ -262,24 +289,21 @@
             context.fillStyle = "#3AAFC6";
             context.fill();
             context.restore();
-            roundedRect(context, 22, 22, 1036, 1306, 36, null, "#3AAFC6", 5);
-            drawCanvasLogo(context);
+            roundedRect(context, 22, 22, 1036, 1306, 36, null, "rgba(122, 215, 223, 0.55)", 3);
+            await drawCanvasLogo(context);
         }
 
-        function drawCanvasLogo(context) {
+        async function drawCanvasLogo(context) {
+            const logo = await loadBrandLogo();
             context.save();
-            context.strokeStyle = "#3AAFC6";
-            context.lineWidth = 7;
-            context.lineCap = "round";
-            context.beginPath();
-            context.moveTo(75, 95); context.bezierCurveTo(95, 75, 115, 115, 135, 95);
-            context.moveTo(75, 125); context.bezierCurveTo(95, 105, 115, 145, 135, 125);
-            context.moveTo(117, 93); context.lineTo(117, 52); context.lineTo(133, 52);
-            context.quadraticCurveTo(165, 55, 152, 100); context.moveTo(152, 130); context.lineTo(152, 148);
-            context.stroke();
+            roundedRect(context, 70, 55, 104, 104, 24, "#ffffff");
+            context.drawImage(logo, 77, 62, 90, 90);
             context.fillStyle = "#F5FDFE";
             context.font = "bold 34px system-ui, sans-serif";
-            context.fillText("PescaLife — Val di Cecina", 190, 110);
+            context.fillText("PescaLife", 198, 102);
+            context.fillStyle = "#A9DCE4";
+            context.font = "20px system-ui, sans-serif";
+            context.fillText("DIARIO DI PESCA  ·  VAL DI CECINA", 200, 136);
             context.restore();
         }
 
@@ -309,13 +333,13 @@
         }
 
         function drawInfoBox(context, label, value, x, y, width, height, maxLines = 2) {
-            roundedRect(context, x, y, width, height, 20, "#102943", "#3AAFC6", 2);
-            context.fillStyle = "#7AD7DF";
-            context.font = "bold 22px system-ui, sans-serif";
+            roundedRect(context, x, y, width, height, 20, "rgba(10, 26, 47, 0.72)", "rgba(169, 220, 228, 0.55)", 2);
+            context.fillStyle = "#A9DCE4";
+            context.font = "bold 18px system-ui, sans-serif";
             context.fillText(label, x + 24, y + 34);
             context.fillStyle = "#F5FDFE";
-            context.font = "26px system-ui, sans-serif";
-            drawWrappedText(context, value || "—", x + 24, y + 74, width - 48, 34, maxLines);
+            context.font = "25px system-ui, sans-serif";
+            drawWrappedText(context, value || "—", x + 24, y + 75, width - 48, 32, maxLines);
         }
 
         function loadLocalImage(dataUrl) {
@@ -333,17 +357,20 @@
             canvas.height = 1350;
             const context = canvas.getContext("2d");
             if (!context) throw new Error("Canvas non disponibile");
-            drawCardBase(context);
+            await drawCardBase(context);
             const spot = SPOT_DATA.find(item => item.id === entry.spotId);
-            context.fillStyle = "#F5FDFE";
-            context.font = "bold 48px system-ui, sans-serif";
-            drawWrappedText(context, entry.species, 75, 205, 930, 56, 1);
             context.fillStyle = "#7AD7DF";
-            context.font = "28px system-ui, sans-serif";
-            drawWrappedText(context, `${spot?.name || (entry.spotId === "non_indicato" ? "Spot non indicato" : entry.spotId)} • ${dateInItalian(entry.date)}`, 75, 250, 930, 38, 2);
+            context.font = "bold 19px system-ui, sans-serif";
+            context.fillText("RICORDO DI PESCA", 75, 205);
+            context.fillStyle = "#F5FDFE";
+            context.font = "bold 54px system-ui, sans-serif";
+            drawWrappedText(context, entry.species, 75, 264, 930, 60, 1);
+            context.fillStyle = "#7AD7DF";
+            context.font = "24px system-ui, sans-serif";
+            drawWrappedText(context, `${dateInItalian(entry.date)}  ·  ${spot?.name || (entry.spotId === "non_indicato" ? "Spot non indicato" : entry.spotId)}`, 75, 310, 930, 32, 1);
 
-            const photoX = 75, photoY = 285, photoW = 930, photoH = 420;
-            roundedRect(context, photoX, photoY, photoW, photoH, 26, "#102943", "#3AAFC6", 4);
+            const photoX = 75, photoY = 345, photoW = 930, photoH = 390;
+            roundedRect(context, photoX, photoY, photoW, photoH, 26, "rgba(10, 26, 47, 0.72)", "rgba(169, 220, 228, 0.7)", 3);
             if (entry.photoDataUrl) {
                 const image = await loadLocalImage(entry.photoDataUrl);
                 const scale = Math.max(photoW / image.width, photoH / image.height);
@@ -354,7 +381,7 @@
                 context.clip();
                 context.drawImage(image, (image.width - cropW) / 2, (image.height - cropH) / 2, cropW, cropH, photoX + 5, photoY + 5, photoW - 10, photoH - 10);
                 context.restore();
-                roundedRect(context, photoX, photoY, photoW, photoH, 26, null, "#3AAFC6", 4);
+                roundedRect(context, photoX, photoY, photoW, photoH, 26, null, "rgba(169, 220, 228, 0.7)", 3);
             } else {
                 context.textAlign = "center";
                 context.font = "120px system-ui, sans-serif";
@@ -363,23 +390,16 @@
                 context.textAlign = "left";
             }
 
-            drawInfoBox(context, "PESO", entry.weight === null ? "Non indicato" : `${entry.weight} kg`, 75, 735, 440, 112);
-            drawInfoBox(context, "LUNGHEZZA", entry.length === null ? "Non indicata" : `${entry.length} cm`, 535, 735, 470, 112);
-            drawInfoBox(context, "NOTE", entry.notes || "Nessuna nota", 75, 875, 930, 230, 4);
+            drawInfoBox(context, "PESO", entry.weight === null ? "Non indicato" : `${entry.weight} kg`, 75, 770, 440, 112);
+            drawInfoBox(context, "LUNGHEZZA", entry.length === null ? "Non indicata" : `${entry.length} cm`, 535, 770, 470, 112);
+            drawInfoBox(context, "NOTE", entry.notes || "Nessuna nota", 75, 910, 930, 215, 4);
             context.fillStyle = "#F5FDFE";
-            context.font = "bold 20px system-ui, sans-serif";
-            context.fillText("Scheda cattura personale • Rispetta sempre la legge", 75, 1265);
-            context.beginPath();
-            context.arc(930, 1250, 52, 0, Math.PI * 2);
-            context.fillStyle = "#0A1A2F";
-            context.fill();
-            context.strokeStyle = "#F5FDFE";
-            context.lineWidth = 3;
-            context.stroke();
-            context.fillStyle = "#F5FDFE";
-            context.font = "bold 17px system-ui, sans-serif";
-            context.textAlign = "center";
-            context.fillText("PescaLife", 930, 1256);
+            context.font = "bold 19px system-ui, sans-serif";
+            context.fillText("UNA PASSIONE, TANTI RICORDI", 75, 1265);
+            context.textAlign = "right";
+            context.fillStyle = "#E0F5F6";
+            context.font = "18px system-ui, sans-serif";
+            context.fillText("Pesca responsabile", 1005, 1265);
             context.textAlign = "left";
             return canvas;
         }
@@ -411,7 +431,13 @@
             canvas.height = 1350;
             const context = canvas.getContext("2d");
             if (!context) { showMessage("Canvas non disponibile per creare il riepilogo.", "error"); return; }
-            drawCardBase(context);
+            try {
+                await drawCardBase(context);
+            } catch (error) {
+                console.error("Errore nel caricamento del logo del riepilogo:", error);
+                showMessage("Non è stato possibile caricare il logo per il riepilogo.", "error");
+                return;
+            }
             const countBy = key => diaryEntries.reduce((counts, entry) => {
                 const value = key === "spotId" ? (SPOT_DATA.find(item => item.id === entry.spotId)?.name || entry.spotId) : entry[key];
                 counts[value] = (counts[value] || 0) + 1;
