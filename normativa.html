@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guida pratica alle regole della pesca in Toscana e in mare, con fonti ufficiali e ricerca locale.">
+    <meta name="robots" content="index,follow">
+    <title>Normativa della pesca — PescaLife</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon-pescalife/favicon.svg">
+    <link rel="icon" href="assets/favicon-pescalife/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-pescalife/favicon-96x96.png">
+    <link rel="apple-touch-icon" href="assets/favicon-pescalife/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="css/style.css?v=feedback-1">
+        <script src="js/site.js?v=feedback-3" defer></script>
+    <script src="js/normativa.js" defer></script>
+</head>
+<body>
+    <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
+        <div class="entry-dialog-panel">
+            <h2 id="entry-title">Prima di entrare</h2>
+            <p id="entry-description">PescaLife è un sito amatoriale a scopo esclusivamente informativo, non ufficiale e senza scopo di lucro. Le informazioni possono essere incomplete o non aggiornate. Rispetta sempre la legge: licenze, misure minime, periodi di divieto, zone vietate o protette, proprietà private e ordinanze locali. Verifica sempre le regole sulle fonti ufficiali prima di pescare. Pesca in sicurezza e a tuo rischio.</p>
+            <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
+            <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
+        </div>
+    </div>
+
+    <header>
+        <div class="content">
+            <div class="logo-group">
+                <img class="site-logo" src="assets/favicon-pescalife/favicon-96x96.png" width="44" height="44" alt="">
+                <div>
+                    <h1>PescaLife — Val di Cecina</h1>
+                    <p>La tua guida alla pesca sportiva in Toscana</p>
+                </div>
+            </div>
+            <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false" aria-controls="site-menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="site-menu" id="site-menu" role="dialog" aria-modal="true" aria-labelledby="site-menu-title" aria-hidden="true" inert>
+        <div class="site-menu-backdrop" aria-hidden="true"></div>
+        <div class="site-menu-panel">
+            <div class="site-menu-heading">
+                <div><p>Navigazione</p><h2 id="site-menu-title">PescaLife</h2></div>
+                <button type="button" class="menu-close" id="menu-close" aria-label="Chiudi il menu">&times;</button>
+            </div>
+            <nav aria-label="Sezioni del sito">
+                <ul class="site-menu-links">
+                    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7"></path><path d="M5 9v11h14V9M9 20v-6h6v6"></path></svg><span>Home</span></a></li>
+                    <li><a href="luoghi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg><span>Luoghi di pesca</span></a></li>
+                    <li><a href="specie.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12s3.2-5 9-5c3.3 0 5.6 2 7 5-1.4 3-3.7 5-7 5-5.8 0-9-5-9-5Z"></path><path d="m19 12 3-3v6l-3-3Z"></path><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"></circle></svg><span>Guida alle specie</span></a></li>
+                    <li><a href="tecniche.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 5h10"></path><path d="m13 5 5 5"></path><path d="M18 10v4a3 3 0 0 1-6 0v-1"></path><path d="M3 5v4"></path><path d="M3 9c0 2 1.5 3 3 3s3-1 3-3"></path></svg><span>Tecniche di pesca</span></a></li>
+                    <li><a href="meteo.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path><path d="M8 21h.01M12 21h.01M16 21h.01"></path></svg><span>Condizioni ambientali</span></a></li>
+                    <li><a href="normativa.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Regole e normativa</span></a></li>
+                    <li><a href="diario.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h14v17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M7 8h10M7 12h10M7 16h6"></path><path d="M7 4v17"></path></svg><span>Diario di pesca</span></a></li>
+                </ul>
+            </nav>
+            <p class="site-menu-note">La tua guida alla pesca sportiva in Toscana</p>
+        </div>
+    </div>
+
+    <main class="normativa">
+        <section class="norm-intro" aria-labelledby="norm-title">
+            <h2 class="page-heading" id="norm-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Normativa della pesca</span></h2>
+            <p>Una guida alle principali regole per le acque interne toscane e la pesca in mare, con attenzione alla Val di Cecina.</p>
+            <p class="norm-updated">Dossier aggiornato all’8 novembre 2026; alcune fonti sono state consultate per questa pagina. <a href="#fonti">Fonti e limiti della verifica</a>.</p>
+            <p class="rules-block">Questa guida non sostituisce le norme: prima di pescare verifica sempre gli atti vigenti, le ordinanze locali e le regole del tratto.</p>
+        </section>
+
+        <section class="norm-search-section" aria-labelledby="search-title">
+            <div class="norm-search">
+                <h2 id="search-title">Cosa vuoi sapere prima di andare a pesca?</h2>
+                <p>Cerca tra le informazioni disponibili nella guida.</p>
+                <form id="norm-search-form" role="search">
+                    <label for="norm-query">Cerca una regola, una specie o un luogo</label>
+                    <div class="norm-search-controls">
+                        <input id="norm-query" type="search" placeholder="Per esempio: trota, licenza, Cecina" autocomplete="off">
+                        <button class="btn btn-primary" type="submit">Cerca</button>
+                    </div>
+                </form>
+                <p class="norm-suggestions-label">Ricerche consigliate</p>
+                <div class="norm-suggestions" aria-label="Ricerche consigliate">
+                    <button type="button" data-query="Quanto costa la licenza di pesca in Toscana?">Costo della licenza</button>
+                    <button type="button" data-query="Qual è la misura minima della trota?">Misura della trota</button>
+                    <button type="button" data-query="Quando è vietata la pesca alla trota?">Chiusura della trota</button>
+                    <button type="button" data-query="Quante canne posso utilizzare?">Numero di canne</button>
+                    <button type="button" data-query="Posso pescare l'anguilla nel 2026?">Anguilla nel 2026</button>
+                    <button type="button" data-query="Quali sono i divieti nel fiume Cecina?">Divieti nel Cecina</button>
+                    <button type="button" data-query="Serve un'autorizzazione per pescare in mare?">Autorizzazione in mare</button>
+                    <button type="button" data-query="Quali sono le misure minime per la pesca dalla costa?">Taglie in mare</button>
+                </div>
+                <noscript><style>#norm-search-form, .norm-suggestions-label, .norm-suggestions { display: none; }</style><p class="norm-noscript">La ricerca richiede JavaScript. Puoi comunque consultare tutte le sezioni della guida qui sotto.</p></noscript>
+                <div id="norm-search-results" class="norm-results" aria-live="polite" aria-atomic="true"></div>
+            </div>
+        </section>
+
+        <nav class="norm-index container" aria-label="Indice della normativa">
+            <span>Vai a:</span>
+            <a href="#acque-interne">Acque interne</a>
+            <a href="#mare">Mare</a>
+            <a href="#territorio">Territorio</a>
+            <a href="#fonti">Fonti</a>
+        </nav>
+
+        <section class="norm-section" id="acque-interne" aria-labelledby="interno-title">
+            <h2 id="interno-title">Acque interne toscane</h2>
+            <p>Le regole regionali vanno integrate con quelle del singolo tratto, delle aree protette e delle eventuali concessioni.</p>
+
+            <article id="licenze" class="norm-topic" data-search="licenza permesso costo tassa prezzo pagare pagamento iris ricevuta documento toscana 35 10 1" data-title="Licenze e costi" data-status="VERIFICATO" data-source="fonte-licenze">
+                <h3>Licenze di pesca</h3>
+                <p class="search-answer">La licenza dilettantistica deriva dal pagamento della tassa regionale: tipo B annuale 35 €, tipo C per 15 giorni 10 €, tipo D giornaliera per gare 1 €.</p>
+                <div class="norm-table-wrap"><table class="norm-table">
+                    <caption>Tipi di licenza dilettantistica</caption>
+                    <thead><tr><th scope="col">Tipo</th><th scope="col">Durata e destinatari</th><th scope="col">Costo</th></tr></thead>
+                    <tbody><tr><th scope="row">B</th><td>Annuale</td><td>35 €</td></tr><tr><th scope="row">C</th><td>15 giorni</td><td>10 €</td></tr><tr><th scope="row">D</th><td>Un giorno; gare o manifestazioni per chi non ha altra licenza</td><td>1 €</td></tr></tbody>
+                </table></div>
+                <p>Per pagare online, apri <a href="https://iris.rete.toscana.it/public/" target="_blank" rel="noopener noreferrer">IRIS</a> e seleziona «Esercizio della pesca»; la Regione indica anche il pagamento tramite banca. Porta la ricevuta e un documento di identità valido. I minori di 12 anni sono esentati dalla tassa.</p>
+                <details><summary>Licenze di altre regioni ed esenzioni</summary><p>Le licenze delle altre regioni e delle province autonome sono riconosciute in Toscana; per le esenzioni valgono le disposizioni toscane. Verifica eventuali ulteriori autorizzazioni richieste sul tratto.</p></details>
+                <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-licenze">Fonte: Regione Toscana, licenza dilettantistica</a></p>
+            </article>
+
+            <article id="orari" class="norm-topic" data-search="orari ora alba tramonto notte notturna foce salmastre laghi" data-title="Orari nelle acque interne" data-status="VERIFICATO" data-source="fonte-regolamento">
+                <h3>Orari e periodi</h3>
+                <p class="search-answer">La regola generale è da un’ora prima della levata del sole a un’ora dopo il tramonto; esistono eccezioni per foci, acque salmastre, grandi laghi e attività specifiche.</p>
+                <details><summary>Eccezioni agli orari</summary><p>Il regolamento prevede eccezioni, tra l’altro, per la mazzacchera, la pesca con canna a pesce gatto e siluro e il carp-fishing, fuori dalle acque a salmonidi e alle condizioni previste. Le norme specifiche, inclusi i divieti sull’anguilla, prevalgono.</p></details>
+                <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-regolamento">D.P.G.R. 6/R/2018, art. 5</a></p>
+            </article>
+            <div id="trota-stagione" class="norm-fact" data-search="trota salmonidi apertura chiusura stagione calendario vietata divieto periodo febbraio ottobre 2026" data-title="Stagione della trota 2026" data-status="VERIFICATO" data-source="fonte-trota">
+                <p class="search-answer"><strong>Trota, stagione 2026:</strong> dal 22 febbraio al 4 ottobre; chiusa dal 5 ottobre. Restano validi divieti e regolamenti specifici del tratto. Le date del 2027 non sono qui presentate come calendario ufficiale.</p>
+                <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-trota">Regione Toscana: apertura trota 2026</a></p>
+            </div>
+
+            <article id="limiti-interno" class="norm-topic">
+                <h3>Taglie minime e limiti di cattura</h3>
+                <p>Valori della pagina regionale sull’Allegato A, da confrontare con gli atti aggiornati e le regole del tratto. Un trattino significa che la tabella consultata non indica un limite specifico, <strong>non</strong> che la pesca sia sempre consentita.</p>
+                <div id="trota-taglia" class="norm-fact" data-search="trota salmonidi taglia misura minima centimetri 22 lunghezza" data-title="Misura minima della trota" data-status="VERIFICATO" data-source="fonte-trota">
+                    <p class="search-answer">Per la trota la Regione indica una misura minima di <strong>22 cm</strong>.</p>
+                    <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-trota">Fonte: Regione Toscana, stagione 2026</a></p>
+                </div>
+                <div id="trota-limite" class="norm-fact" data-search="trota salmonidi limite cattura prelievo quanti capi giornaliero 5" data-title="Limite giornaliero della trota" data-status="VERIFICATO" data-source="fonte-trota">
+                    <p class="search-answer">Per la trota la Regione indica un prelievo massimo di <strong>5 capi al giorno</strong>.</p>
+                    <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-trota">Fonte: Regione Toscana, stagione 2026</a></p>
+                </div>
+                <div id="peso-interno" class="norm-fact" data-search="peso limite cattura pesce chili kg cinque generale complessivo alloctone interno fiume" data-title="Limite complessivo nelle acque interne" data-status="DA VERIFICARE" data-source="fonte-allegato">
+                    <p class="search-answer">L’Allegato A riportato dalla Regione prevede 5 kg complessivi al giorno, superabili con l’ultimo esemplare; sono escluse dal conteggio le specie alloctone individuate dal piano regionale per il contenimento. Verifica il testo vigente e le eccezioni.</p>
+                    <p class="norm-source"><span class="norm-status caution">DA VERIFICARE</span> <a href="#fonte-allegato">Fonte: Allegato A riportato dalla Regione</a></p>
+                </div>
+                <div class="norm-table-wrap"><table class="norm-table norm-species">
+                    <caption>Acque interne: valori riportati nell’Allegato A regionale</caption>
+                    <thead><tr><th scope="col">Specie</th><th scope="col">Taglia</th><th scope="col">Capi/giorno</th><th scope="col">Periodo di divieto indicato</th></tr></thead>
+                    <tbody>
+                        <tr data-search="salmonidi trota misura taglia limite catture" data-title="Salmonidi: taglia e limiti" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-salmonidi"><th scope="row">Salmonidi</th><td>22 cm</td><td>5</td><td>Dal lunedì dopo la prima domenica di ottobre al sabato prima dell’ultima domenica di febbraio</td></tr>
+                        <tr data-search="luccio taglia misura limite divieto" data-title="Luccio: taglia e limiti" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-luccio"><th scope="row">Luccio</th><td>60 cm</td><td>1</td><td>1 gennaio–31 marzo</td></tr>
+                        <tr data-search="carpa taglia misura limite divieto" data-title="Carpa: taglia e limiti" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-carpa"><th scope="row">Carpa</th><td>35 cm</td><td>—</td><td>15 maggio–30 giugno</td></tr>
+                        <tr data-search="persico trota black bass taglia misura limite" data-title="Persico trota: taglia e limiti" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-persico-trota"><th scope="row">Persico trota</th><td>30 cm</td><td>6</td><td>1 maggio–30 giugno</td></tr>
+                        <tr data-search="persico reale taglia misura limite" data-title="Persico reale: taglia e limiti" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-persico-reale"><th scope="row">Persico reale</th><td>20 cm</td><td>5</td><td>1 aprile–30 giugno</td></tr>
+                        <tr data-search="barbo taglia misura limite" data-title="Barbo: taglia e limiti" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-barbo"><th scope="row">Barbo</th><td>18 cm</td><td>—</td><td>—</td></tr>
+                        <tr data-search="cefalo muggine taglia misura limite" data-title="Cefalo o muggine: taglia e limiti" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-cefalo"><th scope="row">Cefalo o muggine</th><td>20 cm</td><td>—</td><td>—</td></tr>
+                        <tr data-search="rombo taglia misura limite" data-title="Rombo: taglia e limiti" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-rombo"><th scope="row">Rombo</th><td>25 cm</td><td>—</td><td>—</td></tr>
+                        <tr data-search="spigola branzino taglia misura limite" data-title="Spigola nelle acque interne" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-spigola"><th scope="row">Spigola</th><td>30 cm</td><td>5</td><td>—</td></tr>
+                        <tr data-search="cheppia alosa taglia misura limite" data-title="Cheppia o alosa: taglia e limiti" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-cheppia"><th scope="row">Cheppia o alosa</th><td>—</td><td>2</td><td>1 aprile–30 giugno</td></tr>
+                        <tr data-search="orata taglia misura limite" data-title="Orata nelle acque interne" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-orata"><th scope="row">Orata</th><td>25 cm</td><td>5</td><td>—</td></tr>
+                        <tr data-search="ombrina taglia misura limite" data-title="Ombrina nelle acque interne" data-status="DA VERIFICARE" data-source="fonte-allegato" id="specie-ombrina"><th scope="row">Ombrina</th><td>25 cm</td><td>5</td><td>—</td></tr>
+                    </tbody>
+                </table></div>
+                <p>Misura dall’apice del muso all’estremità della pinna caudale. Per l’anguilla vedi il <a href="#anguilla">divieto 2026</a>.</p>
+                <p class="norm-source"><span class="norm-status caution">DA VERIFICARE</span> <a href="#fonte-allegato">Regione Toscana, Allegato A</a>: confronto con il testo ufficiale e successive modifiche ancora necessario.</p>
+            </article>
+
+            <article id="attrezzi" class="norm-topic">
+                <h3>Attrezzature ed esche</h3>
+                <div id="attrezzi-salmonidi" class="norm-fact" data-search="trota salmonidi canne canna ami amo attrezzi artificiali esche moschiera camoliera ardiglione pasturazione" data-title="Attrezzi nelle acque a salmonidi" data-status="VERIFICATO" data-source="fonte-trota">
+                    <p class="search-answer"><strong>Acque a salmonidi:</strong> una canna con un amo; artificiali con uno o più ami singoli; moschiera o camoliera con massimo tre ami. Ami senza ardiglione o con ardiglione completamente schiacciato.</p>
+                    <p>Vietati la pasturazione e l’uso o la detenzione sul luogo di pesca di uova di pesce e larve di mosca carnaria.</p>
+                    <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-trota">Fonte: Regione Toscana</a></p>
+                </div>
+                <div id="attrezzi-ciprinidi" class="norm-fact" data-search="ciprinidi canne canna ami amo attrezzi esche bilancia mazzacchera pasturazione" data-title="Attrezzi nelle acque a ciprinidi" data-status="VERIFICATO" data-source="fonte-regolamento">
+                    <p class="search-answer"><strong>Acque a ciprinidi:</strong> fino a tre canne entro 10 metri, con massimo due ami per canna; sono ammesse esche artificiali con ami anche multipli.</p>
+                    <details><summary>Bilancia e altre attrezzature</summary><p>Sono ammesse mazzacchera e bilancia entro le dimensioni previste dall’art. 2. La bilancia a scorrere è vietata, così come la bilancia nei corpi d’acqua larghi meno di 6 metri. Per foci, acque salmastre e grandi laghi valgono condizioni ulteriori.</p></details>
+                    <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-regolamento">D.P.G.R. 6/R/2018, art. 2</a></p>
+                </div>
+            </article>
+
+            <article id="specie-protette" class="norm-topic">
+                <h3>Specie protette e divieti</h3>
+                <div id="anguilla" class="norm-fact norm-important" data-search="anguilla anguille 2026 vietato divieto cattura pesca ricreativa mare fiume acqua interna toscana" data-title="Anguilla: divieto 2026" data-status="VERIFICATO" data-source="fonte-anguilla">
+                    <p class="search-answer"><strong>Anguilla nel 2026:</strong> la Regione indica il divieto di pesca ricreativa nelle acque interne e il divieto di pesca in mare per tutto l’anno. L’adesione della Toscana al piano nazionale non elimina il divieto ricreativo.</p>
+                    <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-anguilla">Regione Toscana: pesca dell’anguilla 2026</a></p>
+                </div>
+                <p>Per le altre specie protette, le specie alloctone e gli obblighi di rilascio o contenimento verifica la disciplina specifica e gli atti aggiornati: un elenco completo non è stato confermato per questa guida. <span class="norm-status caution">DA VERIFICARE</span></p>
+            </article>
+
+            <article id="zone" class="norm-topic" data-search="zone frega protezione zrs riserva regolamento specifico divieto no kill" data-title="Zone di frega, protezione e ZRS" data-status="VERIFICATO" data-source="fonte-frega">
+                <h3>Zone di frega, protezione e ZRS</h3>
+                <p class="search-answer">Le zone di frega prevedono divieti temporanei; quelle di protezione possono avere divieti totali o parziali; le ZRS hanno un regolamento specifico e possono richiedere autorizzazioni.</p>
+                <p>Cartelli e documenti dell’area aiutano a identificare i vincoli, ma l’assenza di cartelli non dimostra che la pesca sia consentita. <a href="#frega-cecina">Consulta i tratti del bacino del Cecina</a>.</p>
+                <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-frega">Elenco regionale delle zone di frega</a> · <a href="#fonte-protezione">Zone di protezione</a> · <a href="#fonte-zrs">ZRS</a></p>
+            </article>
+        </section>
+
+        <section class="norm-section" id="mare" aria-labelledby="mare-title">
+            <h2 id="mare-title">Pesca in mare</h2>
+            <p>La disciplina marittima è distinta dalla licenza per le acque interne e comprende norme nazionali, europee e ordinanze locali.</p>
+            <article id="comunicazione-mare" class="norm-topic" data-search="mare costa spiaggia autorizzazione permesso licenza tesserino comunicazione masaf sian registrazione rinnovo documento" data-title="Comunicazione per pescare in mare" data-status="VERIFICATO" data-source="fonte-comunicazione">
+                <h3>Comunicazione e documenti</h3>
+                <p class="search-answer">Per la pesca sportiva e ricreativa in mare occorre effettuare la comunicazione al MASAF tramite SIAN. L’attestazione gratuita è il tesserino, valido un anno e rinnovabile.</p>
+                <p>L’accesso per i cittadini italiani avviene con SPID, CIE o CNS. Questa comunicazione non è la licenza regionale né l’iscrizione nel registro dei pescatori marittimi.</p>
+                <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-comunicazione">Guardia Costiera: comunicazione di pesca</a> · <a href="https://www.sian.it/portale/servizi/comunicazione-pesca-sportiva-1" target="_blank" rel="noopener noreferrer">Servizio SIAN</a></p>
+            </article>
+            <article id="recfishing" class="norm-topic" data-search="recfishing app registrazione rendicontazione dichiarazione catture rilasci subacquea barca diporto tonno spada lampuga alalunga sessione" data-title="RecFishing: registrazione e catture" data-status="VERIFICATO" data-source="fonte-recfishing">
+                <h3>RecFishing</h3>
+                <p class="search-answer">La Guardia Costiera indica la registrazione per chi ha più di 16 anni e pesca in mare in modalità subacquea o con unità da diporto. L’app riguarda catture e rilasci di tonno rosso, pesce spada, lampuga e alalunga.</p>
+                <p>La pagina ufficiale indica la dichiarazione prima del rientro in porto e comunque entro le 23:59 del giorno della cattura.</p>
+                <p class="rules-block"><span class="norm-status caution">DA VERIFICARE</span> La Guardia Costiera indica l’apertura della sessione all’inizio della battuta; il dossier riporta una possibile sospensione fino al 31 dicembre 2026. La nota che la dispone non è stata verificata: controlla le istruzioni ufficiali aggiornate prima dell’uscita.</p>
+                <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-recfishing">Guardia Costiera: RecFishing</a> · <a href="#fonte-comunicazione">Requisiti di registrazione</a></p>
+            </article>
+            <article id="limiti-mare" class="norm-topic" data-search="mare costa limite giornaliero catture peso chili kg cinque pesce vendita commercio pescato" data-title="Limiti di cattura e vendita in mare" data-status="VERIFICATO" data-source="fonte-sanzioni">
+                <h3>Limiti di cattura</h3>
+                <p class="search-answer">Per la pesca non professionale il quadro sanzionatorio richiama il limite giornaliero di 5 kg, salvo il caso di un singolo pesce oltre i 5 kg; restano applicabili eventuali limiti specifici più restrittivi.</p>
+                <p>La vendita del pescato sportivo o ricreativo è vietata. Verifica le condizioni applicabili alle singole specie.</p>
+                <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-sanzioni">L. 75/2026, art. 20</a> · <a href="#fonte-comunicazione">Guardia Costiera</a></p>
+            </article>
+            <article id="taglie-mare" class="norm-topic" data-search="mare costa spiaggia taglia taglie misura minima misure centimetri pesci spigola branzino orata mormora sarago" data-title="Taglie minime per la pesca in mare" data-status="DA VERIFICARE" data-source="fonte-ue">
+                <h3>Taglie minime</h3>
+                <p class="search-answer">Le taglie di riferimento UE non possono essere applicate automaticamente alla pesca ricreativa: l’applicabilità e le norme nazionali per le singole specie richiedono verifica.</p>
+                <p>Consulta la Capitaneria e gli atti vigenti prima di trattenere una cattura. La tabella delle <a href="#limiti-interno">acque interne</a> non è una tabella per la costa.</p>
+                <p class="norm-source"><span class="norm-status caution">DA VERIFICARE</span> <a href="#fonte-ue">Reg. UE 2019/1241, Allegato IX</a></p>
+            </article>
+            <article id="specie-mare" class="norm-topic" data-search="mare tonno rosso pesce spada lampuga alalunga nulla osta quota autorizzazione specie" data-title="Specie marine con regole particolari" data-status="DA VERIFICARE" data-source="fonte-recfishing">
+                <h3>Specie con disposizioni particolari</h3>
+                <p class="search-answer">Tonno rosso e pesce spada possono richiedere autorizzazioni specifiche; quote, periodi e condizioni vanno verificati negli atti annuali. Lampuga e alalunga compaiono tra le specie soggette alla rendicontazione RecFishing.</p>
+                <p>Per l’anguilla consulta il <a href="#anguilla">divieto 2026</a>; la registrazione nell’app non sostituisce altri titoli o divieti.</p>
+                <p class="norm-source"><span class="norm-status caution">DA VERIFICARE</span> autorizzazioni e quote annuali · <a href="#fonte-recfishing">Guardia Costiera: specie da rendicontare</a></p>
+            </article>
+            <article id="sanzioni-mare" class="norm-topic" data-search="mare sanzioni multa multe vendita commercio superamento limite cinque kg 2026" data-title="Sanzioni per la pesca non professionale in mare" data-status="VERIFICATO" data-source="fonte-sanzioni">
+                <h3>Sanzioni</h3>
+                <p class="search-answer">La L. 75/2026 prevede sanzioni per la vendita del pescato non professionale e per il superamento del limite giornaliero, con scaglioni e condizioni specifiche.</p>
+                <div class="norm-table-wrap"><table class="norm-table"><caption>Sanzioni base riportate dall’art. 13-octies del D.Lgs. 4/2012</caption><thead><tr><th scope="col">Violazione</th><th scope="col">Importo</th></tr></thead><tbody>
+                    <tr><th scope="row">Vendita o commercio del pescato non professionale</th><td>4.000–12.000 €</td></tr>
+                    <tr><th scope="row">Oltre 5 e fino a 10 kg al giorno</th><td>500–3.000 €</td></tr>
+                    <tr><th scope="row">Oltre 10 e fino a 50 kg al giorno</th><td>2.000–12.000 €</td></tr>
+                    <tr><th scope="row">Oltre 50 kg al giorno</th><td>12.000–50.000 €</td></tr>
+                </tbody></table></div>
+                <p>Le eccezioni, le maggiorazioni per specie soggette a piani di ricostituzione o tonno rosso e le modalità di calcolo sono indicate nell’atto. L’applicazione delle sanzioni per mancata iscrizione nel registro marittimo al pescatore ricreativo è <span class="norm-status caution">DA VERIFICARE</span>.</p>
+                <p class="norm-source"><span class="norm-status verified">VERIFICATO</span> <a href="#fonte-sanzioni">L. 21 aprile 2026, n. 75, art. 20, copia della Gazzetta Ufficiale</a></p>
+            </article>
+        </section>
+
+        <section class="norm-section" id="territorio" aria-labelledby="territorio-title">
+            <h2 id="territorio-title">Normativa locale</h2>
+            <p>La disciplina cambia per tratto, comune, porto e stagione: controlla l’atto esatto prima di scegliere dove pescare.</p>
+            <article id="frega-cecina" class="norm-topic" data-search="cecina fiume pavone possera fosso acquerta mona monna zona frega divieto locale tratto comune" data-title="Zone di frega nel bacino del Cecina" data-status="DA VERIFICARE" data-source="fonte-frega">
+                <h3>Zone di frega nel bacino del Cecina</h3>
+                <p class="search-answer">L’elenco regionale di maggio 2020 riporta due tratti del Cecina e uno del Pavone. La loro vigenza attuale e gli eventuali atti successivi devono essere verificati.</p>
+                <div class="norm-table-wrap"><table class="norm-table"><caption>Elenco regionale maggio 2020: non equivale a conferma della vigenza</caption><thead><tr><th scope="col">Corso e tratto</th><th scope="col">Periodo riportato</th></tr></thead><tbody>
+                    <tr><th scope="row">Cecina, dal confine provinciale al Fosso Acquerta</th><td>15 maggio–30 giugno</td></tr>
+                    <tr><th scope="row">Cecina, tra la bocca del Pavone e quella del Possera</th><td>Da un’ora dopo il tramonto del 14 maggio a un’ora prima dell’alba del 15 giugno</td></tr>
+                    <tr><th scope="row">Pavone, dalla foce al podere Monna</th><td>1 gennaio–ultima domenica di febbraio</td></tr>
+                </tbody></table></div>
+                <p>Possera, Sterza e Trossa non hanno una voce propria nell’elenco del 2020 consultato: ciò non esclude altri vincoli o atti successivi. Per zone di protezione, ZRS e aree protette verifica gli elenchi e gli atti dedicati.</p>
+                <p class="norm-source"><span class="norm-status caution">DA VERIFICARE</span> vigenza e delimitazioni · <a href="#fonte-frega">Fonte: Regione Toscana, elenco 2020</a></p>
+            </article>
+            <article id="ordinanze" class="norm-topic" data-search="cecina bibbona castagneto carducci rosignano marittimo san vincenzo ordinanze comune capitaneria porto porti spiaggia balneazione divieti" data-title="Ordinanze costiere, portuali e comunali" data-status="NON REPERITO" data-source="fonte-guardia">
+                <h3>Ordinanze costiere e disposizioni comunali</h3>
+                <p class="search-answer">Non sono state individuate nella documentazione ordinanze puntuali e vigenti per Cecina, Bibbona, Castagneto Carducci, Rosignano Marittimo e San Vincenzo. Questo non significa che siano assenti divieti.</p>
+                <p>Per spiagge, stabilimenti e porti consulta separatamente le ordinanze del comune interessato e della Capitaneria competente, comprese quelle stagionali e di sicurezza balneare.</p>
+                <ul class="norm-local-list"><li>Cecina</li><li>Bibbona</li><li>Castagneto Carducci</li><li>Rosignano Marittimo</li><li>San Vincenzo</li></ul>
+                <p class="norm-source"><span class="norm-status missing">NON REPERITO</span> ordinanze specifiche · <a href="#fonte-guardia">Guardia Costiera</a></p>
+            </article>
+        </section>
+
+        <section class="norm-section" id="fonti" aria-labelledby="fonti-title">
+            <h2 id="fonti-title">Fonti e aggiornamenti</h2>
+            <p>La guida deriva dai dossier PescaLife e dalle fonti ufficiali seguenti. La data indica la consultazione per questa pagina o, dove precisato, quella riportata dal dossier; non garantisce che l’atto non sia stato modificato. Stagioni, ordinanze, quote e adempimenti possono cambiare durante l’anno.</p>
+            <dl class="norm-legend"><div><dt>VERIFICATO</dt><dd>Fonte ufficiale consultata per l’informazione indicata.</dd></div><div><dt>DA VERIFICARE</dt><dd>Vigenza, interpretazione o applicabilità non confermata.</dd></div><div><dt>STORICO</dt><dd>Riferito a un periodo o testo precedente, non automaticamente vigente.</dd></div><div><dt>NON REPERITO</dt><dd>Informazione non trovata nelle fonti consultate; non prova l’assenza di vincoli.</dd></div></dl>
+            <ul class="norm-source-list">
+                <li id="fonte-licenze"><a href="https://www.regione.toscana.it/-/conseguimento-della-licenza-di-pesca-dilettantistica" target="_blank" rel="noopener noreferrer">Regione Toscana — Conseguimento della licenza di pesca dilettantistica</a>: costi, durata, pagamento ed esenzioni. Consultata l’8/11/2026.</li>
+                <li id="fonte-regolamento"><a href="https://raccoltanormativa.consiglio.regione.toscana.it/articolo?6%2FR=&amp;urndoc=urn%3Anir%3Aregione.toscana%3Aregolamento.giunta%3A2018-02-07" target="_blank" rel="noopener noreferrer">Regione Toscana — D.P.G.R. 7 febbraio 2018, n. 6/R</a>, artt. 2, 5, 6 e 9–11. Raccolta normativa consultata l’8/11/2026; il testo con valore legale è quello del BURT.</li>
+                <li id="fonte-allegato"><a href="https://www.regione.toscana.it/-/nuova-normativa-per-la-pesca-acque-interne" target="_blank" rel="noopener noreferrer">Regione Toscana — Allegato A, limiti di cattura</a>. Pagina consultata l’8/11/2026; confronto con BURT e modifiche successive da completare.</li>
+                <li id="fonte-trota"><a href="https://www.regione.toscana.it/-/apertura-pesca-alla-trota-2026" target="_blank" rel="noopener noreferrer">Regione Toscana — Apertura pesca alla trota 2026</a>. Consultata l’8/11/2026.</li>
+                <li id="fonte-anguilla"><a href="https://www.regione.toscana.it/it/-/pesca-dell-anguilla-2026" target="_blank" rel="noopener noreferrer">Regione Toscana — Pesca dell’anguilla 2026</a>: Reg. UE 2026/266, art. 4, e decreto MASAF 4 marzo 2026. Consultata l’8/11/2026.</li>
+                <li id="fonte-frega"><a href="https://www.regione.toscana.it/-/elenco-delle-zone-di-frega-nei-corsi-d-acqua-della-regione-toscana" target="_blank" rel="noopener noreferrer">Regione Toscana — Zone di frega</a>, elenco maggio 2020. Pagina consultata l’8/11/2026; vigenza dei singoli tratti da verificare.</li>
+                <li id="fonte-protezione"><a href="https://www.regione.toscana.it/-/elenco-delle-zone-di-protezione-nei-corsi-d-acqua-e-laghi-regionali" target="_blank" rel="noopener noreferrer">Regione Toscana — Zone di protezione</a>. Consultata l’8/11/2026.</li>
+                <li id="fonte-zrs"><a href="https://www.regione.toscana.it/-/pesca-elenco-zone-a-regolamento-specifico" target="_blank" rel="noopener noreferrer">Regione Toscana — Zone a regolamento specifico</a>. Consultata l’8/11/2026.</li>
+                <li id="fonte-comunicazione"><a href="https://www.guardiacostiera.gov.it/portale/comunicazione-di-pesca-sportiva-e-ricreativa" target="_blank" rel="noopener noreferrer">Guardia Costiera — Comunicazione di pesca sportiva e ricreativa</a>. Consultata l’8/11/2026.</li>
+                <li id="fonte-recfishing"><a href="https://www.guardiacostiera.gov.it/portale/app-recfishing" target="_blank" rel="noopener noreferrer">Guardia Costiera — App RecFishing</a>. Consultata l’8/11/2026; eventuale deroga sulla sessione da verificare.</li>
+                <li id="fonte-sanzioni"><a href="https://pg-perugia.giustizia.it/cmsresources/cms/documents/L%202026%2075%20prodotti%20alimentari.pdf" target="_blank" rel="noopener noreferrer">L. 21 aprile 2026, n. 75, art. 20</a>: copia della Gazzetta Ufficiale n. 110 del 14 maggio 2026, ospitata dalla Procura generale di Perugia. Verifica del testo riportata nel dossier all’8/11/2026; coordinamento successivo da controllare.</li>
+                <li id="fonte-ue"><a href="https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX%3A32019R1241" target="_blank" rel="noopener noreferrer">Reg. UE 2019/1241, Allegato IX</a>, testo originale EUR-Lex. Consultato l’8/11/2026; versione consolidata e applicabilità ricreativa da verificare.</li>
+                <li id="fonte-guardia"><a href="https://www.guardiacostiera.gov.it/" target="_blank" rel="noopener noreferrer">Guardia Costiera — portale istituzionale</a>, per individuare la Capitaneria e le ordinanze competenti. Consultato l’8/11/2026.</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Dati a scopo informativo.</p>
+            <p class="mt-2"><a href="notelegali.html">Note legali e privacy</a></p>
+            <p class="mt-2"><a class="feedback-link" href="notelegali.html#segnalazioni">Hai riscontrato qualche problema o hai suggerimenti?</a></p>
+        </div>
+    </footer>
+ 
+</body>
+</html>

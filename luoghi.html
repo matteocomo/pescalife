@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Luoghi e spot di pesca della Val di Cecina.">
+    <meta name="robots" content="index,follow">
+    <title>Luoghi di pesca — PescaLife</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon-pescalife/favicon.svg">
+    <link rel="icon" href="assets/favicon-pescalife/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-pescalife/favicon-96x96.png">
+    <link rel="apple-touch-icon" href="assets/favicon-pescalife/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="css/style.css?v=feedback-1">
+    <script src="js/site.js?v=feedback-3" defer></script>
+    <script src="js/data.js" defer></script>
+    <script src="js/luoghi.js" defer></script>
+</head>
+<body>
+    <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
+        <div class="entry-dialog-panel">
+            <div class="entry-dialog-icons" aria-hidden="true">🚧 ⚠️</div>
+            <h2 id="entry-title">Prima di entrare</h2>
+            <p id="entry-description">PescaLife è un sito in continuo sviluppo. Alcune informazioni o funzionalità potrebbero essere incomplete, non aggiornate o non funzionare correttamente. Non garantiamo il funzionamento completo del sito. Grazie per la comprensione.</p>
+            <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
+            <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
+        </div>
+    </div>
+
+    <header>
+        <div class="content">
+            <div class="logo-group">
+                <img class="site-logo" src="assets/favicon-pescalife/favicon-96x96.png" width="44" height="44" alt="">
+                <div>
+                    <h1>PescaLife — Val di Cecina</h1>
+                    <p>La tua guida alla pesca sportiva in Toscana</p>
+                </div>
+            </div>
+            <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false" aria-controls="site-menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="site-menu" id="site-menu" role="dialog" aria-modal="true" aria-labelledby="site-menu-title" aria-hidden="true" inert>
+        <div class="site-menu-backdrop" aria-hidden="true"></div>
+        <div class="site-menu-panel">
+            <div class="site-menu-heading">
+                <div><p>Navigazione</p><h2 id="site-menu-title">PescaLife</h2></div>
+                <button type="button" class="menu-close" id="menu-close" aria-label="Chiudi il menu">&times;</button>
+            </div>
+            <nav aria-label="Sezioni del sito">
+                <ul class="site-menu-links">
+                    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7"></path><path d="M5 9v11h14V9M9 20v-6h6v6"></path></svg><span>Home</span></a></li>
+                    <li><a href="luoghi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg><span>Luoghi di pesca</span></a></li>
+                    <li><a href="specie.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12s3.2-5 9-5c3.3 0 5.6 2 7 5-1.4 3-3.7 5-7 5-5.8 0-9-5-9-5Z"></path><path d="m19 12 3-3v6l-3-3Z"></path><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"></circle></svg><span>Guida alle specie</span></a></li>
+                    <li><a href="tecniche.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 5h10"></path><path d="m13 5 5 5"></path><path d="M18 10v4a3 3 0 0 1-6 0v-1"></path><path d="M3 5v4"></path><path d="M3 9c0 2 1.5 3 3 3s3-1 3-3"></path></svg><span>Tecniche di pesca</span></a></li>
+                    <li><a href="meteo.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path><path d="M8 21h.01M12 21h.01M16 21h.01"></path></svg><span>Condizioni ambientali</span></a></li>
+                    <li><a href="normativa.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Regole e normativa</span></a></li>
+                    <li><a href="diario.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h14v17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M7 8h10M7 12h10M7 16h6"></path><path d="M7 4v17"></path></svg><span>Diario di pesca</span></a></li>
+                </ul>
+            </nav>
+            <p class="site-menu-note">La tua guida alla pesca sportiva in Toscana</p>
+        </div>
+    </div>
+
+    <main>
+        <section id="map-section" class="map-section" aria-labelledby="map-title">
+            <div class="map-link-card">
+                <div class="map-link-content">
+                    <h2 id="map-title">La mappa delle acque interne</h2>
+                    <p>Scopri corsi d’acqua, specchi d’acqua e località della Val di Cecina. Cerca un luogo, cambia vista e scegli le informazioni da mostrare.</p>
+                    <p class="map-link-note">La mappa aiuta a orientarsi, ma non indica accessi o posti di pesca verificati.</p>
+                </div>
+                <div class="map-link-action">
+                    <figure>
+                        <div class="map-link-preview">
+                            <img src="assets/mappa.png" alt="Anteprima della mappa della Val di Cecina" width="800" height="450">
+                        </div>
+                        <figcaption class="map-link-attribution">Mappa: <a href="https://openfreemap.org/">OpenFreeMap</a> · © <a href="https://www.openmaptiles.org/">OpenMapTiles</a> · Dati <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a></figcaption>
+                    </figure>
+                    <a class="btn btn-primary map-link-button" href="mappa-nuova.html">Esplora la mappa <span aria-hidden="true">→</span></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="spot">
+            <h2 class="page-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg><span>Luoghi di pesca</span></h2>
+            <p>Le schede vengono pubblicate solo dopo la verifica delle informazioni di accesso e delle regole locali.</p>
+            <div class="spot-grid mt-6" id="spot-grid" aria-live="polite"></div>
+        </section>
+    <div id="spot-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-content rounded-xl shadow-lg">
+            <button type="button" class="close-btn" id="close-spot-modal" aria-label="Chiudi dettagli dello spot">&times;</button>
+            <h3 id="modal-title">Dettagli spot</h3>
+            <div id="modal-content"></div>
+            <button type="button" id="share-spot-btn" class="btn btn-secondary mt-4" aria-label="Condividi informazioni sullo spot" hidden>Condividi spot</button>
+        </div>
+    </div>
+
+
+    </main>
+    <footer>
+        <div class="container">
+            <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Dati a scopo informativo.</p>
+            <p class="mt-2"><a href="notelegali.html">Note legali e privacy</a></p>
+            <p class="mt-2"><a class="feedback-link" href="notelegali.html#segnalazioni">Hai riscontrato qualche problema o hai suggerimenti?</a></p>
+        </div>
+    </footer>
+ 
+</body>
+</html>

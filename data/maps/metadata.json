@@ -1,0 +1,46 @@
+{
+  "name": "PescaLife — carta delle acque interne",
+  "created": "2026-11-08",
+  "crs": "EPSG:4326",
+  "viewBounds": [
+    10.462678,
+    42.958743,
+    11.199693,
+    43.497429
+  ],
+  "sources": {
+    "hydrography": {
+      "publisher": "Regione Toscana",
+      "dataset": "CTR 1:10.000",
+      "edition": "2010",
+      "licenseStatus": "Da chiarire: CC BY 3.0 Italia nella pagina di download; CC BY 4.0 nei PDF inclusi"
+    },
+    "waterBodies": {
+      "publisher": "Regione Toscana",
+      "dataset": "CTR 1:10.000",
+      "edition": "2010",
+      "licenseStatus": "Da chiarire: CC BY 3.0 Italia nella pagina di download; CC BY 4.0 nei PDF inclusi"
+    },
+    "roads": {
+      "publisher": "Regione Toscana",
+      "dataset": "CTR 1:10.000",
+      "edition": "2010",
+      "licenseStatus": "Da chiarire: CC BY 3.0 Italia nella pagina di download; CC BY 4.0 nei PDF inclusi"
+    },
+    "placeLabels": {
+      "publisher": "Regione Toscana",
+      "dataset": "CTR 1:10.000",
+      "edition": "2010",
+      "licenseStatus": "Da chiarire: CC BY 3.0 Italia nella pagina di download; CC BY 4.0 nei PDF inclusi"
+    },
+    "communes": {
+      "publisher": "ISTAT",
+      "dataset": "Confini comunali generalizzati al 1° gennaio 2026",
+      "licenseStatus": "Condizioni specifiche del pacchetto da confermare"
+    }
+  },
+  "notIncluded": [
+    "Reticolo idrografico vigente approvato con D.C.R. 24/2025: trasformazione EPSG:3003 non validata per la mappa web",
+    "Accessi, parcheggi, postazioni di pesca, zone di frega e aree regolamentate"
+  ]
+}
