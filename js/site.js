@@ -69,6 +69,20 @@ const byId = id => document.getElementById(id);
             });
         }
 
+        function setupEventsNavigation() {
+            const links = document.querySelector(".site-menu-links");
+            const home = links.querySelector('a[href="index.html"]');
+            if (!home) return;
+            const url = new URL("eventi.html", home.href).href;
+            if ([...links.querySelectorAll("a")].some(link => link.href === url)) return;
+            const item = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = url;
+            link.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01"></path></svg><span>Eventi</span>';
+            item.append(link);
+            links.append(item);
+        }
+
         function setupSiteMenu() {
             const menu = byId("site-menu");
             const toggle = byId("menu-toggle");
@@ -208,6 +222,7 @@ const byId = id => document.getElementById(id);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
+            setupEventsNavigation();
             setupSiteMenu();
             setupEntryDialog();
             setupActiveNavigation();
