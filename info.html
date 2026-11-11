@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Una prima esplorazione dell'identità e delle tecnologie che danno vita a PescaLife.">
+    <meta name="robots" content="index,follow">
+    <title>Info tecniche — PescaLife</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon-pescalife/favicon.svg">
+    <link rel="icon" href="assets/favicon-pescalife/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-pescalife/favicon-96x96.png">
+    <link rel="apple-touch-icon" href="assets/favicon-pescalife/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="css/style.css?v=scrollbar-3">
+    <link rel="stylesheet" href="css/info.css?v=5">
+    <script src="js/site.js?v=feedback-3" defer></script>
+    <script src="js/info.js?v=1" defer></script>
+</head>
+<body>
+    <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
+        <div class="entry-dialog-panel">
+            <h2 id="entry-title">Prima di entrare</h2>
+            <p id="entry-description">PescaLife è un sito amatoriale, informativo, non ufficiale e senza scopo di lucro. Le informazioni possono essere incomplete o non aggiornate. Verifica sempre le regole sulle fonti ufficiali prima di pescare.</p>
+            <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
+            <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
+        </div>
+    </div>
+
+    <header>
+        <div class="content">
+            <a class="logo-group info-header-brand" href="index.html" aria-label="PescaLife, torna alla home">
+                <img class="site-logo" src="assets/favicon-pescalife/favicon-96x96.png" width="44" height="44" alt="">
+                <span>
+                    <span class="info-header-title">PescaLife — Val di Cecina</span>
+                    <span class="info-header-subtitle">La tua guida alla pesca sportiva in Toscana</span>
+                </span>
+            </a>
+            <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false" aria-controls="site-menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="site-menu" id="site-menu" role="dialog" aria-modal="true" aria-labelledby="site-menu-title" aria-hidden="true" inert>
+        <div class="site-menu-backdrop" aria-hidden="true"></div>
+        <div class="site-menu-panel">
+            <div class="site-menu-heading">
+                <div><p>Navigazione</p><h2 id="site-menu-title">PescaLife</h2></div>
+                <button type="button" class="menu-close" id="menu-close" aria-label="Chiudi il menu">&times;</button>
+            </div>
+            <nav aria-label="Sezioni del sito">
+                <ul class="site-menu-links">
+                    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7"></path><path d="M5 9v11h14V9M9 20v-6h6v6"></path></svg><span>Home</span></a></li>
+                    <li><a href="luoghi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg><span>Luoghi di pesca</span></a></li>
+                    <li><a href="specie.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12s3.2-5 9-5c3.3 0 5.6 2 7 5-1.4 3-3.7 5-7 5-5.8 0-9-5-9-5Z"></path><path d="m19 12 3-3v6l-3-3Z"></path><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"></circle></svg><span>Guida alle specie</span></a></li>
+                    <li><a href="tecniche.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 5h10"></path><path d="m13 5 5 5"></path><path d="M18 10v4a3 3 0 0 1-6 0v-1"></path><path d="M3 5v4"></path><path d="M3 9c0 2 1.5 3 3 3s3-1 3-3"></path></svg><span>Tecniche di pesca</span></a></li>
+                    <li><a href="meteo.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path><path d="M8 21h.01M12 21h.01M16 21h.01"></path></svg><span>Condizioni ambientali</span></a></li>
+                    <li><a href="normativa.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Regole e normativa</span></a></li>
+                    <li><a href="diario.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h14v17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M7 8h10M7 12h10M7 16h6"></path><path d="M7 4v17"></path></svg><span>Diario di pesca</span></a></li>
+                </ul>
+            </nav>
+            <p class="site-menu-note">La tua guida alla pesca sportiva in Toscana</p>
+        </div>
+    </div>
+
+    <main class="info-page">
+        <section class="info-hero" aria-labelledby="info-title">
+            <div class="info-hero-copy">
+                <h1 id="info-title">La corrente<br>incontra il <span>codice.</span></h1>
+                <p class="info-intro">Un piccolo sguardo dietro le quinte di PescaLife: come prendono forma le pagine, i dati e gli strumenti di questa guida.</p>
+                <a class="info-scroll-link" href="#strumenti">Esplora il progetto <span aria-hidden="true">↓</span></a>
+            </div>
+
+            <div class="info-emblem-panel">
+                <svg class="info-emblem" id="info-emblem" viewBox="0 0 320 320" role="img" aria-labelledby="emblem-title emblem-description">
+                    <title id="emblem-title">Marchio PescaLife: una corrente che disegna un pesce</title>
+                    <desc id="emblem-description">Linee d'acqua concentriche attraversano un pesce stilizzato, racchiuso in una bussola.</desc>
+                    <defs>
+                        <linearGradient id="emblem-water" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#7ad7df"></stop>
+                            <stop offset="1" stop-color="#3aafc6"></stop>
+                        </linearGradient>
+                        <clipPath id="emblem-disc"><circle cx="160" cy="160" r="118"></circle></clipPath>
+                    </defs>
+                    <circle class="emblem-orbit" cx="160" cy="160" r="138"></circle>
+                    <circle class="emblem-ring" cx="160" cy="160" r="118"></circle>
+                    <path class="emblem-tick" d="M160 12v18M160 290v18M12 160h18M290 160h18"></path>
+                    <g clip-path="url(#emblem-disc)">
+                        <path class="emblem-current emblem-current-back" d="M20 124c42 0 44-24 83-24 32 0 38 24 64 24 38 0 43-25 79-25 28 0 43 14 57 14"></path>
+                        <path class="emblem-current" d="M17 205c49 0 55-32 99-32 34 0 41 23 72 23 41 0 49-33 91-33 25 0 37 10 52 10"></path>
+                        <path class="emblem-current emblem-current-fine" d="M25 226c34 0 43-12 67-12"></path>
+                        <g class="emblem-fish">
+                            <path class="emblem-fish-body" d="M90 154c24-30 65-42 105-31 19 5 34 16 47 31-13 15-28 26-47 31-40 11-81-1-105-31Z"></path>
+                            <path class="emblem-fish-tail" d="m90 154-30-24v48l30-24Z"></path>
+                            <path class="emblem-fish-fin" d="m148 127 15-21 17 26M148 181l15 21 17-26"></path>
+                            <circle class="emblem-fish-eye" cx="216" cy="149" r="3.5"></circle>
+                            <path class="emblem-fish-gill" d="M199 137c-9 10-9 24 0 34"></path>
+                        </g>
+                        <circle class="emblem-current-point" cx="68" cy="100" r="4"></circle>
+                        <circle class="emblem-current-point emblem-current-point-late" cx="254" cy="224" r="3"></circle>
+                    </g>
+                    <path class="emblem-north" d="m160 25 5 12-5-3-5 3 5-12Z"></path>
+                </svg>
+                <button class="info-current-toggle" id="info-current-toggle" type="button" aria-pressed="false" aria-controls="info-emblem info-current-status">
+                    <span class="info-toggle-icon" aria-hidden="true">↗</span>
+                    <span>Segui la corrente</span>
+                </button>
+                <p class="info-current-status" id="info-current-status" aria-live="polite">La corrente è in attesa.</p>
+            </div>
+
+        </section>
+
+        <section class="info-section" id="strumenti" aria-labelledby="tools-title">
+            <div class="info-section-heading">
+                <h2 id="tools-title">Poche cose, fatte con cura.</h2>
+                <p>La base del progetto è volutamente leggera: ogni tecnologia ha il suo compito, senza allontanarsi dal contenuto.</p>
+            </div>
+            <div class="info-tools-grid">
+                <article class="info-tool-card info-tool-html">
+                    <div class="info-tool-mark" aria-hidden="true"><span class="info-tool-logo"></span></div>
+                    <h3>HTML</h3>
+                    <p>È la struttura delle pagine: organizza titoli, testi, immagini, collegamenti e moduli. Fornisce una base ordinata e accessibile ai contenuti e agli strumenti di PescaLife.</p>
+                </article>
+                <article class="info-tool-card info-tool-css">
+                    <div class="info-tool-mark" aria-hidden="true"><span class="info-tool-logo"></span></div>
+                    <h3>CSS</h3>
+                    <p>Dà al sito il suo aspetto: definisce colori, caratteri, spazi e animazioni. Adatta l’impaginazione agli schermi di telefoni, tablet e computer.</p>
+                </article>
+                <article class="info-tool-card info-tool-js">
+                    <div class="info-tool-mark" aria-hidden="true"><span class="info-tool-logo"></span></div>
+                    <h3>JavaScript</h3>
+                    <p>Rende le pagine interattive: gestisce menu e pulsanti, aggiorna i contenuti e dà vita a strumenti come il diario di pesca e le mappe.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="info-map-section" aria-labelledby="map-info-title">
+            <div class="info-map-heading">
+                <h2 id="map-info-title">Come nasce la mappa.</h2>
+                <p>La mappa delle acque interne unisce una base cartografica a informazioni sul territorio, trasformandole in uno strumento da esplorare.</p>
+            </div>
+            <div class="info-map-grid">
+                <article class="info-map-detail">
+                    <h3>La mappa prende forma</h3>
+                    <p><a href="https://maplibre.org/">MapLibre GL JS</a> disegna la mappa interattiva nel browser. Le basi cartografiche arrivano da <a href="https://openfreemap.org/">OpenFreeMap</a>, con gli stili Liberty, Bright e Positron, e da <a href="https://opentopomap.org/">OpenTopoMap</a> per la vista dei rilievi.</p>
+                </article>
+                <article class="info-map-detail">
+                    <h3>I dati del territorio</h3>
+                    <p>Ai fondi mappa si sovrappongono livelli GeoJSON conservati nel sito: corsi e specchi d’acqua, viabilità e toponimi dalla Cartografia Tecnica della <a href="https://www.regione.toscana.it/cartografia-tecnica-regionale">Regione Toscana</a>, oltre ai confini comunali <a href="https://www.istat.it/it/archivio/222527">ISTAT</a>. Sono dati cartografici di riferimento e possono non rispecchiare la situazione attuale.</p>
+                </article>
+                <article class="info-map-detail">
+                    <h3>Esplorare e cercare</h3>
+                    <p>Puoi scegliere lo stile, mostrare o nascondere i livelli e cercare comuni e toponimi nei dati locali, senza inviare il testo cercato a un servizio esterno. La posizione viene richiesta dal browser solo se scegli di usarla e concedi il permesso.</p>
+                </article>
+            </div>
+            <p class="info-map-note">La mappa è orientativa: la presenza di un corso o specchio d’acqua non conferma accessibilità, pescabilità o regole locali. Le basi cartografiche vengono caricate da servizi esterni; maggiori dettagli sono nelle <a href="notelegali.html">note legali e privacy</a>.</p>
+            <a class="info-map-link" href="mappa-nuova.html">Esplora la mappa <span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="info-map-section" aria-labelledby="weather-info-title">
+            <div class="info-map-heading">
+                <h2 id="weather-info-title">Da dove arrivano i dati meteo.</h2>
+                <p>La pagina delle condizioni ambientali utilizza le API di Open-Meteo per presentare previsioni relative alle località disponibili.</p>
+            </div>
+            <div class="info-map-grid">
+                <article class="info-map-detail">
+                    <h3>Previsioni meteo</h3>
+                    <p>JavaScript richiede a Open-Meteo dati attuali, orari e giornalieri, tra cui temperatura, precipitazioni e vento, insieme agli orari di alba e tramonto. Le coordinate di alcune località derivano da GeoNames tramite la Geocoding API di Open-Meteo e sono indicative.</p>
+                </article>
+                <article class="info-map-detail">
+                    <h3>Condizioni marine</h3>
+                    <p>Il servizio è predisposto per richiedere alla Marine API informazioni su onde, mareggiata e temperatura della superficie del mare. Questi dati non sono ancora attivi: servono punti offshore approvati.</p>
+                </article>
+                <article class="info-map-detail">
+                    <h3>Crediti</h3>
+                    <p><a href="https://open-meteo.com/"><strong>Weather data by Open-Meteo.com</strong></a></p>
+                    <p>Le previsioni meteo e marine provengono dai modelli forniti tramite le API di Open-Meteo.</p>
+                </article>
+            </div>
+            <p class="info-map-note">I valori sono previsioni modellistiche, non misurazioni locali: il punto del modello può differire dalla località scelta. Le condizioni marine non sono indicazioni per la navigazione.</p>
+            <a class="info-map-link" href="meteo.html">Vai alle condizioni ambientali <span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="info-field-notes" aria-labelledby="notes-title">
+            <div class="info-notes-copy">
+                <h2 id="notes-title">Una guida in costruzione.</h2>
+                <p>PescaLife raccoglie informazioni sulla pesca e sul territorio della Val di Cecina. Questa pagina è il primo spazio dedicato agli aspetti tecnici: verrà ampliata con dettagli sull’organizzazione, le funzionalità e gli aggiornamenti del sito.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Dati a scopo informativo.</p>
+            <p class="mt-2"><a href="notelegali.html">Note legali e privacy</a></p>
+            <p class="mt-2"><a href="info.html">Info tecniche</a></p>
+            <p class="mt-2"><a class="feedback-link" href="notelegali.html#segnalazioni">Hai riscontrato qualche problema o hai suggerimenti?</a></p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -12,10 +12,12 @@
     <link rel="apple-touch-icon" href="assets/favicon-pescalife/apple-touch-icon.png">
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="css/style.css?v=feedback-1">
+    <link rel="stylesheet" href="css/style.css?v=scrollbar-3">
+    <link rel="stylesheet" href="css/diary-controls.css?v=3">
         <script src="js/site.js?v=feedback-3" defer></script>
     <script src="js/data.js" defer></script>
-    <script src="js/diario.js" defer></script>
+    <script src="js/diary-controls.js?v=1" defer></script>
+    <script src="js/diario.js?v=controls-1" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
@@ -73,10 +75,38 @@
             <form id="diary-form" class="rounded-xl shadow-lg">
                 <input type="hidden" id="entry-id">
                 <label for="diary-date">Data uscita:</label>
-                <input type="date" id="diary-date" required>
+                <div class="diary-control">
+                    <input type="date" id="diary-date" required>
+                    <div class="diary-date-control" id="diary-date-control" hidden>
+                        <input type="text" id="diary-date-text" inputmode="numeric" placeholder="gg/mm/aaaa" maxlength="10" aria-label="Data uscita, giorno mese e anno" aria-describedby="diary-date-hint">
+                        <button type="button" class="diary-picker-toggle" id="diary-calendar-toggle" aria-label="Apri calendario" aria-expanded="false" aria-controls="diary-calendar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <rect x="3.5" y="5" width="17" height="15.5" rx="2.5"></rect>
+                                <path d="M7.5 3.5v3M16.5 3.5v3M3.5 9.5h17M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01" stroke-width="2.4"></path>
+                            </svg>
+                        </button>
+                        <div class="diary-calendar diary-popup" id="diary-calendar" hidden>
+                            <div class="diary-calendar-heading">
+                                <button type="button" id="diary-calendar-prev" aria-label="Mese precedente">‹</button>
+                                <strong id="diary-calendar-month" aria-live="polite"></strong>
+                                <button type="button" id="diary-calendar-next" aria-label="Mese successivo">›</button>
+                            </div>
+                            <div class="diary-calendar-weekdays" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>G</span><span>V</span><span>S</span><span>D</span></div>
+                            <div class="diary-calendar-days" id="diary-calendar-days" aria-label="Giorni del mese"></div>
+                        </div>
+                    </div>
+                    <span class="diary-control-hint" id="diary-date-hint" hidden>Scrivi la data nel formato gg/mm/aaaa oppure usa il calendario.</span>
+                </div>
 
-                <label for="diary-spot">Spot:</label>
-                <select id="diary-spot" required></select>
+                <label for="diary-spot" id="diary-spot-heading">Spot:</label>
+                <div class="diary-control">
+                    <select id="diary-spot" required></select>
+                    <div id="diary-spot-control" hidden>
+                        <button type="button" class="diary-spot-toggle" id="diary-spot-toggle" aria-labelledby="diary-spot-heading diary-spot-label" aria-describedby="diary-spot-error" aria-expanded="false" aria-controls="diary-spot-options"><span id="diary-spot-label"></span><span aria-hidden="true">⌄</span></button>
+                        <div class="diary-spot-options diary-popup" id="diary-spot-options" hidden></div>
+                        <span class="diary-control-error" id="diary-spot-error" role="alert" hidden>Seleziona uno spot.</span>
+                    </div>
+                </div>
 
                 <label for="diary-species">Specie catturata:</label>
                 <input type="text" id="diary-species" placeholder="Es. Spigola" maxlength="80" required>
@@ -97,6 +127,10 @@
 
                 <label for="diary-photo">Foto (caricata dal dispositivo):</label>
                 <input type="file" id="diary-photo" accept="image/*">
+                <div class="diary-file-control" id="diary-file-control" hidden>
+                    <button type="button" class="diary-file-button" id="diary-file-button">Scegli una foto</button>
+                    <span id="diary-file-name" aria-live="polite">Nessuna foto selezionata</span>
+                </div>
                 <img id="diary-photo-preview-form" class="diary-photo-preview" alt="Anteprima foto della cattura" hidden>
                 <button type="button" class="btn btn-secondary mt-2" id="remove-photo-btn" hidden>Rimuovi foto</button>
 
@@ -119,6 +153,7 @@
         <div class="container">
             <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Dati a scopo informativo.</p>
             <p class="mt-2"><a href="notelegali.html">Note legali e privacy</a></p>
+            <p class="mt-2"><a href="info.html">Info tecniche</a></p>
             <p class="mt-2"><a class="feedback-link" href="notelegali.html#segnalazioni">Hai riscontrato qualche problema o hai suggerimenti?</a></p>
         </div>
     </footer>

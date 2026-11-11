@@ -150,6 +150,7 @@
             photoRemovedDuringEdit = false;
             const spots = visibleSpots();
             if (spots.length) byId("diary-spot").selectedIndex = 0;
+            syncDiaryControls();
         }
 
         function editDiaryEntry(id) {
@@ -172,6 +173,7 @@
                 byId("remove-photo-btn").hidden = true;
             }
             byId("save-diary-btn").textContent = "Aggiorna Uscita";
+            syncDiaryControls();
             byId("diary-form").scrollIntoView({ behavior: "smooth" });
         }
 
@@ -483,6 +485,7 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             renderDiarySpots();
+            setupDiaryControls();
             loadDiary();
             renderDiaryList();
             byId("diary-form").addEventListener("submit", handleDiarySubmit);
@@ -497,6 +500,7 @@
             byId("remove-photo-btn").addEventListener("click", () => {
                 photoRemovedDuringEdit = true;
                 byId("diary-photo").value = "";
+                byId("diary-photo").dispatchEvent(new Event("change", { bubbles: true }));
                 byId("diary-photo-preview-form").hidden = true;
                 byId("diary-photo-preview-form").removeAttribute("src");
                 byId("remove-photo-btn").hidden = true;
