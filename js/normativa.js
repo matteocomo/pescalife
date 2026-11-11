@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("norm-search-form");
     const input = document.getElementById("norm-query");
     const results = document.getElementById("norm-search-results");
+    const searchDisclosure = document.querySelector(".norm-search-disclosure");
     const records = [...document.querySelectorAll("[data-search]")];
     const stopWords = new Set([
         "a", "al", "alla", "allo", "all", "che", "chi", "come", "con", "cosa", "da", "dal",
@@ -113,6 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", event => {
         event.preventDefault();
         search(input.value);
+    });
+    searchDisclosure.addEventListener("toggle", () => {
+        if (searchDisclosure.open) input.focus({ preventScroll: true });
+    });
+    results.addEventListener("click", event => {
+        if (event.target.closest('a[href^="#"]')) searchDisclosure.open = false;
     });
     document.querySelectorAll(".norm-suggestions button").forEach(button => {
         button.addEventListener("click", () => {

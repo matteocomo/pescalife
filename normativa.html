@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="assets/favicon-pescalife/apple-touch-icon.png">
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="css/style.css?v=scrollbar-3">
+    <link rel="stylesheet" href="css/style.css?v=scrollbar-4">
         <script src="js/site.js?v=feedback-3" defer></script>
     <script src="js/normativa.js" defer></script>
 </head>
@@ -67,37 +67,45 @@
 
     <main class="normativa">
         <section class="norm-intro" aria-labelledby="norm-title">
-            <h2 class="page-heading" id="norm-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Normativa della pesca</span></h2>
+            <div class="norm-intro-heading">
+                <h2 class="page-heading" id="norm-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Normativa della pesca</span></h2>
+                <details class="norm-search-disclosure">
+                    <summary class="btn btn-primary" aria-label="Apri la ricerca nella normativa" aria-controls="norm-search-panel">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <circle cx="10.8" cy="10.8" r="6.3"></circle>
+                            <path d="m16 16 4.5 4.5"></path>
+                        </svg>
+                        <span>Cerca</span>
+                    </summary>
+                    <div class="norm-search" id="norm-search-panel">
+                        <h2 id="search-title">Cosa vuoi sapere prima di andare a pesca?</h2>
+                        <p>Cerca tra le informazioni disponibili nella guida.</p>
+                        <form id="norm-search-form" role="search">
+                            <label for="norm-query">Cerca una regola, una specie o un luogo</label>
+                            <div class="norm-search-controls">
+                                <input id="norm-query" type="search" placeholder="Per esempio: trota, licenza, Cecina" autocomplete="off">
+                                <button class="btn btn-primary" type="submit">Cerca</button>
+                            </div>
+                        </form>
+                        <p class="norm-suggestions-label">Ricerche consigliate</p>
+                        <div class="norm-suggestions" aria-label="Ricerche consigliate">
+                            <button type="button" data-query="Quanto costa la licenza di pesca in Toscana?">Costo della licenza</button>
+                            <button type="button" data-query="Qual è la misura minima della trota?">Misura della trota</button>
+                            <button type="button" data-query="Quando è vietata la pesca alla trota?">Chiusura della trota</button>
+                            <button type="button" data-query="Quante canne posso utilizzare?">Numero di canne</button>
+                            <button type="button" data-query="Posso pescare l'anguilla nel 2026?">Anguilla nel 2026</button>
+                            <button type="button" data-query="Quali sono i divieti nel fiume Cecina?">Divieti nel Cecina</button>
+                            <button type="button" data-query="Serve un'autorizzazione per pescare in mare?">Autorizzazione in mare</button>
+                            <button type="button" data-query="Quali sono le misure minime per la pesca dalla costa?">Taglie in mare</button>
+                        </div>
+                        <noscript><style>#norm-search-form, .norm-suggestions-label, .norm-suggestions { display: none; }</style><p class="norm-noscript">La ricerca richiede JavaScript. Puoi comunque consultare tutte le sezioni della guida qui sotto.</p></noscript>
+                        <div id="norm-search-results" class="norm-results" aria-live="polite" aria-atomic="true"></div>
+                    </div>
+                </details>
+            </div>
             <p>Una guida alle principali regole per le acque interne toscane e la pesca in mare, con attenzione alla Val di Cecina.</p>
             <p class="norm-updated">Dossier aggiornato all’8 novembre 2026; alcune fonti sono state consultate per questa pagina. <a href="#fonti">Fonti e limiti della verifica</a>.</p>
             <p class="rules-block">Questa guida non sostituisce le norme: prima di pescare verifica sempre gli atti vigenti, le ordinanze locali e le regole del tratto.</p>
-        </section>
-
-        <section class="norm-search-section" aria-labelledby="search-title">
-            <div class="norm-search">
-                <h2 id="search-title">Cosa vuoi sapere prima di andare a pesca?</h2>
-                <p>Cerca tra le informazioni disponibili nella guida.</p>
-                <form id="norm-search-form" role="search">
-                    <label for="norm-query">Cerca una regola, una specie o un luogo</label>
-                    <div class="norm-search-controls">
-                        <input id="norm-query" type="search" placeholder="Per esempio: trota, licenza, Cecina" autocomplete="off">
-                        <button class="btn btn-primary" type="submit">Cerca</button>
-                    </div>
-                </form>
-                <p class="norm-suggestions-label">Ricerche consigliate</p>
-                <div class="norm-suggestions" aria-label="Ricerche consigliate">
-                    <button type="button" data-query="Quanto costa la licenza di pesca in Toscana?">Costo della licenza</button>
-                    <button type="button" data-query="Qual è la misura minima della trota?">Misura della trota</button>
-                    <button type="button" data-query="Quando è vietata la pesca alla trota?">Chiusura della trota</button>
-                    <button type="button" data-query="Quante canne posso utilizzare?">Numero di canne</button>
-                    <button type="button" data-query="Posso pescare l'anguilla nel 2026?">Anguilla nel 2026</button>
-                    <button type="button" data-query="Quali sono i divieti nel fiume Cecina?">Divieti nel Cecina</button>
-                    <button type="button" data-query="Serve un'autorizzazione per pescare in mare?">Autorizzazione in mare</button>
-                    <button type="button" data-query="Quali sono le misure minime per la pesca dalla costa?">Taglie in mare</button>
-                </div>
-                <noscript><style>#norm-search-form, .norm-suggestions-label, .norm-suggestions { display: none; }</style><p class="norm-noscript">La ricerca richiede JavaScript. Puoi comunque consultare tutte le sezioni della guida qui sotto.</p></noscript>
-                <div id="norm-search-results" class="norm-results" aria-live="polite" aria-atomic="true"></div>
-            </div>
         </section>
 
         <nav class="norm-index container" aria-label="Indice della normativa">
@@ -296,12 +304,41 @@
             </ul>
         </section>
     </main>
-    <footer>
+    <footer class="site-footer">
         <div class="container">
-            <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Dati a scopo informativo.</p>
-            <p class="mt-2"><a href="notelegali.html">Note legali e privacy</a></p>
-            <p class="mt-2"><a href="info.html">Info tecniche</a></p>
-            <p class="mt-2"><a class="feedback-link" href="notelegali.html#segnalazioni">Hai riscontrato qualche problema o hai suggerimenti?</a></p>
+            <div class="site-footer-grid">
+                <div class="site-footer-brand">
+                    <a class="site-footer-brand-name" href="index.html">PescaLife</a>
+                    <p>Una guida amatoriale alla pesca e ai luoghi della Val di Cecina.</p>
+                </div>
+                <nav class="site-footer-links" aria-label="Esplora PescaLife">
+                    <h2>Esplora</h2>
+                    <ul>
+                        <li><a href="luoghi.html">Luoghi di pesca</a></li>
+                        <li><a href="mappa.html">Mappa delle acque</a></li>
+                        <li><a href="meteo.html">Condizioni ambientali</a></li>
+                        <li><a href="eventi.html">Eventi</a></li>
+                        <li><a href="diario.html">Diario di pesca</a></li>
+                    </ul>
+                </nav>
+                <nav class="site-footer-links" aria-label="Guide e informazioni">
+                    <h2>Guide e informazioni</h2>
+                    <ul>
+                        <li><a href="specie.html">Guida alle specie</a></li>
+                        <li><a href="tecniche.html">Tecniche di pesca</a></li>
+                        <li><a href="normativa.html">Regole e normativa</a></li>
+                        <li><a href="info.html">Info tecniche</a></li>
+                        <li><a href="notelegali.html">Note legali e privacy</a></li>
+                    </ul>
+                </nav>
+                <div class="site-footer-feedback">
+                    <p>Hai trovato un errore o vuoi suggerire qualcosa?</p>
+                    <a class="feedback-link" href="notelegali.html#segnalazioni">Scrivici</a>
+                </div>
+            </div>
+            <div class="site-footer-bottom">
+                <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Le informazioni sono a scopo informativo: verifica sempre le fonti ufficiali.</p>
+            </div>
         </div>
     </footer>
  

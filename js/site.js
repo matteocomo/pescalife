@@ -34,6 +34,7 @@ const byId = id => document.getElementById(id);
 
         function setupEntryDialog() {
             const dialog = byId("entry-dialog");
+            if (!dialog) return;
             let accepted = false;
             try { accepted = sessionStorage.getItem(SESSION_NOTICE_KEY) === "true"; }
             catch (error) { console.warn("sessionStorage non disponibile; il banner verrà mostrato."); }
@@ -81,6 +82,50 @@ const byId = id => document.getElementById(id);
             link.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01"></path></svg><span>Eventi</span>';
             item.append(link);
             links.append(item);
+        }
+
+        function setupEquipmentNavigation() {
+            const links = document.querySelector(".site-menu-links");
+            const home = links?.querySelector('a[href="index.html"]');
+            if (!links || !home) return;
+            const baseUrl = document.querySelector("base")?.href || home.href;
+            const url = new URL("attrezzatura.html", baseUrl).href;
+            if ([...links.querySelectorAll("a")].some(link => link.href === url)) return;
+            const item = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = url;
+            link.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4 21 20M5 6l5-3 3 3-3 5M14 13l-3 3 3 3 5-3"></path><path d="M8 16 4 20"></path></svg><span>Attrezzatura</span>';
+            item.append(link);
+            links.append(item);
+        }
+
+        function setupCreateFooterNavigation() {
+            const explore = document.querySelector('.site-footer-links[aria-label="Esplora PescaLife"]');
+            if (!explore || document.querySelector('.site-footer-links[aria-label="Crea"]')) return;
+            const diaryLink = [...explore.querySelectorAll("a")].find(link =>
+                new URL(link.href, location.href).pathname.endsWith("/diario.html")
+            );
+            if (!diaryLink) return;
+            const home = document.querySelector(".site-footer-brand-name");
+            const baseUrl = document.querySelector("base")?.href || home?.href || location.href;
+            const createNav = document.createElement("nav");
+            createNav.className = "site-footer-links";
+            createNav.setAttribute("aria-label", "Crea");
+            const heading = document.createElement("h2");
+            heading.textContent = "Crea";
+            const list = document.createElement("ul");
+            const diaryItem = diaryLink.closest("li");
+            diaryLink.href = new URL("diario.html", baseUrl).href;
+            diaryItem.remove();
+            list.append(diaryItem);
+            const equipmentItem = document.createElement("li");
+            const equipmentLink = document.createElement("a");
+            equipmentLink.href = new URL("attrezzatura.html", baseUrl).href;
+            equipmentLink.textContent = "Attrezzatura";
+            equipmentItem.append(equipmentLink);
+            list.append(equipmentItem);
+            createNav.append(heading, list);
+            explore.after(createNav);
         }
 
         function setupSiteMenu() {
@@ -223,6 +268,8 @@ const byId = id => document.getElementById(id);
 
         document.addEventListener("DOMContentLoaded", () => {
             setupEventsNavigation();
+            setupEquipmentNavigation();
+            setupCreateFooterNavigation();
             setupSiteMenu();
             setupEntryDialog();
             setupActiveNavigation();

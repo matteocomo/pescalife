@@ -1,6 +1,6 @@
 # Dati cartografici PescaLife
 
-Questi file alimentano la mappa delle acque interne in `mappa-nuova.html`, raggiungibile da `luoghi.html`. Sono dati cartografici di riferimento, non un inventario di luoghi pescabili, accessi, parcheggi o postazioni.
+Questi file alimentano la mappa delle acque interne in `mappa.html`, raggiungibile da `luoghi.html`. Sono dati cartografici di riferimento, non un inventario di luoghi pescabili, accessi, parcheggi o postazioni.
 
 ## Layer
 
@@ -22,7 +22,7 @@ I conteggi, le dimensioni, la data di acquisizione e gli hash SHA-256 dei file d
 - ISTAT, [Confini delle unità amministrative](https://www.istat.it/it/archivio/222527), limiti al 1° gennaio 2026. Il pacchetto generalizzato acquisito non include una licenza specifica; verificare le condizioni di riuso ISTAT prima della pubblicazione.
 - MapLibre GL JS 6.17.0 è caricato come modulo dalla CDN di unpkg. I glifi tipografici delle etichette sono richiesti a [OpenFreeMap](https://openfreemap.org/). I dati tematici sono locali; le mappe di base sono caricate dai servizi esterni indicati sotto.
 
-### Mappa `mappa-nuova.html`
+### Mappa `mappa.html`
 
 La mappa offre tre stili vettoriali di [OpenFreeMap](https://openfreemap.org/quick_start/) (Liberty, Bright e Positron) e una mappa topografica di [OpenTopoMap](https://www.opentopomap.org/about#verwendung). Le attribuzioni fornite dai servizi sono mostrate sulla mappa. Per la pubblicazione, rispettare le condizioni d'uso e i limiti dei rispettivi servizi e verificare la compatibilità della licenza CC BY-SA di OpenTopoMap con il prodotto finale. La modalità satellitare non è inclusa finché non viene individuato un servizio e una licenza adatti.
 

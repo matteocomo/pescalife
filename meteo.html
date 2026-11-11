@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="assets/favicon-pescalife/apple-touch-icon.png">
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="css/style.css?v=scrollbar-3">
+    <link rel="stylesheet" href="css/style.css?v=scrollbar-4">
     <link rel="stylesheet" href="css/environment.css?v=6">
     <script src="js/site.js?v=feedback-3" defer></script>
 </head>
@@ -81,8 +81,14 @@
             <div class="environment-content">
                 <section class="environment-location-bar" aria-label="Selezione della località">
                     <div class="environment-location-control">
-                        <label for="environment-location">Località</label>
+                        <label id="environment-location-label" for="environment-location">Località</label>
                         <select id="environment-location" name="location"></select>
+                        <div id="environment-location-select-control" class="environment-location-select-control" hidden>
+                            <button type="button" class="environment-location-toggle" id="environment-location-toggle" aria-labelledby="environment-location-label environment-location-value" aria-expanded="false" aria-controls="environment-location-options">
+                                <span id="environment-location-value"></span><span aria-hidden="true">⌄</span>
+                            </button>
+                            <div class="environment-location-options" id="environment-location-options" hidden></div>
+                        </div>
                     </div>
                     <p id="environment-location-status" class="environment-status is-unavailable" role="status" aria-live="polite">Dati meteo non disponibili per questa località: punto geografico da verificare</p>
                 </section>
@@ -231,12 +237,41 @@
             </div>
         </section>
     </main>
-    <footer>
+    <footer class="site-footer">
         <div class="container">
-            <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Dati a scopo informativo.</p>
-            <p class="mt-2"><a href="notelegali.html">Note legali e privacy</a></p>
-            <p class="mt-2"><a href="info.html">Info tecniche</a></p>
-            <p class="mt-2"><a class="feedback-link" href="notelegali.html#segnalazioni">Hai riscontrato qualche problema o hai suggerimenti?</a></p>
+            <div class="site-footer-grid">
+                <div class="site-footer-brand">
+                    <a class="site-footer-brand-name" href="index.html">PescaLife</a>
+                    <p>Una guida amatoriale alla pesca e ai luoghi della Val di Cecina.</p>
+                </div>
+                <nav class="site-footer-links" aria-label="Esplora PescaLife">
+                    <h2>Esplora</h2>
+                    <ul>
+                        <li><a href="luoghi.html">Luoghi di pesca</a></li>
+                        <li><a href="mappa.html">Mappa delle acque</a></li>
+                        <li><a href="meteo.html">Condizioni ambientali</a></li>
+                        <li><a href="eventi.html">Eventi</a></li>
+                        <li><a href="diario.html">Diario di pesca</a></li>
+                    </ul>
+                </nav>
+                <nav class="site-footer-links" aria-label="Guide e informazioni">
+                    <h2>Guide e informazioni</h2>
+                    <ul>
+                        <li><a href="specie.html">Guida alle specie</a></li>
+                        <li><a href="tecniche.html">Tecniche di pesca</a></li>
+                        <li><a href="normativa.html">Regole e normativa</a></li>
+                        <li><a href="info.html">Info tecniche</a></li>
+                        <li><a href="notelegali.html">Note legali e privacy</a></li>
+                    </ul>
+                </nav>
+                <div class="site-footer-feedback">
+                    <p>Hai trovato un errore o vuoi suggerire qualcosa?</p>
+                    <a class="feedback-link" href="notelegali.html#segnalazioni">Scrivici</a>
+                </div>
+            </div>
+            <div class="site-footer-bottom">
+                <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Le informazioni sono a scopo informativo: verifica sempre le fonti ufficiali.</p>
+            </div>
         </div>
     </footer>
     <script type="module">
@@ -246,6 +281,11 @@
         const byId = id => document.getElementById(id);
         const locationSelect = byId("environment-location");
         const locationStatus = byId("environment-location-status");
+        const locationLabel = byId("environment-location-label");
+        const locationSelectControl = byId("environment-location-select-control");
+        const locationToggle = byId("environment-location-toggle");
+        const locationValue = byId("environment-location-value");
+        const locationOptions = byId("environment-location-options");
         const weatherDescriptions = new Map([
             [0, "Sereno"], [1, "Prevalentemente sereno"], [2, "Parzialmente nuvoloso"], [3, "Coperto"],
             [45, "Nebbia"], [48, "Nebbia con brina"],
@@ -760,6 +800,32 @@
             });
         }
 
+        function closeLocationOptions(returnFocus = false) {
+            locationOptions.hidden = true;
+            locationToggle.setAttribute("aria-expanded", "false");
+            if (returnFocus) locationToggle.focus();
+        }
+
+        function syncLocationSelector() {
+            locationValue.textContent = locationSelect.selectedOptions[0]?.textContent || "Seleziona una località";
+        }
+
+        function renderLocationChoices() {
+            locationOptions.replaceChildren();
+            [...locationSelect.options].forEach(option => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.textContent = option.textContent;
+                if (option.selected) button.setAttribute("aria-current", "true");
+                button.addEventListener("click", () => {
+                    locationSelect.value = option.value;
+                    locationSelect.dispatchEvent(new Event("change", { bubbles: true }));
+                    closeLocationOptions(true);
+                });
+                locationOptions.append(button);
+            });
+        }
+
         const attributionLink = byId("environment-open-meteo-link");
         attributionLink.href = OPEN_METEO_ATTRIBUTION.url;
         attributionLink.querySelector("strong").textContent = OPEN_METEO_ATTRIBUTION.label;
@@ -805,8 +871,33 @@
         }
 
         renderLocationOptions();
+        locationSelect.classList.add("environment-native-control");
+        locationSelect.tabIndex = -1;
+        locationSelect.setAttribute("aria-hidden", "true");
+        locationLabel.htmlFor = locationToggle.id;
+        locationSelectControl.hidden = false;
+        syncLocationSelector();
         renderStations();
-        locationSelect.addEventListener("change", loadSelectedLocation);
+        locationSelect.addEventListener("change", () => {
+            syncLocationSelector();
+            loadSelectedLocation();
+        });
+        locationToggle.addEventListener("click", () => {
+            if (!locationOptions.hidden) return closeLocationOptions();
+            renderLocationChoices();
+            locationOptions.hidden = false;
+            locationToggle.setAttribute("aria-expanded", "true");
+            locationOptions.querySelector("button[aria-current='true']")?.focus();
+        });
+        document.addEventListener("click", event => {
+            if (!locationSelectControl.contains(event.target)) closeLocationOptions();
+        });
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape" && !locationOptions.hidden) {
+                event.preventDefault();
+                closeLocationOptions(true);
+            }
+        });
         loadSelectedLocation();
     </script>
 </body>

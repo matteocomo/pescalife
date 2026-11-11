@@ -1,0 +1,2355 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Configura canne ed esche artificiali con anteprima 3D personalizzata.">
+    <meta name="robots" content="noindex,follow">
+    <meta name="theme-color" content="#0a1a2f">
+    <title>Configura la tua canna — PescaLife</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon-pescalife/favicon.svg">
+    <link rel="stylesheet" href="css/style.css?v=scrollbar-4">
+    <script src="js/site.js?v=attrezzatura-1" defer></script>
+    <style>
+        .rod-page { min-height: 100vh; background: #f2f7f6; overflow-x: hidden; }
+        .rod-header { position: relative; padding: 0.85rem 1rem; }
+        .rod-header-inner { display: flex; width: min(1240px, 100%); align-items: center; justify-content: space-between; gap: 1rem; margin: auto; }
+        .rod-brand { display: inline-flex; align-items: center; gap: 0.7rem; color: #fff; font-weight: 750; text-decoration: none; }
+        .rod-brand img { width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; }
+        .rod-brand small { display: block; color: #b6d6df; font-size: 0.73rem; font-weight: 500; }
+        .rod-main { width: min(1440px, calc(100% - 2rem)); margin: 0 auto; padding: 1rem 0; }
+        .rod-intro { margin-bottom: 0.7rem; }
+        .rod-intro h1 { margin-bottom: 0.25rem; font-size: clamp(1.7rem, 3vw, 2.35rem); letter-spacing: -0.035em; }
+        .rod-intro p:last-child { max-width: 760px; margin: 0; color: #526777; font-size: 0.9rem; }
+        .rod-main-tabs { display: flex; gap: 0.45rem; margin: 0 0 0.75rem; }
+        .rod-main-tabs .rod-option { min-width: 92px; }
+        .rod-category-nav { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0 0 0.6rem; }
+        .rod-category-chip { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.65rem; color: #173247; font-size: 0.74rem; }
+        .rod-category-chip span { padding: 0.25rem 0.45rem; border-radius: 999px; background: #e8f7f8; }
+        .rod-category-panels { min-height: 0; }
+        .rod-category-panels > [role="tabpanel"] { min-width: 0; }
+        .rod-panel-heading, .rod-divider, .rod-choice-heading { display: none; }
+        .rod-configurator[hidden], .lure-configurator[hidden] { display: none !important; }
+        [hidden] { display: none !important; }
+        .rod-visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
+        .rod-configurator, .lure-configurator { display: grid; grid-template-columns: minmax(380px, 410px) minmax(0, 1fr); gap: 1rem; align-items: start; }
+        .rod-configurator > section { width: 100%; max-width: none; margin: 0; }
+        .lure-configurator > section { width: 100%; max-width: none; margin: 0; }
+        .rod-configurator > .rod-panel { padding: clamp(1rem, 2.2vw, 1.4rem); }
+        .rod-configurator > .rod-preview { padding: 0; }
+        .rod-panel, .rod-preview, .rod-specs { border: 1px solid #d5e0e2; border-radius: 1rem; background: #fff; box-shadow: 0 12px 34px rgba(10, 26, 47, 0.07); }
+        .rod-panel { max-height: calc(100vh - 7rem); max-height: calc(100dvh - 7rem); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #9ab0b5 transparent; padding: 1rem; }
+        .rod-panel-heading { margin: 0 0 0.85rem; color: #173247; font-size: 1rem; font-weight: 750; }
+        .rod-model-list { display: grid; gap: 0.55rem; }
+        .rod-model {
+            display: grid; width: 100%; gap: 0.15rem; padding: 0.8rem 0.9rem; border: 1px solid #d5e0e2; border-radius: 0.65rem;
+            color: #173247; background: #fbfdfd; font: inherit; text-align: left; cursor: pointer; transition: background 140ms ease, border-color 140ms ease;
+        }
+        .rod-model:hover { border-color: #7ebdca; background: #f4fbfb; }
+        .rod-model[aria-pressed="true"] { border-color: #087c91; background: #e8f7f8; box-shadow: inset 0 0 0 1px #087c91; }
+        .rod-model strong { font-size: 0.98rem; }
+        .rod-model span { color: #536a7c; font-size: 0.8rem; }
+        .rod-model-tag { color: #536a7c !important; font-size: 0.8rem !important; font-weight: 500; letter-spacing: normal; text-transform: none; }
+        .rod-divider { height: 1px; margin: 1.1rem 0; border: 0; background: #e4ebec; }
+        .rod-choice-group { margin: 0 0 1rem; padding: 0; border: 0; }
+        .rod-choice-group legend { margin-bottom: 0.55rem; color: #173247; font-size: 0.87rem; font-weight: 700; }
+        .rod-options { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+        .rod-option {
+            min-height: 44px; padding: 0.45rem 0.7rem; border: 1px solid #cbd9dc; border-radius: 0.55rem;
+            color: #29485a; background: #fff; font: inherit; font-size: 0.8rem; cursor: pointer;
+        }
+        .rod-option:hover { border-color: #70b7c3; }
+        .rod-option[aria-pressed="true"] { border-color: #087c91; color: #075969; background: #e8f7f8; box-shadow: inset 0 0 0 1px #087c91; font-weight: 700; }
+        .rod-option input { margin: 0 0.35rem 0 0; accent-color: #087c91; }
+        .rod-color-option { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .rod-swatch { width: 1rem; height: 1rem; border: 1px solid #647a86; border-radius: 50%; }
+        .rod-config-summary { display: grid; gap: 0.45rem; margin-top: 0.4rem; padding: 0.75rem; border-radius: 0.65rem; color: #3c5262; background: #f2f7f7; font-size: 0.79rem; }
+        .rod-config-summary strong { color: #0a1a2f; }
+        .rod-summary-row { display: flex; justify-content: space-between; gap: 1rem; }
+        .rod-preview { position: sticky; top: 0.75rem; display: flex; min-width: 0; height: calc(100vh - 6.5rem); height: calc(100dvh - 6.5rem); min-height: 480px; flex-direction: column; overflow: hidden; color: #e9f4f3; background: radial-gradient(ellipse at 48% 42%, #284c5b 0%, #142f40 60%, #0c2030 100%); }
+        .rod-preview-top { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 1rem; padding: 0.7rem 0.85rem 0.25rem; pointer-events: none; }
+        .rod-preview-kicker { color: #c4d9dd; font-size: 0.9rem; font-weight: 700; }
+        .rod-preview-model { margin-top: 0.25rem; color: #fff; font-size: 1.15rem; font-weight: 750; }
+        .rod-preview-hint { align-self: start; color: #c4d9dd; font-size: 0.73rem; text-align: right; }
+        .rod-preview canvas { display: block; width: 100%; height: auto; min-height: 0; flex: 1 1 auto; touch-action: none; }
+        .rod-preview canvas { cursor: grab; outline-offset: -4px; }
+        .rod-preview canvas.is-dragging { cursor: grabbing; }
+        .rod-preview-tools { display: contents; }
+        .rod-actions-overlay { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; display: flex; align-items: center; gap: 0.55rem; padding: 0.55rem 0.7rem 0.65rem; background: linear-gradient(0deg, rgba(8, 25, 37, 0.94), rgba(8, 25, 37, 0.58)); pointer-events: auto; }
+        .rod-flex-overlay { position: absolute; z-index: 3; top: 42%; right: 0.5rem; display: flex; width: 58px; flex-direction: column; align-items: center; gap: 0.35rem; padding: 0.45rem 0.3rem; border: 1px solid rgba(201, 224, 230, 0.28); border-radius: 0.7rem; background: rgba(8, 25, 37, 0.84); pointer-events: auto; }
+        .rod-camera-presets { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+        .rod-preview-tools .rod-option { color: #e9f4f3; border-color: #52717c; background: #193744; }
+        .rod-preview-tools .rod-option[aria-pressed="true"] { color: #fff; background: #087c91; }
+        .rod-preview-tools .btn.btn-secondary { color: #e9f4f3; border-color: #52717c; background: #193744; }
+        .rod-flex-row { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+        .rod-flex-row input[type="range"] { width: 44px; height: 130px; min-height: 44px; writing-mode: vertical-lr; direction: rtl; accent-color: #54c0c6; }
+        .rod-weight-control { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; color: #e9f4f3; font-size: 0.72rem; font-weight: 700; text-align: center; writing-mode: vertical-rl; }
+        .rod-weight-control output { color: #a9eaf0; }
+        .rod-flex-state { margin: 0; color: #c4d9dd; font-size: 0.66rem; text-align: center; }
+        .rod-flex-overlay #fish-weight-reset { width: 44px; min-width: 44px; min-height: 44px; padding: 0.2rem; font-size: 0.62rem; }
+        .rod-save-image { justify-self: start; min-height: 44px; }
+        label.rod-option { display: inline-flex; min-height: 44px; align-items: center; }
+        .rod-preview-error { display: grid; min-height: 480px; place-content: center; padding: 2rem; color: #fff; text-align: center; }
+        .rod-preview-error[hidden] { display: none; }
+        .rod-preview > .rod-specs { position: absolute; z-index: 2; top: 3.5rem; right: 0.65rem; left: 0.65rem; display: block; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; pointer-events: none; }
+        .rod-preview > .rod-specs .rod-specs-header { display: none; }
+        .rod-preview > .rod-specs .rod-spec-grid { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0; }
+        .rod-preview > .rod-specs .rod-spec { padding: 0.3rem 0.45rem; border: 1px solid rgba(201, 224, 230, 0.25); border-radius: 999px; background: rgba(8, 25, 37, 0.74); }
+        .rod-preview > .rod-specs .rod-spec dt { display: inline; color: #b6d6df; font-size: 0.64rem; }
+        .rod-preview > .rod-specs .rod-spec dd { display: inline; margin: 0 0 0 0.2rem; color: #fff; font-size: 0.69rem; }
+        #rod-preview > .rod-specs .rod-spec:nth-child(n + 7) { display: none; }
+        .rod-specs-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.8rem; }
+        .rod-specs h2 { margin: 0; padding: 0; border: 0; font-size: 1rem; }
+        .rod-specs-header span { color: #617482; font-size: 0.75rem; }
+        .rod-spec-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.55rem; }
+        .rod-spec { min-width: 0; padding: 0.65rem 0.7rem; border-radius: 0.55rem; background: #f2f7f7; }
+        .rod-spec dt { color: #617482; font-size: 0.7rem; }
+        .rod-spec dd { margin: 0.18rem 0 0; color: #173247; font-size: 0.88rem; font-weight: 750; }
+        .rod-summary-details { margin-top: 0.8rem; }
+        .rod-summary-details > summary { min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; cursor: pointer; color: #173247; font-weight: 700; }
+        .rod-summary-details > summary span { color: #526777; font-size: 0.82rem; font-weight: 500; text-align: right; }
+        .rod-summary-details > summary::before { content: "+"; color: #087c91; font-size: 1.1rem; }
+        .rod-summary-details[open] > summary::before { content: "−"; }
+        .rod-category-chip { color: #e9f4f3; }
+        .rod-bottom-sheet-handle { display: none; }
+        .rod-option:focus-visible, .rod-bottom-sheet-handle:focus-visible, .rod-main-tabs [role="tab"]:focus-visible,
+        .rod-category-nav [role="tab"]:focus-visible, .rod-preview-tools :focus-visible { outline: 3px solid #75d9e3; outline-offset: 2px; }
+        .rod-field { display: grid; gap: 0.4rem; margin: 0 0 1rem; }
+        .rod-field label, .rod-field legend { color: #173247; font-size: 0.84rem; font-weight: 700; }
+        .rod-field small { color: #617482; font-size: 0.73rem; font-weight: 400; }
+        .rod-field select { width: 100%; min-height: 44px; padding: 0.45rem 0.65rem; border: 1px solid #cbd9dc; border-radius: 0.5rem; color: #29485a; background: #fff; font: inherit; font-size: 0.83rem; }
+        .rod-field input[type="text"], .rod-field input[type="number"] { width: 100%; min-height: 44px; padding: 0.45rem 0.65rem; border: 1px solid #cbd9dc; border-radius: 0.5rem; color: #29485a; background: #fff; font: inherit; font-size: 0.9rem; }
+        .rod-field input:focus, .rod-field select:focus { outline: 3px solid #8bc6ce; outline-offset: 2px; }
+        .rod-length-row { display: grid; grid-template-columns: minmax(0, 1fr) 4.5rem; align-items: center; gap: 0.7rem; }
+        .rod-length-row input { width: 100%; min-height: 44px; accent-color: #087c91; }
+        .rod-length-value { padding: 0.4rem; border-radius: 0.45rem; color: #075969; background: #e8f7f8; font-size: 0.85rem; font-weight: 750; text-align: center; }
+        .rod-choice-heading { margin: 1.1rem 0 0.7rem; color: #173247; font-size: 0.92rem; }
+        .rod-reel-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 0.7rem; }
+        .rod-range-note { color: #617482; font-size: 0.7rem; }
+        .rod-spec-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .rod-section-intro { margin: clamp(3rem, 7vw, 5rem) 0 1.2rem; }
+        .rod-section-intro h2 { margin: 0 0 0.5rem; color: #173247; font-size: clamp(1.5rem, 3vw, 2rem); }
+        .rod-section-intro p { max-width: 760px; margin: 0; color: #526777; }
+        .lure-configurator > .rod-panel, .lure-configurator > .rod-specs { grid-column: 1; }
+        .lure-configurator > .rod-preview { grid-column: 2; grid-row: 1; }
+        .lure-configurator > .rod-specs { grid-column: 2; grid-row: 2; }
+        .lure-swatch { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .lure-swatch span { width: 1rem; height: 1rem; border: 1px solid #647a86; border-radius: 50%; }
+        @media (max-width: 640px) {
+            .rod-flex-row { flex-wrap: wrap; }
+            .rod-weight-control { width: 100%; }
+            .rod-flex-row input[type="range"] { flex-basis: 100%; }
+        }
+        .rod-note { margin-top: 1rem; padding: 0.85rem 1rem; border-left: 4px solid #3aafc6; border-radius: 0 0.55rem 0.55rem 0; color: #40586a; background: #e4f2f2; font-size: 0.83rem; }
+        @media (max-width: 860px) {
+            .rod-main { width: min(100% - 1.5rem, 1240px); }
+            .rod-configurator, .lure-configurator { grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr); }
+            .rod-spec-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .rod-preview, .rod-preview-error { min-height: 480px; }
+        }
+        @media (max-width: 680px) {
+            .rod-header { padding-inline: 0.75rem; }
+            .rod-main { display: flex; width: min(100% - 1rem, 1240px); height: calc(100vh - 4.5rem); height: calc(100dvh - 4.5rem); flex-direction: column; overflow: hidden; padding-top: 0.35rem; padding-bottom: 0.35rem; }
+            .rod-intro { flex: 0 0 auto; margin-bottom: 0.3rem; }
+            .rod-intro p:last-child { font-size: 0.78rem; line-height: 1.35; }
+            .rod-main-tabs { flex: 0 0 auto; margin-bottom: 0.3rem; }
+            .rod-configurator, .lure-configurator { position: relative; display: flex; min-height: 0; flex: 1 1 auto; flex-direction: column; gap: 0.35rem; overflow: hidden; }
+            .rod-preview { position: relative; z-index: 1; order: 0; width: 100%; height: 42vh; height: 42dvh; min-height: 280px; max-height: 48dvh; flex: 0 0 42dvh; }
+            .rod-preview canvas { min-height: 0; }
+            .rod-preview-top { padding: 0.45rem 0.6rem 0.15rem; }
+            .rod-preview-kicker { font-size: 0.72rem; }
+            .rod-preview-model { font-size: 0.9rem; }
+            .rod-preview-hint { max-width: 45%; font-size: 0.62rem; line-height: 1.25; text-align: right; }
+            .rod-preview > .rod-specs { top: auto; right: 0.35rem; bottom: 4.1rem; left: 0.35rem; }
+            .rod-preview > .rod-specs .rod-spec { padding: 0.2rem 0.35rem; }
+            .rod-preview > .rod-specs .rod-spec dt { font-size: 0.58rem; }
+            .rod-preview > .rod-specs .rod-spec dd { font-size: 0.62rem; }
+            .rod-actions-overlay { gap: 0.25rem; padding: 0.25rem 0.35rem 0.35rem; }
+            .rod-camera-presets { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; }
+            .rod-camera-presets .rod-option { flex: 0 0 auto; min-height: 44px; padding-inline: 0.5rem; scroll-snap-align: start; font-size: 0.7rem; }
+            .rod-flex-overlay { position: static; display: flex; width: 100%; flex-direction: row; justify-content: space-between; gap: 0.35rem; padding: 0.1rem 0; border: 0; background: transparent; }
+            .rod-preview-tools .rod-flex-row { display: flex; flex: 1; flex-direction: row; flex-wrap: nowrap; gap: 0.35rem; }
+            .rod-weight-control { min-width: 88px; width: auto; flex-direction: row; font-size: 0.68rem; writing-mode: horizontal-tb; }
+            .rod-flex-row input[type="range"] { width: auto; height: 44px; flex: 1; flex-basis: auto; min-width: 45px; min-height: 44px; writing-mode: horizontal-tb; direction: ltr; }
+            .rod-flex-row #fish-weight-reset { min-width: 58px; min-height: 44px; padding: 0.3rem; font-size: 0.68rem; }
+            .rod-flex-state { font-size: 0.58rem; }
+            .rod-save-image { min-height: 44px; padding: 0.35rem 0.55rem; }
+            .rod-panel { position: relative; z-index: 3; order: 1; width: 100%; min-height: 0; max-height: 34dvh; height: 34dvh; flex: 1 1 34dvh; overflow-y: auto; padding: 0.45rem 0.65rem 0.75rem; transition: height 160ms ease, max-height 160ms ease; }
+            .rod-panel.is-expanded { position: absolute; z-index: 6; right: 0; bottom: 0; left: 0; height: 100%; max-height: 100%; flex: 0 0 100%; }
+            .rod-bottom-sheet-handle { position: sticky; z-index: 4; top: -0.45rem; display: flex; width: 100%; min-height: 44px; align-items: center; justify-content: center; gap: 0.6rem; margin: -0.45rem 0 0.35rem; border: 0; border-bottom: 1px solid #d5e0e2; color: #173247; background: #fff; font: inherit; font-weight: 700; }
+            .rod-bottom-sheet-handle::before { width: 2rem; height: 0.22rem; border-radius: 999px; background: #9aafb4; content: ""; }
+            .rod-category-nav { width: calc(100% + 0.2rem); flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+            .rod-category-nav .rod-option { flex: 0 0 auto; min-height: 44px; scroll-snap-align: start; }
+            .rod-options { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.25rem; scroll-snap-type: x proximity; }
+            .rod-options > .rod-option { flex: 0 0 auto; scroll-snap-align: start; }
+            .rod-reel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .rod-summary-details { margin-top: 0.2rem; }
+            .rod-section-intro { display: none; }
+            .rod-note { font-size: 0.72rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .rod-page *, .rod-page *::before, .rod-page *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body class="rod-page">
+    <header class="rod-header">
+        <div class="rod-header-inner">
+            <a class="rod-brand" href="index.html">
+                <img src="assets/favicon-pescalife/favicon-96x96.png" width="40" height="40" alt="">
+                <span>PescaLife<small>Laboratorio di idee</small></span>
+            </a>
+            <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false" aria-controls="site-menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <div class="site-menu" id="site-menu" role="dialog" aria-modal="true" aria-labelledby="site-menu-title" aria-hidden="true" inert>
+        <div class="site-menu-backdrop" aria-hidden="true"></div>
+        <div class="site-menu-panel">
+            <div class="site-menu-heading">
+                <div><p>Navigazione</p><h2 id="site-menu-title">PescaLife</h2></div>
+                <button type="button" class="menu-close" id="menu-close" aria-label="Chiudi il menu">&times;</button>
+            </div>
+            <nav aria-label="Sezioni del sito">
+                <ul class="site-menu-links">
+                    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7"></path><path d="M5 9v11h14V9M9 20v-6h6v6"></path></svg><span>Home</span></a></li>
+                    <li><a href="luoghi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg><span>Luoghi di pesca</span></a></li>
+                    <li><a href="specie.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12s3.2-5 9-5c3.3 0 5.6 2 7 5-1.4 3-3.7 5-7 5-5.8 0-9-5-9-5Z"></path><path d="m19 12 3-3v6l-3-3Z"></path><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"></circle></svg><span>Guida alle specie</span></a></li>
+                    <li><a href="tecniche.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 5h10"></path><path d="m13 5 5 5"></path><path d="M18 10v4a3 3 0 0 1-6 0v-1"></path><path d="M3 5v4"></path><path d="M3 9c0 2 1.5 3 3 3s3-1 3-3"></path></svg><span>Tecniche di pesca</span></a></li>
+                    <li><a href="meteo.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path><path d="M8 21h.01M12 21h.01M16 21h.01"></path></svg><span>Condizioni ambientali</span></a></li>
+                    <li><a href="normativa.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Regole e normativa</span></a></li>
+                    <li><a href="diario.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h14v17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M7 8h10M7 12h10M7 16h6"></path><path d="M7 4v17"></path></svg><span>Diario di pesca</span></a></li>
+                </ul>
+            </nav>
+            <p class="site-menu-note">La tua guida alla pesca sportiva in Toscana</p>
+        </div>
+    </div>
+
+    <main class="rod-main">
+        <div class="rod-intro">
+            <h1>Progetta la tua canna.</h1>
+            <p>Scegli la tecnica, definisci misure e componenti e osserva il progetto prendere forma. Ogni specifica è indicativa e pensata per esplorare gli abbinamenti, non per sostituire il consiglio di un costruttore.</p>
+        </div>
+
+        <div class="rod-main-tabs" role="tablist" aria-label="Tipo di configuratore">
+            <button class="rod-option" id="rod-main-tab" type="button" role="tab" aria-selected="true" aria-controls="rod-configurator" tabindex="0" data-main-tab="rod">Canna</button>
+            <button class="rod-option" id="lure-main-tab" type="button" role="tab" aria-selected="false" aria-controls="lure-configurator" tabindex="-1" data-main-tab="lure">Esca</button>
+        </div>
+
+        <div class="rod-configurator" id="rod-configurator" role="tabpanel" aria-labelledby="rod-main-tab">
+            <section class="rod-panel" aria-label="Opzioni di configurazione">
+                <h2 class="rod-panel-heading">1. Tecnica di pesca</h2>
+                <div class="rod-model-list" role="group" aria-label="Tecnica di pesca">
+                    <button class="rod-model" type="button" data-technique="spinning" aria-pressed="true">
+                        <span class="rod-model-tag">Mulinello sotto il fusto</span>
+                        <strong>Spinning</strong>
+                        <span>Esche artificiali, fiume, lago e costa.</span>
+                    </button>
+                    <button class="rod-model" type="button" data-technique="casting" aria-pressed="false">
+                        <span class="rod-model-tag">Mulinello rotante sopra</span>
+                        <strong>Casting</strong>
+                        <span>Precisione e controllo con esche artificiali.</span>
+                    </button>
+                    <button class="rod-model" type="button" data-technique="fondo" aria-pressed="false">
+                        <span class="rod-model-tag">Mulinello a bobina fissa</span>
+                        <strong>Pesca a fondo</strong>
+                        <span>Più lunghezza e riserva per lanci da riva.</span>
+                    </button>
+                </div>
+
+                <hr class="rod-divider">
+                <h2 class="rod-choice-heading">2. Fusto e azione</h2>
+                <div class="rod-field">
+                    <label for="rod-length">Lunghezza <small id="rod-length-hint"></small></label>
+                    <div class="rod-length-row">
+                        <input type="range" id="rod-length" aria-describedby="rod-length-hint">
+                        <output class="rod-length-value" id="rod-length-value" for="rod-length">2,40 m</output>
+                    </div>
+                </div>
+                <div class="rod-reel-grid">
+                    <div class="rod-field">
+                        <label for="rod-cast"><span id="rod-cast-label">Casting weight</span> <small id="rod-cast-units">grammi</small></label>
+                        <select id="rod-cast"></select>
+                    </div>
+                    <div class="rod-field">
+                        <label for="rod-action">Azione</label>
+                        <select id="rod-action"></select>
+                    </div>
+                    <div class="rod-field">
+                        <label for="rod-power">Potenza</label>
+                        <select id="rod-power"></select>
+                    </div>
+                    <div class="rod-field">
+                        <label for="rod-pieces">Sezioni</label>
+                        <select id="rod-pieces"></select>
+                    </div>
+                </div>
+
+                <hr class="rod-divider">
+                <h2 class="rod-choice-heading">3. Componenti personalizzati</h2>
+                <fieldset class="rod-choice-group">
+                    <legend>Finitura del fusto</legend>
+                    <div class="rod-options" role="group" aria-label="Colore del fusto">
+                        <button class="rod-option rod-color-option" type="button" data-finish="grafite" aria-pressed="true"><span class="rod-swatch" style="background:#26333a"></span>Grafite</button>
+                        <button class="rod-option rod-color-option" type="button" data-finish="blu" aria-pressed="false"><span class="rod-swatch" style="background:#1d4560"></span>Blu profondo</button>
+                        <button class="rod-option rod-color-option" type="button" data-finish="salvia" aria-pressed="false"><span class="rod-swatch" style="background:#596b54"></span>Salvia</button>
+                        <button class="rod-option rod-color-option" type="button" data-finish="nero" aria-pressed="false"><span class="rod-swatch" style="background:#17191c"></span>Nero opaco</button>
+                        <button class="rod-option rod-color-option" type="button" data-finish="rosso" aria-pressed="false"><span class="rod-swatch" style="background:#712d35"></span>Rosso scuro</button>
+                        <button class="rod-option rod-color-option" type="button" data-finish="perla" aria-pressed="false"><span class="rod-swatch" style="background:#e2e4df"></span>Bianco perla</button>
+                        <button class="rod-option rod-color-option" type="button" data-finish="bronzo" aria-pressed="false"><span class="rod-swatch" style="background:#8a6546"></span>Bronzo</button>
+                    </div>
+                </fieldset>
+                <fieldset class="rod-choice-group">
+                    <legend>Impugnatura</legend>
+                    <div class="rod-options" role="group" aria-label="Materiale dell'impugnatura">
+                        <button class="rod-option" type="button" data-grip="sughero" aria-pressed="true">Sughero</button>
+                        <button class="rod-option" type="button" data-grip="eva" aria-pressed="false">EVA</button>
+                    </div>
+                    <div class="rod-options" role="group" aria-label="Forma dell'impugnatura">
+                        <button class="rod-option" type="button" data-grip-shape="full" aria-pressed="true">Full grip</button>
+                        <button class="rod-option" type="button" data-grip-shape="split" aria-pressed="false">Split grip</button>
+                    </div>
+                    <div class="rod-options" role="group" aria-label="Colore EVA">
+                        <button class="rod-option rod-color-option" type="button" data-eva-color="#242e31" aria-pressed="true"><span class="rod-swatch" style="background:#242e31"></span>Nero</button>
+                        <button class="rod-option rod-color-option" type="button" data-eva-color="#344b55" aria-pressed="false"><span class="rod-swatch" style="background:#344b55"></span>Ardesia</button>
+                        <button class="rod-option rod-color-option" type="button" data-eva-color="#365e4d" aria-pressed="false"><span class="rod-swatch" style="background:#365e4d"></span>Verde</button>
+                        <button class="rod-option rod-color-option" type="button" data-eva-color="#75403b" aria-pressed="false"><span class="rod-swatch" style="background:#75403b"></span>Bordeaux</button>
+                    </div>
+                </fieldset>
+                <fieldset class="rod-choice-group">
+                    <legend>Legature e anelli</legend>
+                    <div class="rod-options" role="group" aria-label="Colore delle legature">
+                        <button class="rod-option rod-color-option" type="button" data-wrap-color="#d8b15c" aria-pressed="true"><span class="rod-swatch" style="background:#d8b15c"></span>Oro</button>
+                        <button class="rod-option rod-color-option" type="button" data-wrap-color="#b64a4b" aria-pressed="false"><span class="rod-swatch" style="background:#b64a4b"></span>Rosso</button>
+                        <button class="rod-option rod-color-option" type="button" data-wrap-color="#3b8f91" aria-pressed="false"><span class="rod-swatch" style="background:#3b8f91"></span>Turchese</button>
+                        <button class="rod-option rod-color-option" type="button" data-wrap-color="#37506b" aria-pressed="false"><span class="rod-swatch" style="background:#37506b"></span>Blu</button>
+                        <button class="rod-option rod-color-option" type="button" data-wrap-color="#e6e8df" aria-pressed="false"><span class="rod-swatch" style="background:#e6e8df"></span>Perla</button>
+                    </div>
+                    <div class="rod-options" role="group" aria-label="Colore anello decorativo">
+                        <button class="rod-option rod-color-option" type="button" data-trim-color="#c99d3b" aria-pressed="true"><span class="rod-swatch" style="background:#c99d3b"></span>Oro</button>
+                        <button class="rod-option rod-color-option" type="button" data-trim-color="#e6e8df" aria-pressed="false"><span class="rod-swatch" style="background:#e6e8df"></span>Perla</button>
+                        <button class="rod-option rod-color-option" type="button" data-trim-color="#b64a4b" aria-pressed="false"><span class="rod-swatch" style="background:#b64a4b"></span>Rosso</button>
+                        <button class="rod-option rod-color-option" type="button" data-trim-color="#3b8f91" aria-pressed="false"><span class="rod-swatch" style="background:#3b8f91"></span>Turchese</button>
+                        <button class="rod-option rod-color-option" type="button" data-trim-color="#37506b" aria-pressed="false"><span class="rod-swatch" style="background:#37506b"></span>Blu</button>
+                    </div>
+                    <div class="rod-options" role="group" aria-label="Colore inserto degli anelli">
+                        <button class="rod-option rod-color-option" type="button" data-guide-insert="#202629" aria-pressed="true"><span class="rod-swatch" style="background:#202629"></span>Ossidiana</button>
+                        <button class="rod-option rod-color-option" type="button" data-guide-insert="#548b95" aria-pressed="false"><span class="rod-swatch" style="background:#548b95"></span>Agata blu</button>
+                        <button class="rod-option rod-color-option" type="button" data-guide-insert="#816746" aria-pressed="false"><span class="rod-swatch" style="background:#816746"></span>Ambra</button>
+                    </div>
+                    <div class="rod-options" role="group" aria-label="Finitura telaietti">
+                        <button class="rod-option" type="button" data-guide-frame="acciaio" aria-pressed="true">Acciaio</button>
+                        <button class="rod-option" type="button" data-guide-frame="nero" aria-pressed="false">Nero</button>
+                        <button class="rod-option" type="button" data-guide-frame="titanio" aria-pressed="false">Titanio</button>
+                    </div>
+                </fieldset>
+
+                <hr class="rod-divider">
+                <h2 class="rod-choice-heading">4. Mulinello e lenza</h2>
+                <div class="rod-reel-grid">
+                    <div class="rod-field">
+                        <label for="rod-reel">Mulinello</label>
+                        <select id="rod-reel"></select>
+                    </div>
+                    <div class="rod-field">
+                        <label for="rod-reel-size">Taglia</label>
+                        <select id="rod-reel-size"></select>
+                    </div>
+                    <div class="rod-field">
+                        <label for="rod-ratio">Rapporto / recupero</label>
+                        <select id="rod-ratio"></select>
+                    </div>
+                    <div class="rod-field">
+                        <label for="rod-line">Lenza</label>
+                        <select id="rod-line"></select>
+                    </div>
+                </div>
+
+                <div class="rod-config-summary" aria-live="polite">
+                    <div class="rod-summary-row"><strong>Il tuo progetto</strong><span id="rod-config-name">Riva Spinning</span></div>
+                    <div class="rod-summary-row"><span>Fusto</span><span id="rod-config-finish">Grafite</span></div>
+                    <div class="rod-summary-row"><span>Impugnatura</span><span id="rod-config-grip">Sughero</span></div>
+                    <div class="rod-summary-row"><span>Mulinello</span><span id="rod-config-reel">Ardesia 2500</span></div>
+                    <div class="rod-summary-row"><span>Rapporto</span><span id="rod-config-ratio">5.2:1 · fluido</span></div>
+                    <div class="rod-summary-row"><span>Lenza</span><span id="rod-config-line">Trecciato PE 0.8</span></div>
+                    <div class="rod-summary-row"><span>Legature / anelli</span><span id="rod-config-wrap">Oro · Ossidiana · Acciaio</span></div>
+                    <div class="rod-summary-row"><span>Forma grip</span><span id="rod-config-grip-shape">Full grip</span></div>
+                    <div class="rod-summary-row"><span>Accenti mulinello</span><span id="rod-config-reel-colors">Oro · Nero</span></div>
+                </div>
+                <hr class="rod-divider">
+                <div class="rod-field">
+                    <label for="rod-custom-name">Nome della canna</label>
+                    <input type="text" id="rod-custom-name" maxlength="28" placeholder="Es. Riva Spinning 240" autocomplete="off">
+                </div>
+                <label class="rod-option"><input type="checkbox" id="rod-name-on-object" checked> Incidi il nome sul fusto</label>
+                <fieldset class="rod-choice-group">
+                    <legend>Accento anodizzato mulinello</legend>
+                    <div class="rod-options" role="group" aria-label="Colore accento mulinello">
+                        <button class="rod-option rod-color-option" type="button" data-reel-accent="#202629" aria-pressed="true"><span class="rod-swatch" style="background:#202629"></span>Nero</button>
+                        <button class="rod-option rod-color-option" type="button" data-reel-accent="#c99d3b" aria-pressed="false"><span class="rod-swatch" style="background:#c99d3b"></span>Oro</button>
+                        <button class="rod-option rod-color-option" type="button" data-reel-accent="#287ca6" aria-pressed="false"><span class="rod-swatch" style="background:#287ca6"></span>Blu</button>
+                        <button class="rod-option rod-color-option" type="button" data-reel-accent="#b84249" aria-pressed="false"><span class="rod-swatch" style="background:#b84249"></span>Rosso</button>
+                        <button class="rod-option rod-color-option" type="button" data-reel-accent="#c8d3d4" aria-pressed="false"><span class="rod-swatch" style="background:#c8d3d4"></span>Argento</button>
+                    </div>
+                </fieldset>
+                <fieldset class="rod-choice-group">
+                    <legend>Manovella e pomello</legend>
+                    <div class="rod-options" role="group" aria-label="Colore manovella e pomello">
+                        <button class="rod-option rod-color-option" type="button" data-reel-knob="#242e31" aria-pressed="true"><span class="rod-swatch" style="background:#242e31"></span>Nero</button>
+                        <button class="rod-option rod-color-option" type="button" data-reel-knob="#b88b58" aria-pressed="false"><span class="rod-swatch" style="background:#b88b58"></span>Sughero</button>
+                        <button class="rod-option rod-color-option" type="button" data-reel-knob="#e5e5dc" aria-pressed="false"><span class="rod-swatch" style="background:#e5e5dc"></span>Perla</button>
+                    </div>
+                </fieldset>
+            </section>
+
+            <section class="rod-preview" id="rod-preview" aria-label="Anteprima tridimensionale della canna">
+                <div class="rod-preview-top">
+                    <div><div class="rod-preview-kicker">Anteprima canna</div><div class="rod-preview-model" id="rod-preview-name">Riva Spinning</div></div>
+                    <span class="rod-preview-hint">Trascina per ruotare · rotella o pizzica per zoom · doppio clic per ripristinare</span>
+                </div>
+                <canvas id="rod-canvas" tabindex="0" aria-label="Modello tridimensionale interattivo della canna configurata"></canvas>
+                <div class="rod-preview-tools">
+                    <div class="rod-actions-overlay">
+                        <div class="rod-camera-presets" role="group" aria-label="Inquadrature canna">
+                            <button class="rod-option" type="button" data-rod-view="insieme" aria-pressed="true">Insieme</button>
+                            <button class="rod-option" type="button" data-rod-view="impugnatura" aria-pressed="false">Impugnatura</button>
+                            <button class="rod-option" type="button" data-rod-view="mulinello" aria-pressed="false">Mulinello</button>
+                            <button class="rod-option" type="button" data-rod-view="cimino" aria-pressed="false">Cimino</button>
+                        </div>
+                        <button class="btn btn-secondary rod-save-image" type="button" data-save-canvas="rod">Salva PNG</button>
+                    </div>
+                    <div class="rod-flex-overlay">
+                        <div class="rod-flex-row">
+                            <label class="rod-weight-control" for="fish-weight">Peso del pesce <output id="fish-weight-value" for="fish-weight">0 kg</output></label>
+                            <input type="range" id="fish-weight" min="0" max="10" step="0.5" value="0" aria-describedby="fish-weight-state">
+                            <button class="btn btn-secondary" type="button" id="fish-weight-reset">Azzera</button>
+                        </div>
+                        <p class="rod-flex-state" id="fish-weight-state" aria-live="polite">Carico: 0 kg · Curvatura: 0°</p>
+                    </div>
+                </div>
+                <div class="rod-preview-error" id="rod-preview-error" hidden>
+                    <strong>Anteprima 3D non disponibile</strong>
+                    <p>Controlla la connessione internet e ricarica la pagina.</p>
+                </div>
+            </section>
+
+            <section class="rod-specs" aria-labelledby="rod-specs-title">
+                <div class="rod-specs-header">
+                    <h2 id="rod-specs-title">Riepilogo tecnico</h2>
+                    <span id="rod-specs-model">Concept PescaLife</span>
+                </div>
+                <dl class="rod-spec-grid">
+                    <div class="rod-spec"><dt>Tecnica</dt><dd id="spec-technique">Spinning</dd></div>
+                    <div class="rod-spec"><dt>Lunghezza</dt><dd id="spec-length">2,40 m</dd></div>
+                    <div class="rod-spec"><dt>Lancio consigliato</dt><dd id="spec-cast">7–28 g</dd></div>
+                    <div class="rod-spec"><dt>Azione</dt><dd id="spec-action">Fast</dd></div>
+                    <div class="rod-spec"><dt>Potenza</dt><dd id="spec-power">Medium</dd></div>
+                    <div class="rod-spec"><dt>Sezioni</dt><dd id="spec-pieces">2</dd></div>
+                    <div class="rod-spec"><dt>Legature / trim</dt><dd id="spec-wrap">Oro / Oro</dd></div>
+                    <div class="rod-spec"><dt>Telaietti</dt><dd id="spec-frame">Acciaio</dd></div>
+                    <div class="rod-spec"><dt>Colore grip</dt><dd id="spec-grip-color">Sughero</dd></div>
+                </dl>
+            </section>
+        </div>
+
+        <div class="rod-section-intro">
+            <h2>Disegna la tua esca artificiale.</h2>
+            <p>Scegli forma, misura, colore e armatura. L’anteprima si aggiorna mentre componi il tuo modello.</p>
+        </div>
+        <div class="lure-configurator" id="lure-configurator" role="tabpanel" aria-labelledby="lure-main-tab" hidden>
+            <section class="rod-panel" aria-label="Opzioni di configurazione dell'esca">
+                <h2 class="rod-panel-heading">Forma e dimensioni</h2>
+                <div class="rod-field">
+                    <label for="lure-type">Tipo di esca</label>
+                    <select id="lure-type">
+                        <option value="minnow">Minnow</option>
+                        <option value="popper">Popper</option>
+                        <option value="spoon">Ondulante</option>
+                        <option value="soft">Soft bait</option>
+                    </select>
+                </div>
+                <div class="rod-field">
+                    <label for="lure-length">Lunghezza <small>3–16 cm</small></label>
+                    <div class="rod-length-row">
+                        <input type="range" id="lure-length" min="3" max="16" step="1" value="9">
+                        <output class="rod-length-value" id="lure-length-value" for="lure-length">9 cm</output>
+                    </div>
+                </div>
+                <div class="rod-reel-grid">
+                    <div class="rod-field">
+                        <label for="lure-weight">Peso</label>
+                        <select id="lure-weight">
+                            <option value="4">4 g</option>
+                            <option value="7" selected>7 g</option>
+                            <option value="12">12 g</option>
+                            <option value="18">18 g</option>
+                            <option value="25">25 g</option>
+                        </select>
+                    </div>
+                    <div class="rod-field">
+                        <label for="lure-hooks">Armatura</label>
+                        <select id="lure-hooks">
+                            <option value="single">Amo singolo</option>
+                            <option value="treble" selected>Ancorette</option>
+                            <option value="none">Senza ami</option>
+                        </select>
+                    </div>
+                </div>
+                <fieldset class="rod-choice-group">
+                    <legend>Colore del dorso</legend>
+                    <div class="rod-options" role="group" aria-label="Colore del dorso dell'esca">
+                        <button class="rod-option lure-swatch" type="button" data-lure-color="#e7b943" aria-pressed="true"><span style="background:#e7b943"></span>Perla oro</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-color="#45a9a0" aria-pressed="false"><span style="background:#45a9a0"></span>Verde acqua</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-color="#d96b55" aria-pressed="false"><span style="background:#d96b55"></span>Rame</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-color="#e8e8d8" aria-pressed="false"><span style="background:#e8e8d8"></span>Bianco perla</button>
+                    </div>
+                </fieldset>
+                <fieldset class="rod-choice-group">
+                    <legend>Colore della pancia</legend>
+                    <div class="rod-options" role="group" aria-label="Colore della pancia dell'esca">
+                        <button class="rod-option lure-swatch" type="button" data-lure-belly="#f2eee0" aria-pressed="true"><span style="background:#f2eee0"></span>Perla</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-belly="#d8b976" aria-pressed="false"><span style="background:#d8b976"></span>Avorio caldo</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-belly="#a5d9d3" aria-pressed="false"><span style="background:#a5d9d3"></span>Ghiaccio</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-belly="#e68564" aria-pressed="false"><span style="background:#e68564"></span>Arancio</button>
+                    </div>
+                </fieldset>
+                <fieldset class="rod-choice-group">
+                    <legend>Occhi e pattern</legend>
+                    <div class="rod-options" role="group" aria-label="Colore degli occhi">
+                        <button class="rod-option lure-swatch" type="button" data-lure-eye="#e34d3e" aria-pressed="true"><span style="background:#e34d3e"></span>Rosso</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-eye="#d7a62f" aria-pressed="false"><span style="background:#d7a62f"></span>Oro</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-eye="#4b9fc2" aria-pressed="false"><span style="background:#4b9fc2"></span>Blu</button>
+                    </div>
+                    <div class="rod-options" role="group" aria-label="Pattern dell'esca">
+                        <button class="rod-option" type="button" data-lure-pattern="liscio" aria-pressed="true">Liscio</button>
+                        <button class="rod-option" type="button" data-lure-pattern="scaglie" aria-pressed="false">Scaglie</button>
+                        <button class="rod-option" type="button" data-lure-pattern="strisce" aria-pressed="false">Strisce</button>
+                        <button class="rod-option" type="button" data-lure-pattern="puntini" aria-pressed="false">Puntini</button>
+                    </div>
+                </fieldset>
+                <fieldset class="rod-choice-group">
+                    <legend>Finitura e armatura</legend>
+                    <div class="rod-options" role="group" aria-label="Finitura dell'esca">
+                        <button class="rod-option" type="button" data-lure-finish="opaco" aria-pressed="true">Opaco</button>
+                        <button class="rod-option" type="button" data-lure-finish="perlato" aria-pressed="false">Perlato</button>
+                        <button class="rod-option" type="button" data-lure-finish="metallico" aria-pressed="false">Metallico</button>
+                    </div>
+                    <div class="rod-options" role="group" aria-label="Finitura degli ami">
+                        <button class="rod-option" type="button" data-hook-finish="#c8d3d4" aria-pressed="true">Nichel</button>
+                        <button class="rod-option" type="button" data-hook-finish="#252a2d" aria-pressed="false">Nero</button>
+                        <button class="rod-option" type="button" data-hook-finish="#c99d3b" aria-pressed="false">Oro</button>
+                    </div>
+                    <div class="rod-options" role="group" aria-label="Colore paletta o lamina">
+                        <button class="rod-option lure-swatch" type="button" data-lure-bib="#c8d3d4" aria-pressed="true"><span style="background:#c8d3d4"></span>Argento</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-bib="#c99d3b" aria-pressed="false"><span style="background:#c99d3b"></span>Oro</button>
+                        <button class="rod-option lure-swatch" type="button" data-lure-bib="#cf6d4f" aria-pressed="false"><span style="background:#cf6d4f"></span>Rame</button>
+                    </div>
+                </fieldset>
+                <hr class="rod-divider">
+                <div class="rod-field">
+                    <label for="lure-custom-name">Nome dell'esca</label>
+                    <input type="text" id="lure-custom-name" maxlength="24" placeholder="Es. Cecina Minnow" autocomplete="off">
+                </div>
+                <label class="rod-option"><input type="checkbox" id="lure-name-on-object" checked> Stampa il nome sull'esca</label>
+                <div class="rod-config-summary" aria-live="polite">
+                    <div class="rod-summary-row"><strong>Il tuo modello</strong><span id="lure-config-name">Cecina Minnow</span></div>
+                    <div class="rod-summary-row"><span>Tipo</span><span id="lure-config-type">Minnow</span></div>
+                    <div class="rod-summary-row"><span>Colore</span><span id="lure-config-color">Perla oro</span></div>
+                    <div class="rod-summary-row"><span>Pancia / occhi</span><span id="lure-config-detail-colors">Perla · Rosso</span></div>
+                    <div class="rod-summary-row"><span>Pattern / finitura</span><span id="lure-config-pattern">Liscio · Opaco</span></div>
+                    <div class="rod-summary-row"><span>Armatura / paletta</span><span id="lure-config-hardware">Nichel · Argento</span></div>
+                </div>
+            </section>
+
+            <section class="rod-preview" id="lure-preview" aria-label="Anteprima tridimensionale dell'esca">
+                <div class="rod-preview-top">
+                    <div><div class="rod-preview-kicker">Anteprima esca</div><div class="rod-preview-model" id="lure-preview-name">Cecina Minnow</div></div>
+                    <span class="rod-preview-hint">Trascina per ruotare · rotella o pizzica per zoom · doppio clic per ripristinare</span>
+                </div>
+                <canvas id="lure-canvas" tabindex="0" aria-label="Modello tridimensionale interattivo dell'esca configurata"></canvas>
+                <div class="rod-preview-tools">
+                    <div class="rod-actions-overlay">
+                        <div class="rod-camera-presets" role="group" aria-label="Inquadrature esca">
+                            <button class="rod-option" type="button" data-lure-view="insieme" aria-pressed="true">Insieme</button>
+                            <button class="rod-option" type="button" data-lure-view="fianco" aria-pressed="false">Fianco</button>
+                            <button class="rod-option" type="button" data-lure-view="alto" aria-pressed="false">Dall’alto</button>
+                            <button class="rod-option" type="button" data-lure-view="ami" aria-pressed="false">Ami</button>
+                        </div>
+                        <button class="btn btn-secondary rod-save-image" type="button" data-save-canvas="lure">Salva PNG</button>
+                    </div>
+                </div>
+                <div class="rod-preview-error" id="lure-preview-error" hidden>
+                    <strong>Anteprima 3D non disponibile</strong>
+                    <p>Controlla la connessione internet e ricarica la pagina.</p>
+                </div>
+            </section>
+
+            <section class="rod-specs" aria-labelledby="lure-specs-title">
+                <div class="rod-specs-header">
+                    <h2 id="lure-specs-title">Riepilogo esca</h2>
+                    <span>Concept su misura</span>
+                </div>
+                <dl class="rod-spec-grid">
+                    <div class="rod-spec"><dt>Tipo</dt><dd id="lure-spec-type">Minnow</dd></div>
+                    <div class="rod-spec"><dt>Lunghezza</dt><dd id="lure-spec-length">9 cm</dd></div>
+                    <div class="rod-spec"><dt>Peso</dt><dd id="lure-spec-weight">7 g</dd></div>
+                    <div class="rod-spec"><dt>Armatura</dt><dd id="lure-spec-hooks">Ancorette</dd></div>
+                    <div class="rod-spec"><dt>Pattern</dt><dd id="lure-spec-pattern">Liscio</dd></div>
+                    <div class="rod-spec"><dt>Finitura</dt><dd id="lure-spec-finish">Opaco</dd></div>
+                    <div class="rod-spec"><dt>Occhi / pancia</dt><dd id="lure-spec-eye-belly">Rosso / Perla</dd></div>
+                </dl>
+            </section>
+        </div>
+
+        <p class="rod-note"><strong>Concept PescaLife.</strong> Nomi, misure e componenti sono inventati e indicativi: ispirati alle categorie comuni di attrezzatura, non a uno specifico prodotto commerciale. L’anteprima è schematica e non è un preventivo, una scheda di produzione o un consiglio d’acquisto.</p>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer-grid">
+                <div class="site-footer-brand">
+                    <a class="site-footer-brand-name" href="index.html">PescaLife</a>
+                    <p>Una guida amatoriale alla pesca e ai luoghi della Val di Cecina.</p>
+                </div>
+                <nav class="site-footer-links" aria-label="Esplora PescaLife">
+                    <h2>Esplora</h2>
+                    <ul>
+                        <li><a href="luoghi.html">Luoghi di pesca</a></li>
+                        <li><a href="mappa.html">Mappa delle acque</a></li>
+                        <li><a href="meteo.html">Condizioni ambientali</a></li>
+                        <li><a href="eventi.html">Eventi</a></li>
+                    </ul>
+                </nav>
+                <nav class="site-footer-links" aria-label="Crea">
+                    <h2>Crea</h2>
+                    <ul>
+                        <li><a href="diario.html">Diario di pesca</a></li>
+                        <li><a href="attrezzatura.html">Attrezzatura</a></li>
+                    </ul>
+                </nav>
+                <nav class="site-footer-links" aria-label="Guide e informazioni">
+                    <h2>Guide e informazioni</h2>
+                    <ul>
+                        <li><a href="specie.html">Guida alle specie</a></li>
+                        <li><a href="tecniche.html">Tecniche di pesca</a></li>
+                        <li><a href="normativa.html">Regole e normativa</a></li>
+                        <li><a href="info.html">Info tecniche</a></li>
+                        <li><a href="notelegali.html">Note legali e privacy</a></li>
+                    </ul>
+                </nav>
+                <div class="site-footer-feedback">
+                    <p>Hai trovato un errore o vuoi suggerire qualcosa?</p>
+                    <a class="feedback-link" href="notelegali.html#segnalazioni">Scrivici</a>
+                </div>
+            </div>
+            <div class="site-footer-bottom">
+                <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Le informazioni sono a scopo informativo: verifica sempre le fonti ufficiali.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        let three;
+        let RoomEnvironment;
+        const canvas = document.getElementById("rod-canvas");
+        const preview = document.getElementById("rod-preview");
+        const previewError = document.getElementById("rod-preview-error");
+        const rodCustomNameInput = document.getElementById("rod-custom-name");
+        const rodNameOnObject = document.getElementById("rod-name-on-object");
+        const lureCanvas = document.getElementById("lure-canvas");
+        const lurePreview = document.getElementById("lure-preview");
+        const lurePreviewError = document.getElementById("lure-preview-error");
+        const lureTypeSelect = document.getElementById("lure-type");
+        const lureLengthInput = document.getElementById("lure-length");
+        const lureWeightSelect = document.getElementById("lure-weight");
+        const lureHooksSelect = document.getElementById("lure-hooks");
+        const lureCustomNameInput = document.getElementById("lure-custom-name");
+        const lureNameOnObject = document.getElementById("lure-name-on-object");
+        const lureColorButtons = [...document.querySelectorAll("[data-lure-color]")];
+        const fishWeightInput = document.getElementById("fish-weight");
+        const fishWeightOutput = document.getElementById("fish-weight-value");
+        const fishWeightState = document.getElementById("fish-weight-state");
+        const techniqueButtons = [...document.querySelectorAll("[data-technique]")];
+        const finishButtons = [...document.querySelectorAll("[data-finish]")];
+        const gripButtons = [...document.querySelectorAll("[data-grip]")];
+        const lengthInput = document.getElementById("rod-length");
+        const castSelect = document.getElementById("rod-cast");
+        const actionSelect = document.getElementById("rod-action");
+        const powerSelect = document.getElementById("rod-power");
+        const piecesSelect = document.getElementById("rod-pieces");
+        const reelSelect = document.getElementById("rod-reel");
+        const reelSizeSelect = document.getElementById("rod-reel-size");
+        const ratioSelect = document.getElementById("rod-ratio");
+        const lineSelect = document.getElementById("rod-line");
+        const techniques = {
+            spinning: {
+                name: "Spinning", code: "Riva", length: [180, 300, 240], cast: ["3–12 g", "7–28 g", "10–35 g"],
+                action: ["Moderate", "Moderate-fast", "Fast"], power: ["Light", "Medium", "Medium-heavy"], pieces: ["2", "3"],
+                reels: ["Ardesia 1000", "Ardesia 2500", "Marea 4000"], sizes: ["1000", "2500", "4000"],
+                ratios: ["5.2:1 · fluido", "6.2:1 · rapido"], lines: ["Nylon 0,20 mm", "Trecciato PE 0.8", "Trecciato PE 1.0"],
+                guides: 8, reelKind: "spinning", defaults: ["7–28 g", "Fast", "Medium", "2", "Ardesia 2500", "2500", "5.2:1 · fluido", "Trecciato PE 0.8"]
+            },
+            casting: {
+                name: "Casting", code: "Selva", length: [180, 240, 210], cast: ["7–21 g", "10–30 g", "14–42 g"],
+                action: ["Moderate-fast", "Fast", "Extra-fast"], power: ["Medium", "Medium-heavy", "Heavy"], pieces: ["1", "2"],
+                reels: ["Lario Low Profile", "Lario Round"], sizes: ["100", "200", "300"],
+                ratios: ["6.3:1 · versatile", "7.1:1 · rapido", "8.1:1 · extra rapido"], lines: ["Nylon 0,25 mm", "Trecciato PE 1.0", "Trecciato PE 1.5"],
+                guides: 10, reelKind: "casting", defaults: ["10–30 g", "Fast", "Medium-heavy", "2", "Lario Low Profile", "200", "7.1:1 · rapido", "Trecciato PE 1.0"]
+            },
+            fondo: {
+                name: "Fondo", code: "Scogliera", length: [330, 420, 390], cast: ["60–120 g", "80–150 g", "100–200 g"],
+                action: ["Moderate", "Moderate-fast", "Fast"], power: ["Medium-heavy", "Heavy", "Extra-heavy"], pieces: ["3", "4"],
+                reels: ["Litorale Long Cast", "Litorale Surf"], sizes: ["5000", "6000", "8000"],
+                ratios: ["4.6:1 · potenza", "5.2:1 · bilanciato"], lines: ["Nylon 0,28 mm", "Nylon 0,35 mm", "Trecciato PE 1.5"],
+                guides: 7, reelKind: "surf", defaults: ["80–150 g", "Moderate-fast", "Heavy", "3", "Litorale Long Cast", "6000", "4.6:1 · potenza", "Nylon 0,35 mm"]
+            }
+        };
+        const finishes = {
+            grafite: { name: "Grafite", color: "#354047" },
+            blu: { name: "Blu profondo", color: "#244a64" },
+            salvia: { name: "Salvia", color: "#647259" },
+            nero: { name: "Nero opaco", color: "#17191c" },
+            rosso: { name: "Rosso scuro", color: "#712d35" },
+            perla: { name: "Bianco perla", color: "#e2e4df" },
+            bronzo: { name: "Bronzo", color: "#8a6546" }
+        };
+        const grips = {
+            sughero: { name: "Sughero", color: "#b88b58", roughness: 0.92 },
+            eva: { name: "EVA", color: "#242e31", roughness: 0.78 }
+        };
+        const config = {
+            technique: "spinning", finish: "grafite", grip: "sughero", gripShape: "full",
+            evaColor: "#242e31", wrapColor: "#d8b15c", trimColor: "#c99d3b", guideInsert: "#202629",
+            guideFrame: "acciaio", reelAccent: "#202629", reelKnob: "#242e31"
+        };
+        const lureConfig = {
+            color: "#e7b943", belly: "#f2eee0", eye: "#e34d3e", pattern: "liscio",
+            finish: "opaco", hook: "#c8d3d4", bib: "#c8d3d4"
+        };
+        const lureControlNames = {
+            belly: { "#f2eee0": "Perla", "#d8b976": "Avorio caldo", "#a5d9d3": "Ghiaccio", "#e68564": "Arancio" },
+            eye: { "#e34d3e": "Rosso", "#d7a62f": "Oro", "#4b9fc2": "Blu" },
+            pattern: { liscio: "Liscio", scaglie: "Scaglie", strisce: "Strisce", puntini: "Puntini" },
+            finish: { opaco: "Opaco", perlato: "Perlato", metallico: "Metallico" },
+            hook: { "#c8d3d4": "Nichel", "#252a2d": "Nero", "#c99d3b": "Oro" },
+            bib: { "#c8d3d4": "Argento", "#c99d3b": "Oro", "#cf6d4f": "Rame" }
+        };
+        const lureColorNames = {
+            "#e7b943": "Perla oro",
+            "#45a9a0": "Verde acqua",
+            "#d96b55": "Rame",
+            "#e8e8d8": "Bianco perla"
+        };
+        const lureTypeNames = { minnow: "Minnow", popper: "Popper", spoon: "Ondulante", soft: "Soft bait" };
+        const lureHookNames = { single: "Amo singolo", treble: "Ancorette", none: "Senza ami" };
+        const colorLabel = (buttons, attribute, value, fallback) =>
+            buttons.find(button => button.dataset[attribute] === value)?.textContent.trim() || fallback;
+
+        function createOptionTabs(panel, categories, prefix) {
+            const nav = document.createElement("div");
+            nav.className = "rod-category-nav";
+            nav.setAttribute("role", "tablist");
+            nav.setAttribute("aria-label", prefix === "rod" ? "Categorie configurazione canna" : "Categorie configurazione esca");
+            const content = document.createElement("div");
+            content.className = "rod-category-panels";
+            const panels = new Map();
+            categories.forEach((name, index) => {
+                const id = `${prefix}-category-${index}`;
+                const tab = document.createElement("button");
+                tab.className = "rod-option";
+                tab.type = "button";
+                tab.id = `${id}-tab`;
+                tab.setAttribute("role", "tab");
+                tab.setAttribute("aria-controls", id);
+                tab.setAttribute("aria-selected", String(index === 0));
+                tab.tabIndex = index === 0 ? 0 : -1;
+                tab.textContent = name;
+                const categoryPanel = document.createElement("div");
+                categoryPanel.id = id;
+                categoryPanel.setAttribute("role", "tabpanel");
+                categoryPanel.setAttribute("aria-labelledby", tab.id);
+                categoryPanel.tabIndex = 0;
+                categoryPanel.hidden = index !== 0;
+                nav.append(tab);
+                content.append(categoryPanel);
+                panels.set(name, categoryPanel);
+            });
+            panel.prepend(content);
+            panel.prepend(nav);
+            const activate = tab => {
+                const buttons = [...nav.querySelectorAll('[role="tab"]')];
+                buttons.forEach(item => {
+                    const selected = item === tab;
+                    item.setAttribute("aria-selected", String(selected));
+                    item.tabIndex = selected ? 0 : -1;
+                    document.getElementById(item.getAttribute("aria-controls")).hidden = !selected;
+                });
+            };
+            nav.addEventListener("click", event => {
+                const tab = event.target.closest('[role="tab"]');
+                if (tab) activate(tab);
+            });
+            nav.addEventListener("keydown", event => {
+                const tabs = [...nav.querySelectorAll('[role="tab"]')];
+                const current = tabs.indexOf(document.activeElement);
+                let next = current;
+                if (event.key === "ArrowRight") next = (current + 1) % tabs.length;
+                else if (event.key === "ArrowLeft") next = (current - 1 + tabs.length) % tabs.length;
+                else if (event.key === "Home") next = 0;
+                else if (event.key === "End") next = tabs.length - 1;
+                else return;
+                event.preventDefault();
+                tabs[next].focus();
+                activate(tabs[next]);
+            });
+            return { panels, nav };
+        }
+
+        function placeOptions(panel, categoryPanels, selector, category) {
+            const element = panel.querySelector(selector);
+            if (element) categoryPanels.get(category).append(element);
+            return element;
+        }
+
+        // Keep the existing controls and listeners intact while moving them into their tabs.
+        function buildConfiguratorLayout() {
+            const rodPanel = document.querySelector("#rod-configurator .rod-panel");
+            const lurePanel = document.querySelector("#lure-configurator .rod-panel");
+            const rodHandle = document.createElement("button");
+            rodHandle.className = "rod-bottom-sheet-handle";
+            rodHandle.type = "button";
+            rodHandle.setAttribute("aria-expanded", "false");
+            rodHandle.textContent = "Opzioni canna";
+            rodPanel.prepend(rodHandle);
+            const lureHandle = document.createElement("button");
+            lureHandle.className = "rod-bottom-sheet-handle";
+            lureHandle.type = "button";
+            lureHandle.setAttribute("aria-expanded", "false");
+            lureHandle.textContent = "Opzioni esca";
+            lurePanel.prepend(lureHandle);
+            const rodTabs = createOptionTabs(rodPanel, ["Tecnica", "Fusto", "Componenti", "Mulinello", "Colori", "Nome"], "rod");
+            const lureTabs = createOptionTabs(lurePanel, ["Forma", "Colori", "Ami", "Nome"], "lure");
+
+            placeOptions(rodPanel, rodTabs.panels, ".rod-model-list", "Tecnica");
+            const rodLengthField = rodPanel.querySelector("#rod-length")?.closest(".rod-field");
+            if (rodLengthField) rodTabs.panels.get("Fusto").append(rodLengthField);
+            const rodBlankGrid = rodPanel.querySelector("#rod-cast")?.closest(".rod-reel-grid");
+            if (rodBlankGrid) rodTabs.panels.get("Fusto").append(rodBlankGrid);
+            const gripFieldset = rodPanel.querySelector("fieldset:has([data-grip])");
+            const evaChoices = gripFieldset?.querySelector('[aria-label="Colore EVA"]');
+            if (evaChoices) {
+                const evaFieldset = document.createElement("fieldset");
+                evaFieldset.className = "rod-choice-group";
+                const evaLegend = document.createElement("legend");
+                evaLegend.textContent = "Colore EVA";
+                evaFieldset.append(evaLegend, evaChoices);
+                rodTabs.panels.get("Colori").append(evaFieldset);
+            }
+            if (gripFieldset) rodTabs.panels.get("Componenti").append(gripFieldset);
+            placeOptions(rodPanel, rodTabs.panels, 'fieldset:has([data-wrap-color])', "Componenti");
+            placeOptions(rodPanel, rodTabs.panels, 'fieldset:has([data-finish])', "Colori");
+            const reelGrid = rodPanel.querySelector("#rod-reel")?.closest(".rod-reel-grid");
+            if (reelGrid) rodTabs.panels.get("Mulinello").append(reelGrid);
+            placeOptions(rodPanel, rodTabs.panels, 'fieldset:has([data-reel-accent])', "Colori");
+            placeOptions(rodPanel, rodTabs.panels, 'fieldset:has([data-reel-knob])', "Colori");
+            const rodNameField = rodPanel.querySelector("#rod-custom-name")?.closest(".rod-field");
+            if (rodNameField) rodTabs.panels.get("Nome").append(rodNameField);
+            const rodNameToggle = rodPanel.querySelector("#rod-name-on-object")?.closest("label");
+            if (rodNameToggle) rodTabs.panels.get("Nome").append(rodNameToggle);
+            const rodSummary = rodPanel.querySelector(".rod-config-summary");
+            const rodSummaryDetails = document.createElement("details");
+            rodSummaryDetails.className = "rod-summary-details";
+            const rodSummaryTitle = document.createElement("summary");
+            rodSummaryTitle.append("Il tuo progetto ");
+            const rodSummaryName = document.createElement("span");
+            rodSummaryName.id = "rod-summary-name";
+            rodSummaryTitle.append(rodSummaryName);
+            rodSummaryDetails.append(rodSummaryTitle, rodSummary);
+            rodPanel.append(rodSummaryDetails);
+            rodPanel.querySelectorAll(".rod-panel-heading, .rod-divider, .rod-choice-heading").forEach(element => { element.hidden = true; });
+            [...rodPanel.children].filter(element => ![rodHandle, rodTabs.nav, rodPanel.querySelector(".rod-category-panels"), rodSummaryDetails].includes(element))
+                .forEach(element => { element.hidden = true; });
+            const lureIntro = document.querySelector(".rod-section-intro");
+            const lureTitle = lureIntro?.querySelector("h2");
+            if (lureTitle) {
+                lureTitle.classList.add("rod-visually-hidden");
+                lurePanel.prepend(lureTitle);
+            }
+            const lureExplanation = lureIntro?.querySelector("p");
+            if (lureExplanation) lureTabs.panels.get("Forma").append(lureExplanation);
+            const lureTypeField = lurePanel.querySelector("#lure-type")?.closest(".rod-field");
+            const lureLengthField = lurePanel.querySelector("#lure-length")?.closest(".rod-field");
+            const lureWeightField = lurePanel.querySelector("#lure-weight")?.closest(".rod-field");
+            const lureHookField = lurePanel.querySelector("#lure-hooks")?.closest(".rod-field");
+            [lureTypeField, lureLengthField, lureWeightField].forEach(element => element && lureTabs.panels.get("Forma").append(element));
+            if (lureHookField) lureTabs.panels.get("Ami").append(lureHookField);
+            const lureColorFieldsets = [...lurePanel.querySelectorAll('fieldset:has([data-lure-color]), fieldset:has([data-lure-belly])')];
+            lureColorFieldsets.forEach(element => lureTabs.panels.get("Colori").append(element));
+            const lureEyeFieldset = lurePanel.querySelector('fieldset:has([data-lure-eye])');
+            const eyeChoices = lureEyeFieldset?.querySelector('[aria-label="Colore degli occhi"]');
+            const patternChoices = lureEyeFieldset?.querySelector("[aria-label=\"Pattern dell'esca\"]");
+            if (eyeChoices) {
+                const eyeFieldset = document.createElement("fieldset");
+                eyeFieldset.className = "rod-choice-group";
+                const eyeLegend = document.createElement("legend");
+                eyeLegend.textContent = "Colore occhi";
+                eyeFieldset.append(eyeLegend, eyeChoices);
+                lureTabs.panels.get("Colori").append(eyeFieldset);
+            }
+            if (patternChoices) {
+                const patternFieldset = document.createElement("fieldset");
+                patternFieldset.className = "rod-choice-group";
+                const patternLegend = document.createElement("legend");
+                patternLegend.textContent = "Pattern";
+                patternFieldset.append(patternLegend, patternChoices);
+                lureTabs.panels.get("Colori").append(patternFieldset);
+            }
+            const hardwareFieldset = lurePanel.querySelector('fieldset:has([data-hook-finish])');
+            const hookFinishChoices = hardwareFieldset?.querySelector('[aria-label="Finitura degli ami"]');
+            const bibChoices = hardwareFieldset?.querySelector('[aria-label="Colore paletta o lamina"]');
+            if (hookFinishChoices) {
+                const hookFinishFieldset = document.createElement("fieldset");
+                hookFinishFieldset.className = "rod-choice-group";
+                const hookLegend = document.createElement("legend");
+                hookLegend.textContent = "Finitura ami";
+                hookFinishFieldset.append(hookLegend, hookFinishChoices);
+                lureTabs.panels.get("Ami").append(hookFinishFieldset);
+            }
+            if (bibChoices) {
+                const bibFieldset = document.createElement("fieldset");
+                bibFieldset.className = "rod-choice-group";
+                const bibLegend = document.createElement("legend");
+                bibLegend.textContent = "Colore paletta o lamina";
+                bibFieldset.append(bibLegend, bibChoices);
+                lureTabs.panels.get("Colori").append(bibFieldset);
+            }
+            const lureFinishFieldset = lurePanel.querySelector('fieldset:has([data-lure-finish])');
+            if (lureFinishFieldset) {
+                const finishChoices = lureFinishFieldset.querySelector("[aria-label=\"Finitura dell'esca\"]");
+                if (finishChoices) {
+                    const finishGroup = document.createElement("fieldset");
+                    finishGroup.className = "rod-choice-group";
+                    const finishLegend = document.createElement("legend");
+                    finishLegend.textContent = "Finitura";
+                    finishGroup.append(finishLegend, finishChoices);
+                    lureTabs.panels.get("Colori").append(finishGroup);
+                }
+            }
+            const lureNameField = lurePanel.querySelector("#lure-custom-name")?.closest(".rod-field");
+            if (lureNameField) lureTabs.panels.get("Nome").append(lureNameField);
+            const lureNameToggle = lurePanel.querySelector("#lure-name-on-object")?.closest("label");
+            if (lureNameToggle) lureTabs.panels.get("Nome").append(lureNameToggle);
+            const lureSummary = lurePanel.querySelector(".rod-config-summary");
+            const lureSummaryDetails = document.createElement("details");
+            lureSummaryDetails.className = "rod-summary-details";
+            const lureSummaryTitle = document.createElement("summary");
+            lureSummaryTitle.append("Il tuo progetto ");
+            const lureSummaryName = document.createElement("span");
+            lureSummaryName.id = "lure-summary-name";
+            lureSummaryTitle.append(lureSummaryName);
+            lureSummaryDetails.append(lureSummaryTitle, lureSummary);
+            lurePanel.append(lureSummaryDetails);
+            rodPanel.closest(".rod-configurator").querySelector(".rod-preview").append(
+                rodPanel.closest(".rod-configurator").querySelector(".rod-specs")
+            );
+            lurePanel.closest(".lure-configurator").querySelector(".rod-preview").append(
+                lurePanel.closest(".lure-configurator").querySelector(".rod-specs")
+            );
+            lurePanel.querySelectorAll(".rod-panel-heading, .rod-divider, .rod-choice-heading").forEach(element => { element.hidden = true; });
+            [...lurePanel.children].filter(element => ![lureHandle, lureTitle, lureTabs.nav, lurePanel.querySelector(".rod-category-panels"), lureSummaryDetails].includes(element))
+                .forEach(element => { element.hidden = true; });
+
+            const updateChips = () => {
+                let rodChip = rodPanel.querySelector("#rod-category-chip");
+                if (!rodChip) {
+                    rodChip = document.createElement("div");
+                    rodChip.id = "rod-category-chip";
+                    rodChip.className = "rod-category-chip";
+                    rodChip.setAttribute("aria-live", "polite");
+                    rodPanel.insertBefore(rodChip, rodTabs.nav);
+                }
+                rodChip.textContent = `${techniques[config.technique].name} · ${finishes[config.finish].name} · ${grips[config.grip].name} · ${formatLength(lengthInput.value)}`;
+                rodSummaryName.textContent = document.getElementById("rod-config-name").textContent;
+                let lureChip = lurePanel.querySelector("#lure-category-chip");
+                if (!lureChip) {
+                    lureChip = document.createElement("div");
+                    lureChip.id = "lure-category-chip";
+                    lureChip.className = "rod-category-chip";
+                    lureChip.setAttribute("aria-live", "polite");
+                    lurePanel.insertBefore(lureChip, lureTabs.nav);
+                }
+                lureChip.textContent = `${lureTypeNames[lureTypeSelect.value]} · ${lureColorNames[lureConfig.color]} · ${lureControlNames.pattern[lureConfig.pattern]} · ${lureLengthInput.value} cm`;
+                lureSummaryName.textContent = document.getElementById("lure-config-name").textContent;
+            };
+            const handleButton = (button, panel, subject) => {
+                button.addEventListener("click", () => {
+                    const expanded = button.getAttribute("aria-expanded") !== "true";
+                    button.setAttribute("aria-expanded", String(expanded));
+                    panel.classList.toggle("is-expanded", expanded);
+                    button.textContent = expanded ? `Riduci opzioni ${subject}` : `Opzioni ${subject}`;
+                });
+            };
+            handleButton(rodHandle, rodPanel, "canna");
+            handleButton(lureHandle, lurePanel, "esca");
+
+            const mainTabs = [...document.querySelectorAll("[data-main-tab]")];
+            const activateMainTab = tab => {
+                mainTabs.forEach(item => {
+                    const selected = item === tab;
+                    item.setAttribute("aria-selected", String(selected));
+                    item.tabIndex = selected ? 0 : -1;
+                    const target = document.getElementById(item.getAttribute("aria-controls"));
+                    target.hidden = !selected;
+                });
+                requestAnimationFrame(() => resizeActivePreview(tab.dataset.mainTab));
+            };
+            mainTabs.forEach(tab => tab.addEventListener("click", () => activateMainTab(tab)));
+            document.querySelector(".rod-main-tabs").addEventListener("keydown", event => {
+                const activeIndex = mainTabs.indexOf(document.activeElement);
+                let nextIndex;
+                if (event.key === "ArrowRight") nextIndex = (activeIndex + 1) % mainTabs.length;
+                else if (event.key === "ArrowLeft") nextIndex = (activeIndex - 1 + mainTabs.length) % mainTabs.length;
+                else if (event.key === "Home") nextIndex = 0;
+                else if (event.key === "End") nextIndex = mainTabs.length - 1;
+                else return;
+                event.preventDefault();
+                mainTabs[nextIndex].focus();
+                activateMainTab(mainTabs[nextIndex]);
+            });
+            updateChips();
+            rodPanel.insertBefore(rodHandle, rodPanel.firstChild);
+            lurePanel.insertBefore(lureHandle, lurePanel.firstChild);
+            return updateChips;
+        }
+
+        function setPressed(buttons, attribute, value) {
+            buttons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset[attribute] === value)));
+        }
+
+        const formatLength = value => `${(Number(value) / 100).toFixed(2).replace(".", ",")} m`;
+        function fillSelect(select, options, selectedValue = options[0]) {
+            select.replaceChildren(...options.map(value => {
+                const option = document.createElement("option");
+                option.value = value;
+                option.textContent = value;
+                return option;
+            }));
+            select.value = options.includes(selectedValue) ? selectedValue : options[0];
+        }
+
+        function syncTechnique(resetLength = false) {
+            const profile = techniques[config.technique];
+            const [minimum, maximum, initial] = profile.length;
+            lengthInput.min = String(minimum);
+            lengthInput.max = String(maximum);
+            lengthInput.step = "10";
+            if (resetLength || Number(lengthInput.value) < minimum || Number(lengthInput.value) > maximum) {
+                lengthInput.value = String(initial);
+            }
+            document.getElementById("rod-length-hint").textContent = `(${formatLength(minimum)}–${formatLength(maximum)})`;
+            document.getElementById("rod-cast-label").textContent = config.technique === "fondo" ? "Piombo / esca" : "Peso di lancio";
+            document.getElementById("rod-cast-units").textContent = "grammi";
+            const [cast, action, power, pieces, reel, size, ratio, line] = profile.defaults;
+            fillSelect(castSelect, profile.cast, cast);
+            fillSelect(actionSelect, profile.action, action);
+            fillSelect(powerSelect, profile.power, power);
+            fillSelect(piecesSelect, profile.pieces, pieces);
+            fillSelect(reelSelect, profile.reels, reel);
+            fillSelect(reelSizeSelect, profile.sizes, size);
+            fillSelect(ratioSelect, profile.ratios, ratio);
+            fillSelect(lineSelect, profile.lines, line);
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const profile = techniques[config.technique];
+            const defaultName = `${profile.code} ${profile.name} ${lengthInput.value}`;
+            const customName = rodCustomNameInput.value.trim() || defaultName;
+            const reelName = `${reelSelect.value} · ${reelSizeSelect.value}`;
+            document.getElementById("rod-config-name").textContent = customName;
+            document.getElementById("rod-config-finish").textContent = finishes[config.finish].name;
+            document.getElementById("rod-config-grip").textContent = grips[config.grip].name;
+            document.getElementById("rod-config-reel").textContent = reelName;
+            document.getElementById("rod-config-ratio").textContent = ratioSelect.value;
+            document.getElementById("rod-config-line").textContent = lineSelect.value;
+            document.getElementById("rod-config-wrap").textContent =
+                `${colorLabel([...document.querySelectorAll("[data-wrap-color]")], "wrapColor", config.wrapColor, "Oro")} · ` +
+                `${colorLabel([...document.querySelectorAll("[data-trim-color]")], "trimColor", config.trimColor, "Oro")} trim · ` +
+                `${colorLabel([...document.querySelectorAll("[data-guide-insert]")], "guideInsert", config.guideInsert, "Ossidiana")} · ` +
+                `${config.guideFrame[0].toUpperCase() + config.guideFrame.slice(1)}`;
+            document.getElementById("rod-config-grip-shape").textContent =
+                `${config.gripShape === "split" ? "Split grip" : "Full grip"} · ${grips[config.grip].name}`;
+            document.getElementById("rod-config-reel-colors").textContent =
+                `${colorLabel([...document.querySelectorAll("[data-reel-accent]")], "reelAccent", config.reelAccent, "Nero")} · ` +
+                `${colorLabel([...document.querySelectorAll("[data-reel-knob]")], "reelKnob", config.reelKnob, "Nero")}`;
+            document.getElementById("rod-preview-name").textContent = customName;
+            document.getElementById("rod-specs-model").textContent = `${profile.name} · concept su misura`;
+            document.getElementById("rod-length-value").value = formatLength(lengthInput.value);
+            document.getElementById("rod-length-value").textContent = formatLength(lengthInput.value);
+            document.getElementById("spec-technique").textContent = profile.name;
+            document.getElementById("spec-length").textContent = formatLength(lengthInput.value);
+            document.getElementById("spec-cast").textContent = castSelect.value;
+            document.getElementById("spec-pieces").textContent = piecesSelect.value;
+            document.getElementById("spec-action").textContent = actionSelect.value;
+            document.getElementById("spec-power").textContent = powerSelect.value;
+            document.getElementById("spec-wrap").textContent =
+                `${colorLabel([...document.querySelectorAll("[data-wrap-color]")], "wrapColor", config.wrapColor, "Oro")} / ` +
+                `${colorLabel([...document.querySelectorAll("[data-trim-color]")], "trimColor", config.trimColor, "Oro")}`;
+            document.getElementById("spec-frame").textContent = config.guideFrame[0].toUpperCase() + config.guideFrame.slice(1);
+            document.getElementById("spec-grip-color").textContent = config.grip === "sughero" ? "Sughero" : colorLabel([...document.querySelectorAll("[data-eva-color]")], "evaColor", config.evaColor, "Nero");
+
+            const lureType = lureTypeSelect.value;
+            const lureDefaultName = `Cecina ${lureTypeNames[lureType]}`;
+            const lureName = lureCustomNameInput.value.trim() || lureDefaultName;
+            const lureLength = `${lureLengthInput.value} cm`;
+            document.getElementById("lure-preview-name").textContent = lureName;
+            document.getElementById("lure-config-name").textContent = lureName;
+            document.getElementById("lure-config-type").textContent = lureTypeNames[lureType];
+            document.getElementById("lure-config-color").textContent = lureColorNames[lureConfig.color];
+            document.getElementById("lure-config-detail-colors").textContent =
+                `${lureControlNames.belly[lureConfig.belly]} · ${lureControlNames.eye[lureConfig.eye]}`;
+            document.getElementById("lure-config-pattern").textContent =
+                `${lureControlNames.pattern[lureConfig.pattern]} · ${lureControlNames.finish[lureConfig.finish]}`;
+            document.getElementById("lure-config-hardware").textContent =
+                `${lureControlNames.hook[lureConfig.hook]} · ${lureControlNames.bib[lureConfig.bib]}`;
+            document.getElementById("lure-length-value").value = lureLength;
+            document.getElementById("lure-length-value").textContent = lureLength;
+            document.getElementById("lure-spec-type").textContent = lureTypeNames[lureType];
+            document.getElementById("lure-spec-length").textContent = lureLength;
+            document.getElementById("lure-spec-weight").textContent = `${lureWeightSelect.value} g`;
+            document.getElementById("lure-spec-hooks").textContent = lureHookNames[lureHooksSelect.value];
+            document.getElementById("lure-spec-pattern").textContent = lureControlNames.pattern[lureConfig.pattern];
+            document.getElementById("lure-spec-finish").textContent = lureControlNames.finish[lureConfig.finish];
+            document.getElementById("lure-spec-eye-belly").textContent =
+                `${lureControlNames.eye[lureConfig.eye]} / ${lureControlNames.belly[lureConfig.belly]}`;
+            refreshLayoutChips();
+        }
+
+        let refreshLayoutChips = () => {};
+        refreshLayoutChips = buildConfiguratorLayout();
+
+        let pendingDraw = false;
+        function refreshPreview() {
+            if (!three || pendingDraw) return;
+            pendingDraw = true;
+            requestAnimationFrame(() => {
+                pendingDraw = false;
+                drawRod();
+            });
+        }
+
+        function refreshConfiguration() {
+            updateSummary();
+            refreshPreview();
+            animateFishFlex();
+        }
+        let pendingLureDraw = false;
+        function refreshLurePreview() {
+            updateSummary();
+            if (!three || pendingLureDraw) return;
+            pendingLureDraw = true;
+            requestAnimationFrame(() => {
+                pendingLureDraw = false;
+                drawLure();
+            });
+        }
+
+        function savePreview(kind) {
+            const activeRenderer = kind === "rod" ? renderer : lureRenderer;
+            const activeScene = kind === "rod" ? scene : lureScene;
+            const activeCamera = kind === "rod" ? camera : lureCamera;
+            const name = kind === "rod"
+                ? (rodCustomNameInput.value.trim() || `${techniques[config.technique].name}-${lengthInput.value}`)
+                : (lureCustomNameInput.value.trim() || `Cecina-${lureTypeNames[lureTypeSelect.value]}`);
+            if (!activeRenderer || !activeScene || !activeCamera) {
+                window.alert("L’anteprima 3D non è disponibile per il salvataggio.");
+                return;
+            }
+            activeRenderer.render(activeScene, activeCamera);
+            const slug = name.normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "pescalife-progetto";
+            activeRenderer.domElement.toBlob(blob => {
+                if (!blob) {
+                    window.alert("Non è stato possibile creare l’immagine PNG. Riprova.");
+                    return;
+                }
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `${slug}.png`;
+                document.body.append(link);
+                link.click();
+                link.remove();
+                window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+            }, "image/png");
+        }
+
+        for (const button of techniqueButtons) {
+            button.addEventListener("click", () => {
+                config.technique = button.dataset.technique;
+                setPressed(techniqueButtons, "technique", config.technique);
+                syncTechnique(true);
+                refreshPreview();
+            });
+        }
+        for (const button of finishButtons) {
+            button.addEventListener("click", () => {
+                config.finish = button.dataset.finish;
+                setPressed(finishButtons, "finish", config.finish);
+                refreshConfiguration();
+            });
+        }
+        for (const button of gripButtons) {
+            button.addEventListener("click", () => {
+                config.grip = button.dataset.grip;
+                setPressed(gripButtons, "grip", config.grip);
+                refreshConfiguration();
+            });
+        }
+        const rodChoiceGroups = [
+            ["[data-grip-shape]", "gripShape"],
+            ["[data-eva-color]", "evaColor"],
+            ["[data-wrap-color]", "wrapColor"],
+            ["[data-trim-color]", "trimColor"],
+            ["[data-guide-insert]", "guideInsert"],
+            ["[data-guide-frame]", "guideFrame"],
+            ["[data-reel-accent]", "reelAccent"],
+            ["[data-reel-knob]", "reelKnob"]
+        ];
+        for (const [selector, key] of rodChoiceGroups) {
+            const buttons = [...document.querySelectorAll(selector)];
+            for (const button of buttons) {
+                button.addEventListener("click", () => {
+                    config[key] = button.dataset[key];
+                    setPressed(buttons, key, config[key]);
+                    refreshConfiguration();
+                });
+            }
+        }
+        lengthInput.addEventListener("input", refreshConfiguration);
+        [castSelect, actionSelect, powerSelect, piecesSelect, reelSelect, reelSizeSelect, ratioSelect, lineSelect]
+            .forEach(select => select.addEventListener("change", refreshConfiguration));
+        reelSelect.addEventListener("change", () => {
+            fillSelect(reelSizeSelect, techniques[config.technique].sizes, reelSizeSelect.value);
+            refreshConfiguration();
+        });
+        rodCustomNameInput.addEventListener("input", refreshConfiguration);
+        rodNameOnObject.addEventListener("change", refreshConfiguration);
+        [lureTypeSelect, lureLengthInput, lureWeightSelect, lureHooksSelect, lureCustomNameInput, lureNameOnObject]
+            .forEach(control => control.addEventListener("input", refreshLurePreview));
+        [lureTypeSelect, lureWeightSelect, lureHooksSelect, lureNameOnObject]
+            .forEach(control => control.addEventListener("change", refreshLurePreview));
+        for (const button of lureColorButtons) {
+            button.addEventListener("click", () => {
+                lureConfig.color = button.dataset.lureColor;
+                setPressed(lureColorButtons, "lureColor", lureConfig.color);
+                refreshLurePreview();
+            });
+        }
+        const lureChoiceGroups = [
+            ["[data-lure-belly]", "belly", "lureBelly"],
+            ["[data-lure-eye]", "eye", "lureEye"],
+            ["[data-lure-pattern]", "pattern", "lurePattern"],
+            ["[data-lure-finish]", "finish", "lureFinish"],
+            ["[data-hook-finish]", "hook", "hookFinish"],
+            ["[data-lure-bib]", "bib", "lureBib"]
+        ];
+        for (const [selector, key, attribute] of lureChoiceGroups) {
+            const buttons = [...document.querySelectorAll(selector)];
+            for (const button of buttons) {
+                button.addEventListener("click", () => {
+                    lureConfig[key] = button.dataset[attribute];
+                    setPressed(buttons, attribute, lureConfig[key]);
+                    refreshLurePreview();
+                });
+            }
+        }
+        fishWeightInput.addEventListener("input", () => {
+            fishWeightOutput.value = `${Number(fishWeightInput.value)} kg`;
+            fishWeightOutput.textContent = fishWeightOutput.value;
+            refreshConfiguration();
+            animateFishFlex();
+        });
+        document.getElementById("fish-weight-reset").addEventListener("click", () => {
+            fishWeightInput.value = "0";
+            fishWeightInput.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+        for (const button of document.querySelectorAll("[data-rod-view]")) {
+            button.addEventListener("click", () => {
+                const views = {
+                    insieme: { target: [0.2, -0.1, 0], theta: 0.18, phi: 1.42, zoom: 1 },
+                    impugnatura: { target: [-3.1, -0.2, 0], theta: 0.12, phi: 1.48, zoom: 1.8 },
+                    mulinello: { target: [-1.25, -0.25, 0], theta: 0.25, phi: 1.42, zoom: 2.2 },
+                    cimino: { target: [3.7, 0.15, 0], theta: 0.12, phi: 1.45, zoom: 2 }
+                };
+                setPressed([...document.querySelectorAll("[data-rod-view]")], "rodView", button.dataset.rodView);
+                rodOrbit?.goTo(views[button.dataset.rodView]);
+            });
+        }
+        for (const button of document.querySelectorAll("[data-lure-view]")) {
+            button.addEventListener("click", () => {
+                const views = {
+                    insieme: { target: [0, 0, 0], theta: 0.2, phi: 1.38, zoom: 1 },
+                    fianco: { target: [0, 0, 0], theta: 0, phi: 1.55, zoom: 1.15 },
+                    alto: { target: [0, 0, 0], theta: 0.2, phi: 0.25, zoom: 1.1 },
+                    ami: { target: [0.1, -0.28, 0], theta: 0.3, phi: 1.5, zoom: 2.5 }
+                };
+                setPressed([...document.querySelectorAll("[data-lure-view]")], "lureView", button.dataset.lureView);
+                lureOrbit?.goTo(views[button.dataset.lureView]);
+            });
+        }
+        for (const [viewCanvas, selector, attribute, resetValue] of [
+            [canvas, "[data-rod-view]", "rodView", "insieme"],
+            [lureCanvas, "[data-lure-view]", "lureView", "insieme"]
+        ]) {
+            const buttons = [...document.querySelectorAll(selector)];
+            const clearActiveView = () => buttons.forEach(item => item.setAttribute("aria-pressed", "false"));
+            viewCanvas.addEventListener("pointerdown", clearActiveView);
+            viewCanvas.addEventListener("wheel", clearActiveView, { passive: true });
+            viewCanvas.addEventListener("keydown", clearActiveView);
+            viewCanvas.addEventListener("dblclick", () => {
+                const reset = buttons.find(item => item.dataset[attribute] === resetValue);
+                if (reset) setPressed(buttons, attribute, reset.dataset[attribute]);
+            });
+        }
+        for (const button of document.querySelectorAll("[data-save-canvas]")) {
+            button.addEventListener("click", () => savePreview(button.dataset.saveCanvas));
+        }
+
+        syncTechnique(true);
+
+        let scene;
+        let camera;
+        let renderer;
+        let rodGroup;
+        let resizeObserver;
+        let lureScene;
+        let lureCamera;
+        let lureRenderer;
+        let lureGroup;
+        let lureResizeObserver;
+        let rodOrbit;
+        let lureOrbit;
+        let environmentTarget;
+        let lureEnvironmentTarget;
+        let rodKeyLight;
+        const materials = [];
+        const lureMaterials = [];
+
+        function resizeActivePreview(kind) {
+            const isRod = kind === "rod";
+            const targetCanvas = isRod ? canvas : lureCanvas;
+            const targetRenderer = isRod ? renderer : lureRenderer;
+            const targetCamera = isRod ? camera : lureCamera;
+            const targetOrbit = isRod ? rodOrbit : lureOrbit;
+            const targetPreview = isRod ? preview : lurePreview;
+            if (!targetRenderer || !targetCamera || !targetCanvas || targetPreview.hidden) return;
+            const { width, height } = targetCanvas.getBoundingClientRect();
+            if (!width || !height) return;
+            targetCamera.aspect = width / height;
+            targetCamera.fov = width < 600 ? (isRod ? 45 : 45) : (isRod ? 37 : 38);
+            targetCamera.updateProjectionMatrix();
+            targetRenderer.setSize(width, height, false);
+            if (isRod) {
+                drawRod();
+                targetOrbit?.setFitScale((1.15 + (Number(lengthInput.value) / 240 - 1) * 0.52) * Math.max(1, 1.15 / targetCamera.aspect));
+            } else {
+                drawLure();
+                targetOrbit?.setFitScale(Math.max(0.7, Number(lureLengthInput.value) / 9) * Math.max(1, 1.1 / targetCamera.aspect));
+            }
+        }
+
+        // Generate small repeatable surface maps locally so redraws never depend on external assets.
+        function surfaceTexture(kind, color) {
+            const canvasTexture = document.createElement("canvas");
+            canvasTexture.width = 256;
+            canvasTexture.height = 256;
+            const context = canvasTexture.getContext("2d");
+            context.fillStyle = color;
+            context.fillRect(0, 0, 256, 256);
+            if (kind === "carbon") {
+                context.strokeStyle = "rgba(255,255,255,.22)";
+                context.lineWidth = 2;
+                for (let offset = -256; offset < 512; offset += 12) {
+                    context.beginPath();
+                    context.moveTo(offset, 0);
+                    context.lineTo(offset + 256, 256);
+                    context.stroke();
+                    context.strokeStyle = "rgba(0,0,0,.24)";
+                    context.beginPath();
+                    context.moveTo(offset + 6, 0);
+                    context.lineTo(offset + 262, 256);
+                    context.stroke();
+                    context.strokeStyle = "rgba(255,255,255,.22)";
+                }
+            } else if (kind === "cork") {
+                for (let i = 0; i < 1800; i++) {
+                    const shade = i % 2 ? "rgba(70,43,22,.20)" : "rgba(255,232,189,.28)";
+                    context.fillStyle = shade;
+                    context.beginPath();
+                    context.ellipse((i * 73) % 256, (i * 137) % 256, 1 + (i % 3), 1 + (i % 2), 0, 0, Math.PI * 2);
+                    context.fill();
+                }
+            } else if (kind === "eva") {
+                context.strokeStyle = "rgba(255,255,255,.16)";
+                context.lineWidth = 1;
+                for (let i = 0; i <= 256; i += 8) {
+                    context.beginPath(); context.moveTo(i, 0); context.lineTo(i, 256); context.stroke();
+                    context.beginPath(); context.moveTo(0, i); context.lineTo(256, i); context.stroke();
+                }
+            } else if (kind === "scales") {
+                context.strokeStyle = "rgba(255,255,255,.42)";
+                context.lineWidth = 2;
+                for (let row = 0; row < 8; row++) {
+                    for (let col = -1; col < 8; col++) {
+                        const x = col * 36 + (row % 2) * 18;
+                        const y = row * 32;
+                        context.beginPath();
+                        context.arc(x, y, 22, 0.1, Math.PI - 0.1);
+                        context.stroke();
+                    }
+                }
+            } else if (kind === "stripes") {
+                context.fillStyle = "rgba(10,25,30,.32)";
+                for (let x = 0; x < 256; x += 38) context.fillRect(x, 0, 13, 256);
+            } else if (kind === "dots") {
+                context.fillStyle = "rgba(15,28,30,.45)";
+                for (let y = 12; y < 256; y += 32) {
+                    for (let x = 12 + (y % 2) * 15; x < 256; x += 32) {
+                        context.beginPath(); context.arc(x, y, 4, 0, Math.PI * 2); context.fill();
+                    }
+                }
+            }
+            const texture = new three.CanvasTexture(canvasTexture);
+            texture.colorSpace = three.SRGBColorSpace;
+            texture.wrapS = texture.wrapT = three.RepeatWrapping;
+            texture.repeat.set(3, 1);
+            return texture;
+        }
+
+        function material(color, roughness = 0.55, metalness = 0.15) {
+            const item = new three.MeshStandardMaterial({ color, roughness, metalness });
+            materials.push(item);
+            return item;
+        }
+
+        function physicalMaterial(color, roughness, metalness, collection, textureKind, extras = {}) {
+            const texture = textureKind ? surfaceTexture(textureKind, color) : null;
+            const item = new three.MeshPhysicalMaterial({
+                color: texture ? "#ffffff" : color,
+                roughness,
+                metalness,
+                clearcoat: 0.35,
+                clearcoatRoughness: 0.22,
+                map: texture,
+                bumpMap: texture,
+                bumpScale: textureKind === "carbon" ? 0.018 : textureKind === "cork" ? 0.025 : 0.012,
+                ...extras
+            });
+            collection.push(item);
+            return item;
+        }
+
+        function nameMaterial(text, collection = materials) {
+            const label = document.createElement("canvas");
+            label.width = 512;
+            label.height = 96;
+            const context = label.getContext("2d");
+            context.fillStyle = "#10252d";
+            context.fillRect(0, 0, label.width, label.height);
+            context.strokeStyle = "#85d4d2";
+            context.lineWidth = 5;
+            context.strokeRect(3, 3, label.width - 6, label.height - 6);
+            let fontSize = 42;
+            context.font = `700 ${fontSize}px system-ui, sans-serif`;
+            while (context.measureText(text).width > 460 && fontSize > 18) {
+                fontSize -= 2;
+                context.font = `700 ${fontSize}px system-ui, sans-serif`;
+            }
+            context.fillStyle = "#f4ffff";
+            context.textAlign = "center";
+            context.textBaseline = "middle";
+            context.fillText(text, label.width / 2, label.height / 2, 460);
+            const texture = new three.CanvasTexture(label);
+            texture.colorSpace = three.SRGBColorSpace;
+            const labelMaterial = new three.MeshBasicMaterial({ map: texture, side: three.DoubleSide, toneMapped: false });
+            collection.push(labelMaterial);
+            return labelMaterial;
+        }
+
+        function orbitControls(targetCanvas, orbitCamera, targetPoint, render, startingDistance, minimumZoom, maximumZoom) {
+            const offset = orbitCamera.position.clone().sub(targetPoint);
+            const startingTarget = targetPoint.clone();
+            const spherical = new three.Spherical().setFromVector3(offset);
+            const startingRadius = startingDistance;
+            let zoom = 1;
+            let fitScale = 1;
+            let lastPointer = null;
+            const activePointers = new Map();
+            const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
+            const updateCamera = () => {
+                spherical.radius = clamp(startingRadius * fitScale * zoom, minimumZoom, maximumZoom);
+                orbitCamera.position.setFromSpherical(spherical).add(targetPoint);
+                orbitCamera.lookAt(targetPoint);
+                render();
+            };
+            const setFitScale = value => {
+                fitScale = value;
+                updateCamera();
+            };
+            targetCanvas.addEventListener("pointerdown", event => {
+                stopTransition();
+                activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+                targetCanvas.setPointerCapture(event.pointerId);
+                targetCanvas.classList.add("is-dragging");
+                if (activePointers.size === 1) lastPointer = { x: event.clientX, y: event.clientY };
+            });
+            targetCanvas.addEventListener("pointermove", event => {
+                if (!activePointers.has(event.pointerId)) return;
+                if (activePointers.size > 1) {
+                    const previous = [...activePointers.values()];
+                    const oldDistance = Math.hypot(previous[0].x - previous[1].x, previous[0].y - previous[1].y);
+                    activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+                    const current = [...activePointers.values()];
+                    const nextDistance = Math.hypot(current[0].x - current[1].x, current[0].y - current[1].y);
+                    if (oldDistance > 0 && nextDistance > 0) zoom = clamp(zoom * oldDistance / nextDistance, 0.45, 2.5);
+                    updateCamera();
+                    return;
+                }
+                const deltaX = event.clientX - lastPointer.x;
+                const deltaY = event.clientY - lastPointer.y;
+                spherical.theta -= deltaX * 0.008;
+                spherical.phi = clamp(spherical.phi + deltaY * 0.008, 0.12, Math.PI - 0.12);
+                lastPointer = { x: event.clientX, y: event.clientY };
+                activePointers.set(event.pointerId, lastPointer);
+                updateCamera();
+            });
+            const releasePointer = event => {
+                activePointers.delete(event.pointerId);
+                targetCanvas.classList.toggle("is-dragging", activePointers.size > 0);
+                if (activePointers.size === 1) {
+                    lastPointer = [...activePointers.values()][0];
+                } else {
+                    lastPointer = null;
+                }
+            };
+            targetCanvas.addEventListener("pointerup", releasePointer);
+            targetCanvas.addEventListener("pointercancel", releasePointer);
+            targetCanvas.addEventListener("wheel", event => {
+                stopTransition();
+                event.preventDefault();
+                zoom = clamp(zoom * Math.exp(event.deltaY * 0.001), 0.45, 2.5);
+                updateCamera();
+            }, { passive: false });
+            targetCanvas.addEventListener("dblclick", () => {
+                stopTransition();
+                targetPoint.copy(startingTarget);
+                spherical.setFromVector3(offset);
+                zoom = 1;
+                updateCamera();
+            });
+            targetCanvas.addEventListener("keydown", event => {
+                stopTransition();
+                if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                    spherical.theta += event.key === "ArrowLeft" ? -0.12 : 0.12;
+                } else if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+                    spherical.phi = clamp(spherical.phi + (event.key === "ArrowUp" ? -0.12 : 0.12), 0.12, Math.PI - 0.12);
+                } else if (event.key === "+" || event.key === "=" || event.key === "-") {
+                    zoom = clamp(zoom * (event.key === "-" ? 1.12 : 0.9), 0.45, 2.5);
+                } else {
+                    return;
+                }
+                event.preventDefault();
+                updateCamera();
+            });
+            const stopTransition = () => {
+                if (cameraAnimationFrame) cancelAnimationFrame(cameraAnimationFrame);
+                cameraAnimationFrame = 0;
+            };
+            let cameraAnimationFrame = 0;
+            const goTo = view => {
+                stopTransition();
+                const startTarget = targetPoint.clone();
+                const endTarget = new three.Vector3(...view.target);
+                const startTheta = spherical.theta;
+                const startPhi = spherical.phi;
+                const startRadius = spherical.radius;
+                const startZoom = zoom;
+                const endRadius = clamp(startingRadius * fitScale / view.zoom, minimumZoom, maximumZoom);
+                const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                if (reducedMotion) {
+                    targetPoint.copy(endTarget);
+                    spherical.theta = view.theta;
+                    spherical.phi = view.phi;
+                    spherical.radius = endRadius;
+                    zoom = endRadius / Math.max(0.001, startingRadius * fitScale);
+                    updateCamera();
+                    return;
+                }
+                const startedAt = performance.now();
+                const animate = now => {
+                    const progress = Math.min(1, (now - startedAt) / 600);
+                    const eased = progress * progress * (3 - 2 * progress);
+                    targetPoint.lerpVectors(startTarget, endTarget, eased);
+                    spherical.theta = startTheta + (view.theta - startTheta) * eased;
+                    spherical.phi = startPhi + (view.phi - startPhi) * eased;
+                    spherical.radius = startRadius + (endRadius - startRadius) * eased;
+                    zoom = startZoom + (endRadius / Math.max(0.001, startingRadius * fitScale) - startZoom) * eased;
+                    updateCamera();
+                    if (progress < 1) cameraAnimationFrame = requestAnimationFrame(animate);
+                    else cameraAnimationFrame = 0;
+                };
+                cameraAnimationFrame = requestAnimationFrame(animate);
+            };
+            return { setFitScale, update: updateCamera, goTo };
+        }
+
+        function addCylinder(parent, radiusTop, radiusBottom, length, colorMaterial, x, y, z, radialSegments = 16) {
+            const mesh = new three.Mesh(new three.CylinderGeometry(radiusTop, radiusBottom, length, radialSegments), colorMaterial);
+            mesh.rotation.z = Math.PI / 2;
+            mesh.position.set(x, y, z);
+            parent.add(mesh);
+            return mesh;
+        }
+
+        function addGuide(parent, x, radius, metalMaterial, insertMaterial, side, y, angle) {
+            const loop = new three.Mesh(new three.TorusGeometry(radius, 0.016, 7, 24), metalMaterial);
+            loop.rotation.y = Math.PI / 2;
+            loop.rotation.z = angle;
+            loop.position.set(x, y + side * radius * 0.72, 0);
+            parent.add(loop);
+            const insert = new three.Mesh(new three.TorusGeometry(radius * 0.88, 0.009, 6, 24), insertMaterial);
+            insert.rotation.y = Math.PI / 2;
+            insert.rotation.z = angle;
+            insert.position.copy(loop.position);
+            parent.add(insert);
+            const foot = new three.Mesh(new three.CylinderGeometry(0.012, 0.019, radius * 0.76, 6), metalMaterial);
+            foot.rotation.z = angle + side * 0.55;
+            foot.position.set(x - 0.025, y + side * radius * 0.3, 0);
+            parent.add(foot);
+        }
+
+        // Integrate an action-dependent deflection profile into sampled points for the blank and guides.
+        function makeTaperedBlank(length, thickness, tipAngle, action) {
+            const samples = 32;
+            const exponent = { Moderate: 2, "Moderate-fast": 2.8, Fast: 4, "Extra-fast": 5.2 }[action] || 3;
+            const curvePoints = Array.from({ length: samples + 1 }, (_, index) => {
+                const t = index / samples;
+                const bend = Math.pow(t, exponent) * Math.sin(tipAngle * Math.PI / 180) * length * 0.48;
+                return new three.Vector3(t * length, 0.07 - bend, 0);
+            });
+            const curve = new three.CatmullRomCurve3(curvePoints);
+            const frames = curve.computeFrenetFrames(samples, false);
+            const positions = [];
+            const indices = [];
+            const radialSegments = 10;
+            for (let ring = 0; ring <= samples; ring++) {
+                const t = ring / samples;
+                const center = curve.getPointAt(t);
+                const radius = (0.008 + 0.056 * Math.pow(1 - t, 1.28)) * thickness;
+                for (let side = 0; side <= radialSegments; side++) {
+                    const angle = side / radialSegments * Math.PI * 2;
+                    const normal = frames.normals[ring].clone().multiplyScalar(Math.cos(angle));
+                    const binormal = frames.binormals[ring].clone().multiplyScalar(Math.sin(angle));
+                    positions.push(
+                        center.x + (normal.x + binormal.x) * radius,
+                        center.y + (normal.y + binormal.y) * radius,
+                        center.z + (normal.z + binormal.z) * radius
+                    );
+                    if (ring < samples && side < radialSegments) {
+                        const a = ring * (radialSegments + 1) + side;
+                        const b = a + radialSegments + 1;
+                        indices.push(a, b, a + 1, b, b + 1, a + 1);
+                    }
+                }
+            }
+            const geometry = new three.BufferGeometry();
+            geometry.setAttribute("position", new three.Float32BufferAttribute(positions, 3));
+            geometry.setIndex(indices);
+            geometry.computeVertexNormals();
+            return { geometry, curve };
+        }
+
+        let flexAngle = 0;
+        let targetFlexAngle = 0;
+        let flexAnimationFrame = 0;
+        function calculateFlexAngle() {
+            const actionFactor = { Moderate: 0.78, "Moderate-fast": 0.92, Fast: 1.08, "Extra-fast": 1.2 }[actionSelect.value] || 1;
+            const powerIndex = Math.max(0, techniques[config.technique].power.indexOf(powerSelect.value));
+            const thickness = 1 + powerIndex * 0.16;
+            const lengthMeters = Number(lengthInput.value) / 100;
+            const stiffness = 145 * (powerIndex + 1) * Math.pow(thickness, 3.2) / actionFactor;
+            const force = Number(fishWeightInput.value) * 9.81;
+            return Math.min(38, Math.atan2(force * lengthMeters * lengthMeters, 2 * stiffness) * 180 / Math.PI);
+        }
+
+        function animateFishFlex() {
+            if (!three || !rodGroup) return;
+            targetFlexAngle = calculateFlexAngle();
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+                flexAngle = targetFlexAngle;
+                drawRod();
+                return;
+            }
+            if (flexAnimationFrame) return;
+            let lastDraw = 0;
+            const animate = now => {
+                flexAngle += (targetFlexAngle - flexAngle) * 0.22;
+                if (now - lastDraw > 30) {
+                    drawRod();
+                    lastDraw = now;
+                }
+                if (Math.abs(targetFlexAngle - flexAngle) > 0.08) {
+                    flexAnimationFrame = requestAnimationFrame(animate);
+                } else {
+                    flexAngle = targetFlexAngle;
+                    flexAnimationFrame = 0;
+                    drawRod();
+                }
+                fishWeightState.textContent = `Carico: ${Number(fishWeightInput.value)} kg · Curvatura: ${Math.round(flexAngle)}°`;
+            };
+            flexAnimationFrame = requestAnimationFrame(animate);
+        }
+
+        function addReel(parent, metal, dark, accent, knobMaterial, kind, size, modelName) {
+            const isCasting = kind === "casting";
+            const isSurf = kind === "surf";
+            const isRound = modelName.includes("Round");
+            const centerY = isCasting ? 0.43 : -0.68;
+            const centerZ = isCasting ? 0 : 0.16;
+            const nominalSize = isSurf ? 6000 : isCasting ? 200 : 2500;
+            const reelScale = Math.max(0.78, Math.min(1.38, (size / nominalSize) ** 0.35)) * (isSurf ? 1.2 : isCasting ? 0.84 : 1);
+            const bodyGeometry = isCasting && !isRound
+                ? new three.BoxGeometry(0.85, 0.4, 0.58, 4, 3, 3)
+                : new three.SphereGeometry(0.36, 24, 16);
+            const housing = new three.Mesh(
+                bodyGeometry,
+                dark
+            );
+            housing.scale.set(isCasting ? (isRound ? 0.95 : 1) : 0.9, isCasting ? (isRound ? 1 : 0.72) : 0.85, isCasting ? 0.72 : 0.68);
+            housing.position.set(-1.32, centerY, centerZ);
+            housing.scale.multiplyScalar(reelScale);
+            parent.add(housing);
+
+            const spoolRadius = (isSurf ? (modelName.includes("Long Cast") ? 0.45 : 0.38) : isCasting ? 0.2 : 0.26) * reelScale;
+            const spoolWidth = isCasting ? 0.52 : isSurf ? 0.23 : 0.3;
+            const spool = new three.Mesh(new three.CylinderGeometry(spoolRadius * 0.94, spoolRadius, spoolWidth * reelScale, 28), metal);
+            spool.rotation.x = Math.PI / 2;
+            spool.position.set(-1.32, centerY, isCasting ? 0 : 0.46 * reelScale);
+            parent.add(spool);
+            const spoolFaceZ = isCasting ? spoolWidth * reelScale / 2 + 0.015 : (0.46 + spoolWidth / 2) * reelScale + 0.015;
+            const hub = new three.Mesh(new three.CylinderGeometry(0.1 * reelScale, 0.13 * reelScale, 0.055 * reelScale, 20), dark);
+            hub.rotation.x = Math.PI / 2;
+            hub.position.set(-1.32, centerY, spoolFaceZ);
+            parent.add(hub);
+            const hubRing = new three.Mesh(new three.TorusGeometry(0.13 * reelScale, 0.012 * reelScale, 6, 20), accent);
+            hubRing.position.set(-1.32, centerY, spoolFaceZ + 0.03 * reelScale);
+            parent.add(hubRing);
+            for (const offset of [-0.5, 0.5]) {
+                const lip = new three.Mesh(new three.TorusGeometry(spoolRadius, isCasting ? 0.023 : 0.032, 8, 28), accent);
+                lip.position.set(-1.32, centerY, isCasting ? offset * 0.48 * reelScale : 0.46 * reelScale + offset * 0.14 * reelScale);
+                parent.add(lip);
+            }
+
+            if (!isCasting) {
+                const stem = new three.Mesh(new three.CylinderGeometry(0.045, 0.07, 0.46, 10), metal);
+                stem.position.set(-1.32, -0.42, 0.03);
+                stem.rotation.x = 0.18;
+                parent.add(stem);
+                const bail = new three.Mesh(new three.TorusGeometry(0.37 * reelScale, 0.018, 6, 32, Math.PI * 1.28), metal);
+                bail.rotation.set(0, Math.PI / 2, Math.PI * 0.36);
+                bail.position.set(-1.32, centerY, 0.43 * reelScale);
+                parent.add(bail);
+                const lineRoller = new three.Mesh(new three.CylinderGeometry(0.045, 0.045, 0.09, 12), accent);
+                lineRoller.rotation.x = Math.PI / 2;
+                lineRoller.position.set(-1.05, centerY + 0.12, 0.4 * reelScale);
+                parent.add(lineRoller);
+            } else {
+                const thumbBar = new three.Mesh(new three.CylinderGeometry(0.025, 0.025, 0.42, 10), metal);
+                thumbBar.rotation.z = Math.PI / 2;
+                thumbBar.position.set(-1.32, centerY + 0.16, 0.38);
+                parent.add(thumbBar);
+                const starDrag = new three.Mesh(new three.TorusGeometry(0.12 * reelScale, 0.018, 6, 8), accent);
+                starDrag.rotation.x = Math.PI / 2;
+                starDrag.position.set(-1.08, centerY - 0.1, 0.25);
+                parent.add(starDrag);
+                const tensionKnob = new three.Mesh(new three.CylinderGeometry(0.075, 0.075, 0.07, 12), accent);
+                tensionKnob.rotation.x = Math.PI / 2;
+                tensionKnob.position.set(-1.58, centerY + 0.03, 0.31);
+                parent.add(tensionKnob);
+            }
+
+            const arm = new three.Mesh(new three.CylinderGeometry(0.025, 0.04, 0.35 * reelScale, 8), knobMaterial);
+            arm.rotation.z = Math.PI / 3;
+            arm.position.set(-0.88, centerY - (isCasting ? 0.12 : 0.19), 0.48 * reelScale);
+            parent.add(arm);
+            const knob = new three.Mesh(new three.CapsuleGeometry(0.075 * reelScale, 0.12 * reelScale, 4, 8), knobMaterial);
+            knob.position.set(-0.73, centerY - (isCasting ? 0.28 : 0.35) * reelScale, 0.49 * reelScale);
+            parent.add(knob);
+        }
+
+        function addWrap(parent, x, colorMaterial, y = 0.07, angle = 0, width = 0.1) {
+            const wrap = new three.Mesh(new three.CylinderGeometry(0.066, 0.066, width, 16), colorMaterial);
+            wrap.rotation.z = Math.PI / 2 + angle;
+            wrap.position.set(x, y, 0);
+            parent.add(wrap);
+        }
+
+        function disposeRod() {
+            if (!rodGroup) return;
+            scene.remove(rodGroup);
+            rodGroup.traverse(object => {
+                if (object.geometry) object.geometry.dispose();
+            });
+            const textures = new Set();
+            for (const item of materials) {
+                if (item.map) textures.add(item.map);
+                if (item.bumpMap) textures.add(item.bumpMap);
+                if (item.normalMap) textures.add(item.normalMap);
+                item.dispose();
+            }
+            textures.forEach(texture => texture.dispose());
+            materials.length = 0;
+            rodGroup = null;
+        }
+
+        function drawRod() {
+            disposeRod();
+            const profile = techniques[config.technique];
+            rodGroup = new three.Group();
+            rodGroup.rotation.z = 0.025;
+            const blank = physicalMaterial(finishes[config.finish].color, 0.27, 0.72, materials, "carbon", { clearcoat: 0.8 });
+            const gripColor = config.grip === "sughero" ? grips.sughero.color : config.evaColor;
+            const cork = physicalMaterial(gripColor, grips[config.grip].roughness, 0.02, materials, config.grip === "sughero" ? "cork" : "eva", {
+                sheen: 0.22, sheenRoughness: 0.85
+            });
+            const metal = material("#c8d3d4", 0.25, 0.85);
+            const frameColor = { acciaio: "#c8d3d4", nero: "#252a2d", titanio: "#7d9299" }[config.guideFrame];
+            const darkMetal = material(frameColor, 0.24, 0.86);
+            const accent = material(config.wrapColor, 0.24, 0.62);
+            const trimAccent = material(config.trimColor, 0.22, 0.72);
+            const reelAccent = material(config.reelAccent, 0.22, 0.82);
+            const reelKnob = physicalMaterial(config.reelKnob, 0.75, 0.02, materials, config.reelKnob === "#b88b58" ? "cork" : "eva");
+            const insert = material(config.guideInsert, 0.19, 0.7);
+            const tipColor = material("#b9d1c9", 0.3, 0.42);
+            const lengthScale = Number(lengthInput.value) / 240;
+            const blankGroup = new three.Group();
+            const guideSide = config.technique === "casting" ? 1 : -1;
+            const powerIndex = techniques[config.technique].power.indexOf(powerSelect.value);
+            const blankThickness = 1 + powerIndex * 0.16;
+
+            const rearGripLength = config.technique === "fondo" ? 2.05 : config.technique === "casting" ? 1.2 : 1.55;
+            const rearGripCenter = -2.575 - rearGripLength / 2;
+            const buttCap = material("#303a3e", 0.32, 0.55);
+            addCylinder(rodGroup, 0.085, 0.14, 0.25, buttCap, -4.25, 0, 0);
+            addCylinder(rodGroup, 0.11, 0.085, config.gripShape === "split" ? rearGripLength * 0.84 : rearGripLength, cork, rearGripCenter, 0, 0);
+            if (config.gripShape !== "split") addCylinder(rodGroup, 0.085, 0.095, 0.55, cork, -2.3, 0, 0);
+            addCylinder(rodGroup, 0.052, 0.08, 0.82, blank, -1.62, 0.055, 0);
+            addCylinder(rodGroup, 0.075, 0.075, 0.1, metal, -1.2, 0.055, 0);
+            addCylinder(rodGroup, 0.04, 0.067, 0.54, blank, -0.88, 0.06, 0);
+
+            const blankStart = -0.61;
+            const blankLength = 5.26;
+            const flexLength = blankLength * lengthScale;
+            const { geometry: blankGeometry, curve } = makeTaperedBlank(flexLength, blankThickness, flexAngle, actionSelect.value);
+            blankGroup.add(new three.Mesh(blankGeometry, blank));
+            const tipCurvePoints = Array.from({ length: 7 }, (_, index) => curve.getPointAt(0.82 + index * 0.03));
+            const tipCurve = new three.CatmullRomCurve3(tipCurvePoints);
+            blankGroup.add(new three.Mesh(new three.TubeGeometry(tipCurve, 20, 0.011, 8, false), tipColor));
+            const pointAt = t => curve.getPointAt(Math.max(0, Math.min(1, t)));
+            const angleAt = t => {
+                const tangent = curve.getTangentAt(Math.max(0, Math.min(1, t)));
+                return Math.atan2(tangent.y, tangent.x);
+            };
+
+            const sectionCount = Number(piecesSelect.value);
+            for (let section = 1; section < sectionCount; section++) {
+                const ferruleT = section / sectionCount;
+                const ferrulePoint = pointAt(ferruleT);
+                const ferruleX = ferrulePoint.x;
+                const ferruleAngle = angleAt(ferruleT);
+                const ferrule = new three.Mesh(new three.CylinderGeometry(0.039, 0.044, 0.18, 16), darkMetal);
+                ferrule.rotation.z = Math.PI / 2 + ferruleAngle;
+                ferrule.position.copy(ferrulePoint);
+                blankGroup.add(ferrule);
+                for (const delta of [-0.12, 0.12]) {
+                    const bandT = ferruleT + delta / flexLength;
+                    const band = pointAt(bandT);
+                    addWrap(blankGroup, band.x, accent, band.y, angleAt(bandT));
+                    const trimT = bandT + 0.035 / flexLength;
+                    const trim = pointAt(trimT);
+                    addWrap(blankGroup, trim.x, trimAccent, trim.y, angleAt(trimT), 0.022);
+                }
+            }
+            const guideMetal = darkMetal;
+            const guideCount = Math.max(5, profile.guides + Math.round((Number(lengthInput.value) - 240) / 45));
+            const guideXs = [];
+            for (let i = 0; i < guideCount; i++) {
+                const t = (i + 1) / (guideCount + 1);
+                const point = pointAt(t);
+                const x = point.x;
+                const taper = 0.19 - t * 0.13;
+                const radius = Math.max(0.045, taper * (config.technique === "fondo" ? 1.55 : 1.05) * (1.15 - t * 0.3) * blankThickness);
+                const angle = angleAt(t);
+                guideXs.push({ x, y: point.y, radius, t });
+                addGuide(blankGroup, x, radius, guideMetal, insert, guideSide, point.y, angle);
+                const wrapPoint = pointAt(t - 0.035 / flexLength);
+                addWrap(blankGroup, wrapPoint.x, accent, wrapPoint.y, angleAt(t - 0.035 / flexLength));
+                const trimT = t + 0.012 / flexLength;
+                const trimPoint = pointAt(trimT);
+                addWrap(blankGroup, trimPoint.x, trimAccent, trimPoint.y, angleAt(trimT), 0.022);
+            }
+            const tipTop = new three.Mesh(new three.TorusGeometry(0.05, 0.012, 5, 14), metal);
+            tipTop.rotation.y = Math.PI / 2;
+            tipTop.rotation.z = angleAt(1);
+            tipTop.position.copy(pointAt(1));
+            blankGroup.add(tipTop);
+            blankGroup.position.x = blankStart;
+            rodGroup.add(blankGroup);
+            const rodName = rodCustomNameInput.value.trim() || `${profile.code} ${profile.name} ${lengthInput.value}`;
+            if (rodNameOnObject.checked) {
+                const label = `${rodName} · ${formatLength(lengthInput.value)} · ${castSelect.value} · ${actionSelect.value} · ${powerSelect.value}`;
+                const namePlate = new three.Mesh(new three.PlaneGeometry(1.8, 0.25), nameMaterial(label));
+                namePlate.position.set(blankStart + 0.92, 0.14, 0.02);
+                rodGroup.add(namePlate);
+            }
+
+            const reelSeat = material("#18252a", 0.36, 0.6);
+            addCylinder(rodGroup, 0.1, 0.1, 0.42, reelSeat, -1.5, -0.075, 0);
+            addCylinder(rodGroup, 0.095, 0.095, 0.07, reelAccent, -1.27, -0.075, 0);
+            addCylinder(rodGroup, 0.105, 0.105, 0.055, metal, -1.75, -0.075, 0);
+            addCylinder(rodGroup, 0.09, 0.09, 0.055, metal, -1.02, -0.075, 0);
+            if (config.technique === "casting") {
+                const triggerCurve = new three.CatmullRomCurve3([
+                    new three.Vector3(-1.55, -0.1, 0.02),
+                    new three.Vector3(-1.48, -0.32, 0.04),
+                    new three.Vector3(-1.3, -0.4, 0.04),
+                    new three.Vector3(-1.22, -0.28, 0.03)
+                ]);
+                rodGroup.add(new three.Mesh(new three.TubeGeometry(triggerCurve, 18, 0.025, 8, false), reelSeat));
+            }
+            const hookKeeper = new three.Mesh(new three.TorusGeometry(0.07, 0.012, 6, 16), metal);
+            hookKeeper.position.set(-1.9, 0.1, 0.04);
+            rodGroup.add(hookKeeper);
+            if (config.grip === "sughero") {
+                for (let i = 0; i < 5; i++) addCylinder(rodGroup, 0.112, 0.112, 0.018, accent, -3.98 + i * 0.13, 0, 0, 12);
+            }
+
+            const reelKind = profile.reelKind;
+            addReel(rodGroup, metal, darkMetal, reelAccent, reelKnob, reelKind, Number(reelSizeSelect.value), reelSelect.value);
+            const lineColor = lineSelect.value.includes("Nylon") ? "#dfc58e" : "#b9d9c8";
+            const lineMaterial = material(lineColor, 0.4, 0.25);
+            lineMaterial.transparent = true;
+            lineMaterial.opacity = 0.7;
+            const linePoints = [
+                new three.Vector3(-1.32, reelKind === "casting" ? 0.55 : reelKind === "surf" ? -0.2 : -0.42, reelKind === "casting" ? 0.28 : 0.68),
+                new three.Vector3(blankStart - 0.19, guideSide * 0.12, 0),
+                ...guideXs.flatMap(({ x, y, radius }) => [
+                    new three.Vector3(blankStart + x - 0.05, y + guideSide * radius * 1.4 - 0.025, 0),
+                    new three.Vector3(blankStart + x, y + guideSide * radius * 1.4, 0)
+                ]),
+                pointAt(1).add(new three.Vector3(blankStart, guideSide * 0.08, 0))
+            ];
+            const line = new three.Line(new three.BufferGeometry().setFromPoints(linePoints), lineMaterial);
+            rodGroup.add(line);
+            rodGroup.traverse(object => {
+                if (!object.isMesh) return;
+                object.castShadow = true;
+                object.receiveShadow = true;
+            });
+            if (rodKeyLight) {
+                const shadowResolution = preview.clientWidth < 600 ? 512 : 1024;
+                rodKeyLight.shadow.mapSize.set(shadowResolution, shadowResolution);
+                rodKeyLight.shadow.camera.left = -5;
+                rodKeyLight.shadow.camera.right = blankLength * lengthScale + 1;
+                rodKeyLight.shadow.camera.top = 2;
+                rodKeyLight.shadow.camera.bottom = -2.5;
+                rodKeyLight.shadow.camera.updateProjectionMatrix();
+            }
+            scene.add(rodGroup);
+            fishWeightState.textContent = `Carico: ${Number(fishWeightInput.value)} kg · Curvatura: ${Math.round(flexAngle)}°`;
+            if (document.getElementById("rod-configurator").hidden) return;
+            if (rodOrbit) {
+                rodOrbit.setFitScale((1.15 + (lengthScale - 1) * 0.52) * Math.max(1, 1.1 / (canvas.clientWidth / canvas.clientHeight)));
+            } else if (renderer && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+
+        function lureMaterial(color, roughness = 0.3, metalness = 0.25, usePattern = false) {
+            const finish = lureConfig.finish;
+            const patternKind = lureConfig.pattern === "scaglie" ? "scales" :
+                lureConfig.pattern === "strisce" ? "stripes" : lureConfig.pattern === "puntini" ? "dots" : null;
+            const texture = usePattern && patternKind ? surfaceTexture(patternKind, color) : null;
+            const item = new three.MeshPhysicalMaterial({
+                color: texture ? "#ffffff" : color,
+                roughness: finish === "opaco" ? roughness : finish === "perlato" ? 0.2 : 0.14,
+                metalness: finish === "metallico" ? 0.78 : metalness,
+                clearcoat: 0.75,
+                clearcoatRoughness: finish === "opaco" ? 0.32 : 0.12,
+                map: texture,
+                bumpMap: texture,
+                bumpScale: 0.012,
+                transmission: lureTypeSelect.value === "soft" ? 0.18 : 0,
+                thickness: 0.22
+            });
+            lureMaterials.push(item);
+            return item;
+        }
+
+        function disposeLure() {
+            if (!lureGroup) return;
+            lureScene.remove(lureGroup);
+            lureGroup.traverse(object => {
+                if (object.geometry) object.geometry.dispose();
+            });
+            const textures = new Set();
+            for (const item of lureMaterials) {
+                if (item.map) textures.add(item.map);
+                if (item.bumpMap) textures.add(item.bumpMap);
+                item.dispose();
+            }
+            textures.forEach(texture => texture.dispose());
+            lureMaterials.length = 0;
+            lureGroup = null;
+        }
+
+        function addLureHook(parent, x, y, metal, size = 1, treble = true) {
+            const points = [
+                new three.Vector3(x, y + 0.12 * size, 0),
+                new three.Vector3(x + 0.02 * size, y - 0.08 * size, 0),
+                new three.Vector3(x + 0.17 * size, y - 0.2 * size, 0),
+                new three.Vector3(x + 0.26 * size, y - 0.05 * size, 0),
+                new three.Vector3(x + 0.2 * size, y + 0.07 * size, 0)
+            ];
+            for (let prong = 0; prong < (treble ? 3 : 1); prong++) {
+                const hook = new three.Mesh(new three.TubeGeometry(new three.CatmullRomCurve3(points), 22, 0.012 * size, 7, false), metal);
+                hook.rotation.x = prong * Math.PI * 2 / 3;
+                parent.add(hook);
+                const barb = new three.Mesh(
+                    new three.TubeGeometry(new three.CatmullRomCurve3([
+                        points[3].clone(),
+                        points[3].clone().lerp(points[4], 0.45).add(new three.Vector3(-0.035 * size, 0.015 * size, 0)),
+                        points[4].clone()
+                    ]), 6, 0.008 * size, 5, false),
+                    metal
+                );
+                barb.rotation.x = hook.rotation.x;
+                parent.add(barb);
+            }
+        }
+
+        function drawLure() {
+            if (!lureScene) return;
+            disposeLure();
+            lureGroup = new three.Group();
+            const length = Number(lureLengthInput.value) / 9 * 2.55;
+            const body = lureMaterial(lureConfig.color, lureTypeSelect.value === "spoon" ? 0.2 : 0.3, lureTypeSelect.value === "spoon" ? 0.68 : 0.22, true);
+            const belly = lureMaterial(lureConfig.belly, 0.35, 0.12);
+            const metal = lureMaterial("#c8d3d4", 0.24, 0.8);
+            const hookMetal = lureMaterial(lureConfig.hook, 0.24, 0.8);
+            const bibMaterial = lureMaterial(lureConfig.bib, 0.2, 0.75);
+            const eyeWhite = lureMaterial("#f7f5e9", 0.22, 0.12);
+            const eyeBlack = lureMaterial("#17252b", 0.2, 0.12);
+            const eyeIris = lureMaterial(lureConfig.eye, 0.2, 0.18);
+            let labelZ = 0.34;
+            let labelY = -0.1;
+
+            if (lureTypeSelect.value === "spoon") {
+                const shape = new three.Shape();
+                shape.moveTo(-length / 2, 0);
+                shape.bezierCurveTo(-length * 0.34, 0.34, length * 0.25, 0.3, length / 2, 0);
+                shape.bezierCurveTo(length * 0.26, -0.29, -length * 0.32, -0.25, -length / 2, 0);
+                const spoonGeometry = new three.ExtrudeGeometry(shape, {
+                    depth: 0.055,
+                    bevelEnabled: true,
+                    bevelSegments: 3,
+                    steps: 1,
+                    bevelSize: 0.045,
+                    bevelThickness: 0.035
+                });
+                const spoonPositions = spoonGeometry.attributes.position;
+                for (let vertex = 0; vertex < spoonPositions.count; vertex++) {
+                    const x = spoonPositions.getX(vertex);
+                    const y = spoonPositions.getY(vertex);
+                    const dish = 0.12 * (1 - Math.pow(x / (length / 2), 2)) * (1 - Math.min(1, Math.abs(y) / 0.34));
+                    spoonPositions.setZ(vertex, spoonPositions.getZ(vertex) + dish);
+                }
+                spoonPositions.needsUpdate = true;
+                spoonGeometry.computeVertexNormals();
+                const spoon = new three.Mesh(spoonGeometry, body);
+                spoon.rotation.x = Math.PI / 2;
+                lureGroup.add(spoon);
+                const hammerMarks = lureMaterial("#d8dfe0", 0.18, 0.84);
+                for (let i = 0; i < 9; i++) {
+                    const dimple = new three.Mesh(new three.SphereGeometry(0.025, 8, 6), hammerMarks);
+                    dimple.scale.set(1.7, 0.45, 1);
+                    dimple.position.set(-length * 0.38 + i * length * 0.095, 0.08 + Math.sin(i) * 0.12, 0.035);
+                    lureGroup.add(dimple);
+                }
+                labelZ = 0.36;
+                labelY = -0.03;
+            } else if (lureTypeSelect.value === "soft") {
+                const curve = new three.CatmullRomCurve3([
+                    new three.Vector3(-length * 0.5, 0, 0),
+                    new three.Vector3(-length * 0.28, 0.07, 0),
+                    new three.Vector3(0, -0.02, 0),
+                    new three.Vector3(length * 0.28, 0.06, 0),
+                    new three.Vector3(length * 0.5, 0.16, 0)
+                ]);
+                const softBody = lureMaterial(lureConfig.color, 0.26, 0.04, true);
+                softBody.transmission = 0.22;
+                lureGroup.add(new three.Mesh(new three.TubeGeometry(curve, 56, 0.13, 14, false), softBody));
+                const bellyCurve = new three.CatmullRomCurve3([
+                    new three.Vector3(-length * 0.32, -0.07, 0.09),
+                    new three.Vector3(0, -0.09, 0.1),
+                    new three.Vector3(length * 0.28, 0.02, 0.08)
+                ]);
+                lureGroup.add(new three.Mesh(new three.TubeGeometry(bellyCurve, 28, 0.055, 9, false), belly));
+                for (let rib = 0; rib < 9; rib++) {
+                    const x = -length * 0.25 + rib * length * 0.062;
+                    const ring = new three.Mesh(new three.TorusGeometry(0.125, 0.012, 5, 16), belly);
+                    ring.rotation.y = Math.PI / 2;
+                    ring.position.set(x, 0, 0);
+                    lureGroup.add(ring);
+                }
+                const tail = new three.Mesh(new three.SphereGeometry(0.19, 20, 12), softBody);
+                tail.scale.set(0.58, 1.6, 0.58);
+                tail.position.set(length * 0.48, 0.16, 0);
+                lureGroup.add(tail);
+                const jigHead = new three.Mesh(new three.SphereGeometry(0.17, 18, 12), bibMaterial);
+                jigHead.position.set(-length * 0.43, 0.015, 0);
+                lureGroup.add(jigHead);
+                const jigEye = new three.Mesh(new three.SphereGeometry(0.035, 10, 8), eyeIris);
+                jigEye.position.set(-length * 0.43, 0.07, 0.14);
+                lureGroup.add(jigEye);
+                labelZ = 0.18;
+            } else if (lureTypeSelect.value === "popper") {
+                const bodyMesh = new three.Mesh(new three.CylinderGeometry(0.17, 0.36, length * 0.68, 32, 1), body);
+                bodyMesh.rotation.z = Math.PI / 2;
+                lureGroup.add(bodyMesh);
+                const mouth = new three.Mesh(new three.TorusGeometry(0.24, 0.045, 8, 24), bibMaterial);
+                mouth.position.x = -length * 0.34;
+                lureGroup.add(mouth);
+                const cup = new three.Mesh(new three.SphereGeometry(0.2, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2), belly);
+                cup.rotation.z = Math.PI / 2;
+                cup.position.x = -length * 0.34;
+                lureGroup.add(cup);
+                labelZ = 0.4;
+            } else {
+                const bodyMesh = new three.Mesh(new three.SphereGeometry(1, 32, 20), body);
+                bodyMesh.scale.set(length * 0.5, 0.22, 0.3);
+                lureGroup.add(bodyMesh);
+                const bellyMesh = new three.Mesh(new three.SphereGeometry(1, 24, 16), belly);
+                bellyMesh.scale.set(length * 0.38, 0.095, 0.24);
+                bellyMesh.position.set(length * 0.02, -0.13, 0);
+                lureGroup.add(bellyMesh);
+                const bib = new three.Mesh(new three.BoxGeometry(0.24, 0.025, 0.25), bibMaterial);
+                bib.position.set(-length * 0.47, -0.09, 0);
+                bib.rotation.z = -0.3;
+                lureGroup.add(bib);
+                const gill = new three.Mesh(new three.TorusGeometry(0.15, 0.012, 5, 20, Math.PI), metal);
+                gill.position.set(-length * 0.18, 0.015, 0.24);
+                lureGroup.add(gill);
+                const lateralLine = new three.Mesh(new three.BoxGeometry(length * 0.64, 0.012, 0.012), metal);
+                lateralLine.position.set(0, 0.04, 0.27);
+                lureGroup.add(lateralLine);
+                labelZ = 0.34;
+            }
+
+            if (lureTypeSelect.value === "minnow" || lureTypeSelect.value === "popper") {
+                for (const side of [-1, 1]) {
+                    const eye = new three.Mesh(new three.SphereGeometry(0.085, 16, 12), eyeWhite);
+                    eye.position.set(-length * 0.28, 0.07, side * 0.24);
+                    lureGroup.add(eye);
+                    const pupil = new three.Mesh(new three.SphereGeometry(0.043, 12, 8), eyeBlack);
+                    pupil.position.set(-length * 0.27, 0.07, side * 0.29);
+                    lureGroup.add(pupil);
+                    const iris = new three.Mesh(new three.SphereGeometry(0.06, 12, 8), eyeIris);
+                    iris.position.set(-length * 0.28, 0.07, side * 0.30);
+                    pupil.position.z = side * 0.35;
+                    lureGroup.add(iris);
+                }
+            }
+
+            for (const x of [-length * 0.43, length * 0.38]) {
+                const eyelet = new three.Mesh(new three.TorusGeometry(0.075, 0.018, 6, 18, Math.PI * 1.86), metal);
+                eyelet.position.set(x, -0.04, 0);
+                lureGroup.add(eyelet);
+            }
+            if (lureHooksSelect.value !== "none") {
+                const hookPositions = lureHooksSelect.value === "single" ? [-length * 0.16] : [-length * 0.2, length * 0.31];
+                for (const x of hookPositions) {
+                    addLureHook(lureGroup, x, -0.08, hookMetal, Math.min(1.15, length / 2.4), lureHooksSelect.value === "treble");
+                }
+            }
+
+            if (lureNameOnObject.checked) {
+                const name = lureCustomNameInput.value.trim() || `Cecina ${lureTypeNames[lureTypeSelect.value]}`;
+                const width = Math.max(0.75, Math.min(1.55, length * 0.65));
+                const plate = new three.Mesh(new three.PlaneGeometry(width, 0.18), nameMaterial(name, lureMaterials));
+                plate.position.set(0, labelY, labelZ);
+                lureGroup.add(plate);
+            }
+            lureGroup.traverse(object => {
+                if (!object.isMesh) return;
+                object.castShadow = true;
+                object.receiveShadow = true;
+            });
+            lureScene.add(lureGroup);
+            if (document.getElementById("lure-configurator").hidden) return;
+            if (lureOrbit) {
+                lureOrbit.setFitScale(Math.max(0.7, Number(lureLengthInput.value) / 9) * Math.max(1, 1.1 / (lureCanvas.clientWidth / lureCanvas.clientHeight)));
+            } else if (lureRenderer && lureCamera) {
+                lureRenderer.render(lureScene, lureCamera);
+            }
+        }
+
+        try {
+            three = await import("three");
+            ({ RoomEnvironment } = await import("three/addons/environments/RoomEnvironment.js"));
+            scene = new three.Scene();
+            scene.background = new three.Color("#142f40");
+            camera = new three.PerspectiveCamera(37, 1, 0.1, 100);
+            camera.position.set(0, 2.1, 12.2);
+            camera.lookAt(0, -0.1, 0);
+
+            renderer = new three.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "low-power" });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
+            renderer.outputColorSpace = three.SRGBColorSpace;
+            renderer.toneMapping = three.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.15;
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = three.PCFSoftShadowMap;
+            const pmremGenerator = new three.PMREMGenerator(renderer);
+            const roomEnvironment = new RoomEnvironment();
+            environmentTarget = pmremGenerator.fromScene(roomEnvironment);
+            roomEnvironment.dispose();
+            pmremGenerator.dispose();
+            scene.environment = environmentTarget.texture;
+            scene.environmentIntensity = 0.62;
+
+            scene.add(new three.HemisphereLight("#d9f3f1", "#263642", 1.25));
+            rodKeyLight = new three.DirectionalLight("#fff1d2", 3);
+            rodKeyLight.position.set(-4, 8, 7);
+            rodKeyLight.castShadow = true;
+            rodKeyLight.shadow.mapSize.set(1024, 1024);
+            rodKeyLight.shadow.camera.left = -5;
+            rodKeyLight.shadow.camera.right = 7;
+            rodKeyLight.shadow.camera.top = 2;
+            rodKeyLight.shadow.camera.bottom = -2.5;
+            rodKeyLight.shadow.camera.near = 0.5;
+            rodKeyLight.shadow.camera.far = 20;
+            rodKeyLight.shadow.bias = -0.00025;
+            scene.add(rodKeyLight);
+            const rimLight = new three.DirectionalLight("#65c4c6", 2.4);
+            rimLight.position.set(5, 2, -5);
+            scene.add(rimLight);
+
+            const floorMaterial = new three.MeshStandardMaterial({ color: "#193545", roughness: 0.9, metalness: 0.05 });
+            const floor = new three.Mesh(new three.PlaneGeometry(200, 200), floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.position.y = -1.55;
+            floor.receiveShadow = true;
+            scene.add(floor);
+
+            drawRod();
+            updateSummary();
+            if (canvas.clientWidth && canvas.clientHeight) renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+            rodOrbit = orbitControls(canvas, camera, new three.Vector3(0.2, -0.1, 0), () => renderer.render(scene, camera), 12.4, 5, 38);
+            rodOrbit.setFitScale(1.15 * Math.max(1, 1.15 / (canvas.clientWidth / canvas.clientHeight)));
+
+            resizeObserver = new ResizeObserver(() => {
+                const { width, height } = canvas.getBoundingClientRect();
+                if (!width || !height) return;
+                camera.aspect = width / height;
+                camera.fov = width < 600 ? 45 : 37;
+                camera.updateProjectionMatrix();
+                renderer.setSize(width, height, false);
+                rodOrbit.setFitScale((1.15 + (Number(lengthInput.value) / 240 - 1) * 0.52) * Math.max(1, 1.15 / (canvas.clientWidth / canvas.clientHeight)));
+            });
+            resizeObserver.observe(canvas);
+            rodOrbit.update();
+
+            try {
+                lureScene = new three.Scene();
+                lureScene.background = new three.Color("#142f40");
+                lureCamera = new three.PerspectiveCamera(38, 1, 0.1, 100);
+                lureCamera.position.set(0, 1.3, 4.7);
+                lureRenderer = new three.WebGLRenderer({ canvas: lureCanvas, antialias: true, alpha: false, powerPreference: "low-power" });
+                lureRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
+                lureRenderer.outputColorSpace = three.SRGBColorSpace;
+                lureRenderer.toneMapping = three.ACESFilmicToneMapping;
+                lureRenderer.toneMappingExposure = 1.15;
+                lureRenderer.shadowMap.enabled = true;
+                lureRenderer.shadowMap.type = three.PCFSoftShadowMap;
+                const lurePmremGenerator = new three.PMREMGenerator(lureRenderer);
+                const lureRoomEnvironment = new RoomEnvironment();
+                lureEnvironmentTarget = lurePmremGenerator.fromScene(lureRoomEnvironment);
+                lureRoomEnvironment.dispose();
+                lurePmremGenerator.dispose();
+                lureScene.environment = lureEnvironmentTarget.texture;
+                lureScene.environmentIntensity = 0.62;
+                lureScene.add(new three.HemisphereLight("#d9f3f1", "#263642", 1.25));
+                const lureKeyLight = new three.DirectionalLight("#fff1d2", 3);
+                lureKeyLight.position.set(-4, 8, 7);
+                lureKeyLight.castShadow = true;
+                const shadowResolution = lurePreview.clientWidth < 600 ? 512 : 1024;
+                lureKeyLight.shadow.mapSize.set(shadowResolution, shadowResolution);
+                lureKeyLight.shadow.camera.left = -3;
+                lureKeyLight.shadow.camera.right = 3;
+                lureKeyLight.shadow.camera.top = 2;
+                lureKeyLight.shadow.camera.bottom = -2;
+                lureKeyLight.shadow.camera.updateProjectionMatrix();
+                lureScene.add(lureKeyLight);
+                const lureRimLight = new three.DirectionalLight("#65c4c6", 2.4);
+                lureRimLight.position.set(5, 2, -5);
+                lureScene.add(lureRimLight);
+                const lureFloor = new three.Mesh(new three.PlaneGeometry(200, 200), new three.MeshStandardMaterial({ color: "#193545", roughness: 0.9, metalness: 0.05 }));
+                lureFloor.rotation.x = -Math.PI / 2;
+                lureFloor.position.y = -1.1;
+                lureFloor.receiveShadow = true;
+                lureScene.add(lureFloor);
+                drawLure();
+                if (lureCanvas.clientWidth && lureCanvas.clientHeight) lureRenderer.setSize(lureCanvas.clientWidth, lureCanvas.clientHeight, false);
+                lureOrbit = orbitControls(lureCanvas, lureCamera, new three.Vector3(0, 0, 0), () => lureRenderer.render(lureScene, lureCamera), 4.9, 2.2, 20);
+                if (!document.getElementById("lure-configurator").hidden) {
+                    lureOrbit.setFitScale(Math.max(0.7, Number(lureLengthInput.value) / 9) * Math.max(1, 1.1 / (lureCanvas.clientWidth / lureCanvas.clientHeight)));
+                }
+                lureResizeObserver = new ResizeObserver(() => {
+                    const { width, height } = lureCanvas.getBoundingClientRect();
+                    if (!width || !height) return;
+                    lureCamera.aspect = width / height;
+                    lureCamera.fov = width < 600 ? 45 : 38;
+                    lureCamera.updateProjectionMatrix();
+                    lureRenderer.setSize(width, height, false);
+                    lureOrbit.setFitScale(Math.max(0.7, Number(lureLengthInput.value) / 9) * Math.max(1, 1.1 / (lureCanvas.clientWidth / lureCanvas.clientHeight)));
+                });
+                lureResizeObserver.observe(lureCanvas);
+                if (!document.getElementById("lure-configurator").hidden) lureOrbit.update();
+            } catch (error) {
+                console.error("Impossibile inizializzare l'anteprima dell'esca:", error);
+                lureCanvas.hidden = true;
+                lurePreviewError.hidden = false;
+            }
+        } catch (error) {
+            console.error("Impossibile inizializzare il configuratore 3D:", error);
+            canvas.hidden = true;
+            previewError.hidden = false;
+            lureCanvas.hidden = true;
+            lurePreviewError.hidden = false;
+        }
+    </script>
+</body>
+</html>

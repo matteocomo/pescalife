@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="assets/favicon-pescalife/apple-touch-icon.png">
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="css/style.css?v=scrollbar-3">
+    <link rel="stylesheet" href="css/style.css?v=scrollbar-4">
         <script src="js/site.js?v=feedback-3" defer></script>
 </head>
 <body>
@@ -74,7 +74,7 @@
                 <p>Non è garantita la completezza o l'attualità dei contenuti. L'utente deve verificare le norme ufficiali prima di pescare; l'uso delle informazioni avviene a proprio rischio. Non si assume responsabilità per danni o sanzioni derivanti dall'uso delle informazioni pubblicate.</p>
                 <h3>Privacy</h3>
                 <p>Il diario è salvato solo nel browser dell'utente (localStorage) e può essere cancellato in ogni momento. sessionStorage serve a ricordare l'accettazione del banner durante la visita. Alcune funzionalità possono caricare risorse da servizi di terzi; i link esterni portano a siti regolati dalle rispettive informative e condizioni.</p>
-                <p>La <a href="mappa-nuova.html">mappa delle acque interne</a> carica le mappe di base da servizi esterni OpenFreeMap e OpenTopoMap: le richieste possono comunicare a tali servizi l'indirizzo IP e l'area geografica visualizzata. La funzione di geolocalizzazione si attiva solo se richiesta dall'utente e autorizzata dal browser; PescaLife non salva la posizione, ma le richieste delle mappe esterne riguardano l'area centrata. La ricerca di comuni e toponimi usa invece i dati locali e non invia il testo cercato a un geocoder.</p>
+                <p>La <a href="mappa.html">mappa delle acque interne</a> carica le mappe di base da servizi esterni OpenFreeMap e OpenTopoMap: le richieste possono comunicare a tali servizi l'indirizzo IP e l'area geografica visualizzata. La funzione di geolocalizzazione si attiva solo se richiesta dall'utente e autorizzata dal browser; PescaLife non salva la posizione, ma le richieste delle mappe esterne riguardano l'area centrata. La ricerca di comuni e toponimi usa invece i dati locali e non invia il testo cercato a un geocoder.</p>
                 <h3 id="segnalazioni">Segnalazioni e suggerimenti</h3>
                 <p>Il modulo di segnalazione non richiede nome o email: non inserire dati personali nel messaggio. Quando il servizio è attivo, l'invio trasmette il testo a Web3Forms, che può trattare dati tecnici come l'indirizzo IP. Non è quindi garantito l'anonimato assoluto. Consulta l'<a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">informativa privacy di Web3Forms</a>. Il modulo richiede JavaScript.</p>
                 <h3>Contenuti e marchi</h3>
@@ -84,12 +84,41 @@
             </div>
         </section>
     </main>
-    <footer>
+    <footer class="site-footer">
         <div class="container">
-            <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Dati a scopo informativo.</p>
-            <p class="mt-2"><a href="notelegali.html">Note legali e privacy</a></p>
-            <p class="mt-2"><a href="info.html">Info tecniche</a></p>
-            <p class="mt-2"><a class="feedback-link" href="notelegali.html#segnalazioni">Hai riscontrato qualche problema o hai suggerimenti?</a></p>
+            <div class="site-footer-grid">
+                <div class="site-footer-brand">
+                    <a class="site-footer-brand-name" href="index.html">PescaLife</a>
+                    <p>Una guida amatoriale alla pesca e ai luoghi della Val di Cecina.</p>
+                </div>
+                <nav class="site-footer-links" aria-label="Esplora PescaLife">
+                    <h2>Esplora</h2>
+                    <ul>
+                        <li><a href="luoghi.html">Luoghi di pesca</a></li>
+                        <li><a href="mappa.html">Mappa delle acque</a></li>
+                        <li><a href="meteo.html">Condizioni ambientali</a></li>
+                        <li><a href="eventi.html">Eventi</a></li>
+                        <li><a href="diario.html">Diario di pesca</a></li>
+                    </ul>
+                </nav>
+                <nav class="site-footer-links" aria-label="Guide e informazioni">
+                    <h2>Guide e informazioni</h2>
+                    <ul>
+                        <li><a href="specie.html">Guida alle specie</a></li>
+                        <li><a href="tecniche.html">Tecniche di pesca</a></li>
+                        <li><a href="normativa.html">Regole e normativa</a></li>
+                        <li><a href="info.html">Info tecniche</a></li>
+                        <li><a href="notelegali.html">Note legali e privacy</a></li>
+                    </ul>
+                </nav>
+                <div class="site-footer-feedback">
+                    <p>Hai trovato un errore o vuoi suggerire qualcosa?</p>
+                    <a class="feedback-link" href="notelegali.html#segnalazioni">Scrivici</a>
+                </div>
+            </div>
+            <div class="site-footer-bottom">
+                <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Le informazioni sono a scopo informativo: verifica sempre le fonti ufficiali.</p>
+            </div>
         </div>
     </footer>
  
