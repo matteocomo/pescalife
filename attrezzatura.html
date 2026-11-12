@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#0a1a2f">
     <title>Configura la tua canna — PescaLife</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon-pescalife/favicon.svg">
-    <link rel="stylesheet" href="css/style.css?v=scrollbar-4">
+    <link rel="stylesheet" href="css/style.css?v=checkbox-3">
     <script src="js/site.js?v=attrezzatura-1" defer></script>
     <style>
         .rod-page { min-height: 100vh; background: #f2f7f6; overflow-x: hidden; }
@@ -149,43 +149,43 @@
         }
         @media (max-width: 680px) {
             .rod-header { padding-inline: 0.75rem; }
-            .rod-main { display: flex; width: min(100% - 1rem, 1240px); height: calc(100vh - 4.5rem); height: calc(100dvh - 4.5rem); flex-direction: column; overflow: hidden; padding-top: 0.35rem; padding-bottom: 0.35rem; }
+            .rod-main { display: flex; width: min(100% - 1rem, 1240px); min-height: calc(100vh - 4.5rem); min-height: calc(100dvh - 4.5rem); flex-direction: column; overflow: visible; padding-top: 0.35rem; padding-bottom: 0.75rem; }
             .rod-intro { flex: 0 0 auto; margin-bottom: 0.3rem; }
             .rod-intro p:last-child { font-size: 0.78rem; line-height: 1.35; }
             .rod-main-tabs { flex: 0 0 auto; margin-bottom: 0.3rem; }
-            .rod-configurator, .lure-configurator { position: relative; display: flex; min-height: 0; flex: 1 1 auto; flex-direction: column; gap: 0.35rem; overflow: hidden; }
-            .rod-preview { position: relative; z-index: 1; order: 0; width: 100%; height: 42vh; height: 42dvh; min-height: 280px; max-height: 48dvh; flex: 0 0 42dvh; }
-            .rod-preview canvas { min-height: 0; }
+            .rod-configurator, .lure-configurator { position: relative; display: flex; min-height: 0; flex: 0 0 auto; flex-direction: column; gap: 0.65rem; overflow: visible; }
+            .rod-preview { position: relative; top: auto; z-index: 1; order: 0; width: 100%; height: auto; min-height: 0; max-height: none; flex: 0 0 auto; }
+            .rod-preview canvas { height: clamp(135px, 18dvh, 165px); min-height: 0; flex: 0 0 auto; }
             .rod-preview-top { padding: 0.45rem 0.6rem 0.15rem; }
             .rod-preview-kicker { font-size: 0.72rem; }
             .rod-preview-model { font-size: 0.9rem; }
             .rod-preview-hint { max-width: 45%; font-size: 0.62rem; line-height: 1.25; text-align: right; }
-            .rod-preview > .rod-specs { top: auto; right: 0.35rem; bottom: 4.1rem; left: 0.35rem; }
-            .rod-preview > .rod-specs .rod-spec { padding: 0.2rem 0.35rem; }
-            .rod-preview > .rod-specs .rod-spec dt { font-size: 0.58rem; }
-            .rod-preview > .rod-specs .rod-spec dd { font-size: 0.62rem; }
-            .rod-actions-overlay { gap: 0.25rem; padding: 0.25rem 0.35rem 0.35rem; }
-            .rod-camera-presets { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; }
-            .rod-camera-presets .rod-option { flex: 0 0 auto; min-height: 44px; padding-inline: 0.5rem; scroll-snap-align: start; font-size: 0.7rem; }
-            .rod-flex-overlay { position: static; display: flex; width: 100%; flex-direction: row; justify-content: space-between; gap: 0.35rem; padding: 0.1rem 0; border: 0; background: transparent; }
-            .rod-preview-tools .rod-flex-row { display: flex; flex: 1; flex-direction: row; flex-wrap: nowrap; gap: 0.35rem; }
-            .rod-weight-control { min-width: 88px; width: auto; flex-direction: row; font-size: 0.68rem; writing-mode: horizontal-tb; }
-            .rod-flex-row input[type="range"] { width: auto; height: 44px; flex: 1; flex-basis: auto; min-width: 45px; min-height: 44px; writing-mode: horizontal-tb; direction: ltr; }
+            .rod-preview > .rod-specs { display: none; }
+            .rod-actions-overlay { position: relative; flex-wrap: wrap; gap: 0.25rem; padding: 0.25rem 0.35rem 0.35rem; }
+            .rod-camera-presets { min-width: 0; flex: 1 0 100%; flex-wrap: wrap; overflow: visible; }
+            .rod-camera-presets .rod-option { flex: 0 0 auto; min-height: 44px; padding-inline: 0.3rem; font-size: 0.62rem; }
+            .rod-save-image { flex: 0 0 auto; margin-left: auto; }
+            .rod-flex-overlay { position: static; display: flex; width: 100%; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 0.2rem 0.35rem; padding: 0.1rem 0.35rem 0.35rem; border: 0; background: #0c2030; }
+            .rod-preview-tools .rod-flex-row { display: flex; min-width: 0; flex: 1 1 100%; flex-direction: row; flex-wrap: nowrap; gap: 0.35rem; }
+            .rod-weight-control { min-width: 0; width: 110px; flex: 0 0 110px; flex-direction: row; gap: 0.2rem; font-size: 0.68rem; white-space: nowrap; writing-mode: horizontal-tb; }
+            .rod-weight-control output { white-space: nowrap; }
+            .rod-flex-row input[type="range"] { width: auto; height: 44px; flex: 1; flex-basis: auto; min-width: 35px; min-height: 44px; writing-mode: horizontal-tb; direction: ltr; }
             .rod-flex-row #fish-weight-reset { min-width: 58px; min-height: 44px; padding: 0.3rem; font-size: 0.68rem; }
-            .rod-flex-state { font-size: 0.58rem; }
+            .rod-flex-state { flex: 1 0 100%; font-size: 0.62rem; }
             .rod-save-image { min-height: 44px; padding: 0.35rem 0.55rem; }
-            .rod-panel { position: relative; z-index: 3; order: 1; width: 100%; min-height: 0; max-height: 34dvh; height: 34dvh; flex: 1 1 34dvh; overflow-y: auto; padding: 0.45rem 0.65rem 0.75rem; transition: height 160ms ease, max-height 160ms ease; }
-            .rod-panel.is-expanded { position: absolute; z-index: 6; right: 0; bottom: 0; left: 0; height: 100%; max-height: 100%; flex: 0 0 100%; }
-            .rod-bottom-sheet-handle { position: sticky; z-index: 4; top: -0.45rem; display: flex; width: 100%; min-height: 44px; align-items: center; justify-content: center; gap: 0.6rem; margin: -0.45rem 0 0.35rem; border: 0; border-bottom: 1px solid #d5e0e2; color: #173247; background: #fff; font: inherit; font-weight: 700; }
-            .rod-bottom-sheet-handle::before { width: 2rem; height: 0.22rem; border-radius: 999px; background: #9aafb4; content: ""; }
-            .rod-category-nav { width: calc(100% + 0.2rem); flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+            .rod-panel { position: relative; z-index: 3; order: 1; width: 100%; min-height: 0; max-height: none; height: auto; flex: 0 0 auto; overflow: visible; padding: 0.65rem; transition: none; }
+            .rod-panel.is-expanded { position: relative; right: auto; bottom: auto; left: auto; height: auto; max-height: none; flex: 0 0 auto; }
+            .rod-bottom-sheet-handle { display: none; }
+            .rod-category-nav { width: calc(100% + 0.2rem); flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+            .rod-category-nav::-webkit-scrollbar, .rod-options::-webkit-scrollbar { display: none; height: 0; }
             .rod-category-nav .rod-option { flex: 0 0 auto; min-height: 44px; scroll-snap-align: start; }
-            .rod-options { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.25rem; scroll-snap-type: x proximity; }
+            .rod-options { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.25rem; scroll-snap-type: x proximity; scrollbar-width: none; }
             .rod-options > .rod-option { flex: 0 0 auto; scroll-snap-align: start; }
             .rod-reel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .rod-summary-details { margin-top: 0.2rem; }
             .rod-section-intro { display: none; }
             .rod-note { font-size: 0.72rem; }
+            .rod-preview-error { min-height: 0; }
         }
         @media (prefers-reduced-motion: reduce) {
             .rod-page *, .rod-page *::before, .rod-page *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
@@ -231,7 +231,7 @@
     <main class="rod-main">
         <div class="rod-intro">
             <h1>Progetta la tua canna.</h1>
-            <p>Scegli la tecnica, definisci misure e componenti e osserva il progetto prendere forma. Ogni specifica è indicativa e pensata per esplorare gli abbinamenti, non per sostituire il consiglio di un costruttore.</p>
+            <p>Personalizza canne ed esche e guarda il progetto nell’anteprima 3D. Misure e componenti sono indicativi.</p>
         </div>
 
         <div class="rod-main-tabs" role="tablist" aria-label="Tipo di configuratore">
@@ -384,7 +384,7 @@
                     <label for="rod-custom-name">Nome della canna</label>
                     <input type="text" id="rod-custom-name" maxlength="28" placeholder="Es. Riva Spinning 240" autocomplete="off">
                 </div>
-                <label class="rod-option"><input type="checkbox" id="rod-name-on-object" checked> Incidi il nome sul fusto</label>
+                <label class="rod-option checkbox-effect"><input type="checkbox" id="rod-name-on-object" checked><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path></svg> Incidi il nome sul fusto</label>
                 <fieldset class="rod-choice-group">
                     <legend>Accento anodizzato mulinello</legend>
                     <div class="rod-options" role="group" aria-label="Colore accento mulinello">
@@ -553,7 +553,7 @@
                     <label for="lure-custom-name">Nome dell'esca</label>
                     <input type="text" id="lure-custom-name" maxlength="24" placeholder="Es. Cecina Minnow" autocomplete="off">
                 </div>
-                <label class="rod-option"><input type="checkbox" id="lure-name-on-object" checked> Stampa il nome sull'esca</label>
+                <label class="rod-option checkbox-effect"><input type="checkbox" id="lure-name-on-object" checked><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path></svg> Stampa il nome sull'esca</label>
                 <div class="rod-config-summary" aria-live="polite">
                     <div class="rod-summary-row"><strong>Il tuo modello</strong><span id="lure-config-name">Cecina Minnow</span></div>
                     <div class="rod-summary-row"><span>Tipo</span><span id="lure-config-type">Minnow</span></div>

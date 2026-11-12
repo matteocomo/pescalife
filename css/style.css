@@ -48,6 +48,35 @@
             outline: 3px solid #f3b33d;
             outline-offset: 3px;
         }
+        .checkbox-effect { position: relative; }
+        .checkbox-effect > input[type="checkbox"] {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            white-space: nowrap;
+            clip: rect(0, 0, 0, 0);
+            clip-path: inset(50%);
+        }
+        .checkbox-effect > svg { width: 1.2rem; height: 1.2rem; flex: 0 0 auto; overflow: visible; background: #fff; pointer-events: none; }
+        .checkbox-effect > svg .path {
+            fill: none;
+            stroke: #087c91;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 241 9999999;
+            stroke-dashoffset: 0;
+            transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+        }
+        .checkbox-effect > input[type="checkbox"]:checked + svg .path { stroke-dasharray: 70.5096664428711 9999999; stroke-dashoffset: -262.2723388671875; }
+        .checkbox-effect > input[type="checkbox"]:focus-visible + svg { outline: 3px solid #f3b33d; outline-offset: 3px; }
+        .checkbox-effect > input[type="checkbox"]:disabled + svg { opacity: 0.55; }
+        @media (prefers-reduced-motion: reduce) {
+            .checkbox-effect > svg .path { transition: none; }
+        }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
         .text-accent { color: var(--color-accent); }
         .bg-primary { background-color: var(--color-primary); }
