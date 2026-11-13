@@ -16,6 +16,8 @@ I dati CTR derivano da 42 sezioni pertinenti all'area di lavoro, trasformate da 
 
 I conteggi, le dimensioni, la data di acquisizione e gli hash SHA-256 dei file distribuiti sono registrati in [`dataset-registry.csv`](./dataset-registry.csv).
 
+Le schede dei luoghi collegate alla mappa sono registrate in [`../luoghi/index.json`](../luoghi/index.json): `mapNames` identifica i nomi delle linee CTR e, quando occorre distinguere corsi omonimi, `mapSections` limita la selezione alle sezioni cartografiche elencate. Lo Sterza del bacino del Cecina usa questo filtro per escludere l'omonimo più a nord. L'evidenziazione mostra soltanto le linee nominate nei dati CTR disponibili, non garantisce la copertura integrale del corso e non indica divieti o accessi.
+
 ## Fonti e licenze
 
 - Regione Toscana, [Cartografia Tecnica Regionale](https://www.regione.toscana.it/cartografia-tecnica-regionale) e [Geoscopio](https://www.regione.toscana.it/-/geoscopio-wms). Le fonti esaminate riportano indicazioni non concordi: la pagina/risposta di download indica **CC BY 3.0 Italia**, mentre i PDF presenti negli archivi indicano **CC BY 4.0**. La licenza applicabile a queste edizioni deve essere confermata dalla Regione prima della distribuzione o della pubblicazione dei layer.

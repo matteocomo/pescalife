@@ -1,5 +1,42 @@
         let previousModalFocus = null;
 
+        function setupPlaceFilter() {
+            const filter = byId("luoghi-filter");
+            const options = byId("luoghi-filter-options");
+            const cards = [...byId("luoghi-catalog").querySelectorAll(".species-card")];
+            const types = [...new Set(cards.map(card => card.dataset.placeType).filter(Boolean))];
+            const current = byId("luoghi-filter-current");
+            const status = byId("luoghi-filter-status");
+
+            for (const type of ["Tutti", ...types]) {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "luoghi-type";
+                input.value = type === "Tutti" ? "" : type;
+                input.checked = type === "Tutti";
+                const text = document.createElement("span");
+                text.textContent = type;
+                label.append(input, text);
+                options.append(label);
+            }
+
+            function updateFilter() {
+                const selected = options.querySelector('input[name="luoghi-type"]:checked').value;
+                let count = 0;
+                cards.forEach(card => {
+                    card.hidden = Boolean(selected) && card.dataset.placeType !== selected;
+                    if (!card.hidden) count++;
+                });
+                current.textContent = selected || "Tutti";
+                status.textContent = `${count} ${count === 1 ? "scheda territoriale" : "schede territoriali"} ${count === 1 ? "mostrata" : "mostrate"}.`;
+            }
+
+            options.addEventListener("change", updateFilter);
+            filter.hidden = false;
+            updateFilter();
+        }
+
         function renderSpots() {
             const spots = visibleSpots();
             byId("spot-grid").innerHTML = spots.length ? spots.map(spot => `
@@ -61,6 +98,7 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             renderSpots();
+            setupPlaceFilter();
             byId("spot-grid").addEventListener("click", event => {
                 const card = event.target.closest("[data-spot-id]");
                 if (card) openSpotModal(card.dataset.spotId);

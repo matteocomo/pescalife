@@ -1,0 +1,81 @@
+.luoghi-catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.luoghi-catalog .species-card[hidden] { display: none; }
+.luoghi-filter[hidden] { display: none; }
+.luoghi-filter {
+    margin-top: 1.5rem;
+    background: #f8fbfb;
+    border: 1px solid #c5d7d9;
+    border-radius: 0.55rem;
+}
+.luoghi-filter[open] { background: #fff; border-color: #9abfc4; }
+.luoghi-filter summary {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.6rem 0.8rem;
+    color: #173247;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+}
+.luoghi-filter summary::-webkit-details-marker { display: none; }
+.luoghi-filter summary::after {
+    width: 0.55rem;
+    height: 0.55rem;
+    flex: 0 0 auto;
+    border-right: 2px solid #326273;
+    border-bottom: 2px solid #326273;
+    content: "";
+    transform: rotate(45deg) translateY(-2px);
+}
+.luoghi-filter[open] summary::after { transform: rotate(225deg) translate(-2px, -1px); }
+.luoghi-filter-current { margin-left: auto; color: #596675; font-size: 0.82rem; font-weight: 500; }
+.luoghi-filter fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.4rem 0.8rem 0.8rem;
+    border: 0;
+    border-top: 1px solid #e0e9e9;
+}
+.luoghi-filter legend { padding: 0 0.25rem; color: #35485a; font-size: 0.86rem; font-weight: 700; }
+.luoghi-filter label {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 0.7rem;
+    background: #f3f8f8;
+    border: 1px solid #d2e0e1;
+    border-radius: 0.45rem;
+    cursor: pointer;
+}
+.luoghi-filter label:has(input:checked) { color: #075969; background: #e4f6f8; border-color: #087c91; font-weight: 700; }
+.luoghi-filter input { width: 1.2rem; height: 1.2rem; margin: 0; accent-color: #087c91; }
+.luoghi-filter-status:not(:empty) { margin-top: 0.75rem; color: #536675; font-size: 0.9rem; }
+@media (min-width: 900px) {
+    .luoghi-catalog { grid-template-columns: repeat(3, minmax(0, 370px)); gap: 1.5rem; }
+}
+@media (max-width: 600px) {
+    .luoghi-catalog { gap: 0.75rem; }
+    .luoghi-catalog .species-card-body { padding: 0.75rem; overflow-wrap: anywhere; }
+    .luoghi-catalog .species-card-body h3 { font-size: 1.05rem; line-height: 1.25; }
+    .luoghi-catalog .species-card-body p:not(.species-photo-credit) { font-size: 0.9rem; }
+    .luoghi-catalog .species-card-body .btn {
+        display: flex;
+        width: 100%;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.65rem;
+        padding: 0.55rem 0.4rem;
+        font-size: 0.85rem;
+        line-height: 1.2;
+    }
+}

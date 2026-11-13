@@ -12,6 +12,25 @@
     box-shadow: var(--shadow-light);
 }
 .species-card img { display: block; width: 100%; height: auto; }
+.luogo-photo {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #e8f4f6;
+    color: #536675;
+}
+.luogo-photo img,
+.species-figure .luogo-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.luogo-photo img[hidden] { display: none; }
+.species-figure .luogo-photo { border-radius: var(--border-radius); }
 .species-card-body { padding: 1.25rem; }
 .species-card-body h3 { margin: 0.75rem 0 0; }
 .species-latin { color: #536675; }

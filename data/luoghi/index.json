@@ -4,5 +4,36 @@
     "nome": "Fiume Cecina",
     "url": "luoghi/cecina.html",
     "mapNames": ["FIUME CECINA"]
+  },
+  {
+    "slug": "torrente-possera",
+    "nome": "Torrente Possera",
+    "url": "luoghi/possera.html",
+    "mapNames": ["TORRENTE POSSERA"]
+  },
+  {
+    "slug": "torrente-sterza",
+    "nome": "Torrente Sterza",
+    "url": "luoghi/sterza.html",
+    "mapNames": ["TORRENTE STERZA"],
+    "mapSections": ["294080", "295050", "295090", "295130", "305040", "306010"]
+  },
+  {
+    "slug": "torrente-trossa",
+    "nome": "Torrente Trossa",
+    "url": "luoghi/trossa.html",
+    "mapNames": ["TORRENTE TROSSA"]
+  },
+  {
+    "slug": "torrente-pavone",
+    "nome": "Torrente Pavone",
+    "url": "luoghi/pavone.html",
+    "mapNames": ["TORRENTE PAVONE"]
+  },
+  {
+    "slug": "fosso-acquerta",
+    "nome": "Fosso Acquerta",
+    "url": "luoghi/acquerta.html",
+    "mapNames": ["TORRENTE ACQUERTA"]
   }
 ]

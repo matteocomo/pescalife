@@ -14,10 +14,11 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/style.css?v=checkbox-3">
     <link rel="stylesheet" href="css/specie.css">
+    <link rel="stylesheet" href="css/luoghi.css">
     <script src="js/site.js?v=avviso-unico-1" defer></script>
     <script src="js/data.js" defer></script>
     <script src="js/water-catalog.js" defer></script>
-    <script src="js/luoghi.js?v=spot-1" defer></script>
+    <script src="js/luoghi.js?v=filtri-1" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
@@ -93,10 +94,17 @@
 
         <section id="spot">
             <h2 class="page-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg><span>Luoghi di pesca</span></h2>
-            <p>Le schede vengono pubblicate solo dopo la verifica delle informazioni di accesso e delle regole locali.</p>
+            <p>Le schede territoriali descrivono i corsi d'acqua e i vincoli documentati, ma non certificano accessi né pescabilità. Gli spot sono pubblicati solo dopo la verifica delle informazioni di accesso e delle regole locali.</p>
             <div class="spot-grid mt-6" id="spot-grid" aria-live="polite"></div>
-            <div class="species-catalog">
-                <article class="species-card">
+            <details class="luoghi-filter" id="luoghi-filter" hidden>
+                <summary><span>Filtra le schede per tipo</span><span class="luoghi-filter-current" id="luoghi-filter-current">Tutti</span></summary>
+                <fieldset id="luoghi-filter-options">
+                    <legend>Tipo di luogo</legend>
+                </fieldset>
+            </details>
+            <p class="luoghi-filter-status" id="luoghi-filter-status" role="status" aria-live="polite"></p>
+            <div class="species-catalog luoghi-catalog" id="luoghi-catalog">
+                <article class="species-card" data-place-type="Fiume">
                     <img src="assets/luoghi/cecina.avif" alt="Veduta del Fiume Cecina" width="1024" height="768" loading="lazy">
                     <div class="species-card-body">
                         <span class="badge">Fiume</span>
@@ -107,6 +115,11 @@
                         <a class="btn btn-secondary" href="mappa.html?luogo=fiume-cecina">Vedi sulla mappa</a>
                     </div>
                 </article>
+                <article class="species-card" data-place-type="Torrente"><div class="luogo-photo"><span aria-hidden="true">Foto in arrivo</span><img src="assets/luoghi/possera.avif" alt="Veduta del Torrente Possera" width="1024" height="768" loading="lazy" onerror="this.hidden = true"></div><div class="species-card-body"><span class="badge">Torrente</span><h3>Torrente Possera</h3><p>Affluente del Cecina; scheda territoriale con il riferimento alla zona di frega del fiume presso la confluenza. Specie e accessi non verificati.</p><a class="btn btn-primary" href="luoghi/possera.html">Apri la scheda</a> <a class="btn btn-secondary" href="mappa.html?luogo=torrente-possera">Vedi sulla mappa</a></div></article>
+                <article class="species-card" data-place-type="Torrente"><div class="luogo-photo"><span aria-hidden="true">Foto in arrivo</span><img src="assets/luoghi/sterza.avif" alt="Veduta del Torrente Sterza" width="1024" height="768" loading="lazy" onerror="this.hidden = true"></div><div class="species-card-body"><span class="badge">Torrente</span><h3>Torrente Sterza</h3><p>Affluente del Cecina; inquadramento territoriale e riferimenti normativi, con condizioni di pesca, specie e accessi ancora da verificare.</p><a class="btn btn-primary" href="luoghi/sterza.html">Apri la scheda</a> <a class="btn btn-secondary" href="mappa.html?luogo=torrente-sterza">Vedi sulla mappa</a></div></article>
+                <article class="species-card" data-place-type="Torrente"><div class="luogo-photo"><span aria-hidden="true">Foto in arrivo</span><img src="assets/luoghi/trossa.avif" alt="Veduta del Torrente Trossa" width="1024" height="768" loading="lazy" onerror="this.hidden = true"></div><div class="species-card-body"><span class="badge">Torrente</span><h3>Torrente Trossa</h3><p>Affluente del Cecina; scheda territoriale con informazioni paesaggistiche e verifiche normative ancora aperte.</p><a class="btn btn-primary" href="luoghi/trossa.html">Apri la scheda</a> <a class="btn btn-secondary" href="mappa.html?luogo=torrente-trossa">Vedi sulla mappa</a></div></article>
+                <article class="species-card" data-place-type="Torrente"><div class="luogo-photo"><span aria-hidden="true">Foto in arrivo</span><img src="assets/luoghi/pavone.avif" alt="Veduta del Torrente Pavone" width="1024" height="768" loading="lazy" onerror="this.hidden = true"></div><div class="species-card-body"><span class="badge">Torrente</span><h3>Torrente Pavone</h3><p>Affluente del Cecina; scheda territoriale e zona di frega documentata alla foce, con vigenza da ricontrollare.</p><a class="btn btn-primary" href="luoghi/pavone.html">Apri la scheda</a> <a class="btn btn-secondary" href="mappa.html?luogo=torrente-pavone">Vedi sulla mappa</a></div></article>
+                <article class="species-card" data-place-type="Fosso"><div class="luogo-photo"><span aria-hidden="true">Foto in arrivo</span><img src="assets/luoghi/acquerta.avif" alt="Veduta del Fosso Acquerta" width="1024" height="768" loading="lazy" onerror="this.hidden = true"></div><div class="species-card-body"><span class="badge">Fosso</span><h3>Fosso Acquerta</h3><p>Corso citato come limite della zona di frega sul basso Cecina; il divieto indicato riguarda il tratto del Cecina, non l'intero Acquerta.</p><a class="btn btn-primary" href="luoghi/acquerta.html">Apri la scheda</a> <a class="btn btn-secondary" href="mappa.html?luogo=fosso-acquerta">Vedi sulla mappa</a></div></article>
             </div>
         </section>
         <section id="catalogo-acque" class="normativa water-catalog" aria-labelledby="water-catalog-heading">

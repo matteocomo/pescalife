@@ -99,7 +99,7 @@ const DATA_PATH = "data/maps/optimized/";
 
     function loadPlacesIndex() {
         if (!placesIndexPromise) {
-            placesIndexPromise = fetch(new URL("data/luoghi/index.json", document.baseURI))
+            placesIndexPromise = fetch(new URL("data/luoghi/index.json?v=luoghi-2", document.baseURI))
                 .then(response => {
                     if (!response.ok) throw new Error(`indice luoghi: HTTP ${response.status}`);
                     return response.json();
@@ -118,6 +118,11 @@ const DATA_PATH = "data/maps/optimized/";
 
     function placeMatchesName(place, name) {
         return Array.isArray(place.mapNames) && place.mapNames.some(item => normalizeWaterwayName(item) === name);
+    }
+
+    function placeMatchesFeature(place, feature) {
+        return placeMatchesName(place, normalizeWaterwayName(feature.properties?.name))
+            && (!Array.isArray(place.mapSections) || place.mapSections.includes(String(feature.properties?.section)));
     }
 
     function reportPlacesIndexError(error) {
@@ -405,7 +410,7 @@ const DATA_PATH = "data/maps/optimized/";
         const highlightSource = map.getSource("waterways-highlight-source");
         if (highlightSource && name && hydrographyData) {
             const matchingFeatures = hydrographyData.features.filter(item =>
-                place ? placeMatchesName(place, normalizeWaterwayName(item.properties?.name))
+                place ? placeMatchesFeature(place, item)
                     : normalizeWaterwayName(item.properties?.name) === normalized);
             highlightSource.setData({ type: "FeatureCollection", features: matchingFeatures });
         } else {
@@ -441,7 +446,24 @@ const DATA_PATH = "data/maps/optimized/";
         if (place) addPlaceLink(place);
         else if (normalized) {
             loadPlacesIndex()
-                .then(places => addPlaceLink(places.find(item => placeMatchesName(item, normalized))))
+                .then(places => {
+                    if (activePopup !== popup) return;
+                    const matchingPlace = places.find(item => placeMatchesFeature(item, feature));
+                    if (matchingPlace && highlightSource && hydrographyData) {
+                        highlightSource.setData({
+                            type: "FeatureCollection",
+                            features: hydrographyData.features.filter(item => placeMatchesFeature(matchingPlace, item))
+                        });
+                    } else if (places.some(item => placeMatchesName(item, normalized)) && highlightSource && hydrographyData) {
+                        highlightSource.setData({
+                            type: "FeatureCollection",
+                            features: hydrographyData.features.filter(item =>
+                                normalizeWaterwayName(item.properties?.name) === normalized
+                                && !places.some(place => placeMatchesFeature(place, item)))
+                        });
+                    }
+                    addPlaceLink(matchingPlace);
+                })
                 .catch(reportPlacesIndexError);
         }
         popup.on("close", () => {
@@ -647,7 +669,10 @@ const DATA_PATH = "data/maps/optimized/";
             try {
                 const places = await loadPlacesIndex();
                 const place = places.find(item => item.slug === placeId);
-                if (!place) return;
+                if (!place) {
+                    setStatus("Luogo non presente nell'indice cartografico.", true);
+                    return;
+                }
                 const input = layerInputs.find(item => item.dataset.mapLayer === "waterways");
                 input.checked = true;
                 try {
@@ -658,7 +683,7 @@ const DATA_PATH = "data/maps/optimized/";
                 }
                 updateControlSummaries();
                 const features = hydrographyData.features.filter(item =>
-                    placeMatchesName(place, normalizeWaterwayName(item.properties?.name)));
+                    placeMatchesFeature(place, item));
                 if (!features.length) {
                     setStatus(`Nessun tratto cartografico trovato per ${place.nome}.`, true);
                     return;

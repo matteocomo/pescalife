@@ -34,6 +34,7 @@
             id: "fiume-cecina",
             name: "Fiume Cecina",
             category: "Fiume",
+            detailUrl: "luoghi/cecina.html",
             municipalities: ["Cecina", "Castelnuovo Val di Cecina", "Pomarance"],
             description: "Le zone di frega censite riguardano soltanto i tratti delimitati qui sotto; non si estendono all'intero corso.",
             status: "DA VERIFICARE",
@@ -79,6 +80,7 @@
             id: "torrente-pavone",
             name: "Torrente Pavone",
             category: "Torrente",
+            detailUrl: "luoghi/pavone.html",
             municipalities: ["Castelnuovo Val di Cecina"],
             description: "La zona di frega censita riguarda soltanto il tratto delimitato qui sotto.",
             status: "DA VERIFICARE",
@@ -106,9 +108,23 @@
             ]
         },
         {
+            id: "torrente-possera",
+            name: "Torrente Possera",
+            category: "Torrente",
+            detailUrl: "luoghi/possera.html",
+            municipalities: [],
+            description: "Affluente del Fiume Cecina. La confluenza delimita una zona di frega sul Cecina; ulteriori dati territoriali e normativi restano da verificare.",
+            status: "DA VERIFICARE",
+            classification: "D",
+            coordinate: null,
+            sourceIds: ["hydrography"],
+            spawningZones: []
+        },
+        {
             id: "torrente-sterza",
             name: "Torrente Sterza",
             category: "Torrente",
+            detailUrl: "luoghi/sterza.html",
             municipalities: [],
             description: "Comune/i e tratti di interesse per la pesca da individuare.",
             status: "DA VERIFICARE",
@@ -118,9 +134,23 @@
             spawningZones: []
         },
         {
-            id: "torrente-acquerta",
-            name: "Torrente Acquerta",
+            id: "torrente-trossa",
+            name: "Torrente Trossa",
             category: "Torrente",
+            detailUrl: "luoghi/trossa.html",
+            municipalities: [],
+            description: "Affluente del Fiume Cecina. I dati territoriali, gli eventuali vincoli e le condizioni di accesso sono da verificare.",
+            status: "DA VERIFICARE",
+            classification: "D",
+            coordinate: null,
+            sourceIds: ["hydrography"],
+            spawningZones: []
+        },
+        {
+            id: "torrente-acquerta",
+            name: "Fosso Acquerta",
+            category: "Fosso",
+            detailUrl: "luoghi/acquerta.html",
             municipalities: [],
             description: "Citato come limite della zona di frega sul Cecina; il divieto indicato si riferisce al tratto del Cecina, non all'intero Acquerta.",
             status: "DA VERIFICARE",
@@ -279,6 +309,11 @@
         addField(content, "Comuni documentati nei dati disponibili", body.municipalities.join(", ") || "Da verificare");
         addField(content, "Coordinate", body.coordinate ? `${body.coordinate.latitude}, ${body.coordinate.longitude}` : "Non inserite: nessuna coordinata verificata");
         content.append(element("p", "", body.description));
+        if (body.detailUrl) {
+            const detailLink = element("a", "btn btn-secondary", "Apri la scheda territoriale");
+            detailLink.href = body.detailUrl;
+            content.append(detailLink);
+        }
 
         if (body.spawningZones.length) {
             const heading = element("h3", "", "Tratti con zona di frega documentata");
