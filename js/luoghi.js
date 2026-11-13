@@ -11,7 +11,7 @@
                         <div class="tech-tags">${spot.techniques.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div>
                         <p class="text-sm mt-2"><strong>Accesso:</strong> ${escapeHtml(spot.access)}</p>
                     </div>
-                </article>`).join("") : '<p class="empty-state">Al momento non ci sono spot verificati da mostrare. Le schede saranno attivate dopo aver controllato accesso e regole ufficiali.</p>';
+                </article>`).join("") : "";
         }
 
         function openSpotModal(spotId) {

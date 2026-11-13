@@ -1,4 +1,4 @@
-const SESSION_NOTICE_KEY = "pescalife_notice_accepted";
+const ENTRY_NOTICE_KEY = "pescalife_entry_notice_v2";
 
 // Inserire qui la access key pubblica del modulo Web3Forms per attivare l'invio.
 const WEB3FORMS_ACCESS_KEY = "";
@@ -36,16 +36,16 @@ const byId = id => document.getElementById(id);
             const dialog = byId("entry-dialog");
             if (!dialog) return;
             let accepted = false;
-            try { accepted = sessionStorage.getItem(SESSION_NOTICE_KEY) === "true"; }
-            catch (error) { console.warn("sessionStorage non disponibile; il banner verrà mostrato."); }
+            try { accepted = localStorage.getItem(ENTRY_NOTICE_KEY) === "true"; }
+            catch (error) { console.warn("localStorage non disponibile; il banner verrà mostrato."); }
             if (accepted) return;
             dialog.hidden = false;
             document.body.classList.add("dialog-open");
             byId("entry-accept").focus();
 
             const close = () => {
-                try { sessionStorage.setItem(SESSION_NOTICE_KEY, "true"); }
-                catch (error) { console.warn("Non è stato possibile memorizzare l'accettazione del banner in sessionStorage."); }
+                try { localStorage.setItem(ENTRY_NOTICE_KEY, "true"); }
+                catch (error) { console.warn("Non è stato possibile memorizzare l'accettazione del banner in localStorage."); }
                 dialog.hidden = true;
                 document.body.classList.remove("dialog-open");
             };

@@ -14,15 +14,18 @@
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <link rel="stylesheet" href="css/style.css?v=checkbox-3">
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.17.0/dist/maplibre-gl.css">
-    <link rel="stylesheet" href="css/map-preview.css">
-    <script src="js/site.js?v=feedback-3" defer></script>
-    <script type="module" src="js/map-preview.js"></script>
+    <link rel="stylesheet" href="css/map-preview.css?v=ricerca-icona-1">
+    <script src="js/site.js?v=avviso-unico-1" defer></script>
+    <script type="module" src="js/map-preview.js?v=controlli-mappa-2"></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
         <div class="entry-dialog-panel">
             <h2 id="entry-title">Prima di entrare</h2>
-            <p id="entry-description">PescaLife è un sito amatoriale a scopo esclusivamente informativo, non ufficiale e senza scopo di lucro. Le informazioni possono essere incomplete o non aggiornate. Rispetta sempre la legge: licenze, misure minime, periodi di divieto, zone vietate o protette, proprietà private e ordinanze locali. Verifica sempre le regole sulle fonti ufficiali prima di pescare. Pesca in sicurezza e a tuo rischio.</p>
+            <div id="entry-description">
+                <p>🛠️ <strong>Sito in sviluppo:</strong> PescaLife è un portale amatoriale, non ufficiale e senza scopo di lucro. Potresti trovare sezioni incomplete, non aggiornate o piccoli malfunzionamenti.</p>
+                <p>⚠️ <strong>Regole e responsabilità:</strong> I contenuti sono puramente informativi. Controlla sempre le fonti ufficiali per licenze, divieti, misure e ordinanze prima di andare in acqua. Pesca in sicurezza e a tuo rischio.</p>
+            </div>
             <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
             <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
         </div>
@@ -77,7 +80,7 @@
                 <label for="map-search">Cerca un comune o un toponimo</label>
                 <div class="map-search-row">
                     <input id="map-search" type="search" placeholder="Es. Volterra, Cecina…" autocomplete="off" aria-controls="map-search-results" aria-expanded="false">
-                    <button class="btn btn-primary" type="submit">Cerca</button>
+                    <button class="btn btn-primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg><span>Cerca</span></button>
                 </div>
                 <ul id="map-search-results" class="map-search-results" role="listbox" hidden></ul>
             </form>
@@ -112,7 +115,10 @@
             <div class="preview-map-frame">
                 <div id="preview-map" role="region" aria-label="Mappa interattiva delle acque interne della Val di Cecina"></div>
                 <button type="button" class="map-guide-button" id="map-guide-open" aria-label="Apri la guida alla mappa" title="Guida alla mappa">?</button>
-                <button type="button" class="map-location-button" id="map-location" aria-label="Centra la mappa sulla mia posizione, che potrebbe non essere precisa al 100%" title="La posizione potrebbe non essere precisa al 100%">◎</button>
+                <div class="map-location-control">
+                    <span class="map-location-tooltip" id="map-location-tooltip" role="tooltip">La posizione potrebbe non essere precisa al 100%.</span>
+                    <button type="button" class="map-location-button" id="map-location" aria-label="Centra la mappa sulla mia posizione" aria-describedby="map-location-tooltip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg></button>
+                </div>
             </div>
 
             <div class="map-legend" id="map-legend" aria-label="Legenda dei livelli attivi"></div>
@@ -136,6 +142,7 @@
         <div class="map-guide-panel">
             <p class="map-guide-count" id="map-guide-count">Passo 1 di 3</p>
             <h2 id="map-guide-title">Come usare la mappa</h2>
+            <progress class="map-guide-progress" id="map-guide-progress" value="1" max="3" aria-label="Avanzamento della guida"></progress>
             <p id="map-guide-step-text" aria-live="polite"></p>
             <div class="map-guide-actions">
                 <button type="button" class="btn btn-secondary" id="map-guide-skip">Salta guida</button>

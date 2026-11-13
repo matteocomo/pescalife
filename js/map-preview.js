@@ -16,6 +16,7 @@ const DATA_PATH = "data/maps/optimized/";
     const guideDialog = document.getElementById("map-guide");
     const guideOpenButton = document.getElementById("map-guide-open");
     const guideCount = document.getElementById("map-guide-count");
+    const guideProgress = document.getElementById("map-guide-progress");
     const guideStepText = document.getElementById("map-guide-step-text");
     const guideBackButton = document.getElementById("map-guide-back");
     const guideNextButton = document.getElementById("map-guide-next");
@@ -90,6 +91,39 @@ const DATA_PATH = "data/maps/optimized/";
     let statusIsError = false;
     let guideStep = 0;
     let guideShown = false;
+    let placesIndexPromise;
+
+    function normalizeWaterwayName(name) {
+        return String(name || "").trim().toLocaleUpperCase("it-IT");
+    }
+
+    function loadPlacesIndex() {
+        if (!placesIndexPromise) {
+            placesIndexPromise = fetch(new URL("data/luoghi/index.json", document.baseURI))
+                .then(response => {
+                    if (!response.ok) throw new Error(`indice luoghi: HTTP ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (!Array.isArray(data)) throw new Error("indice luoghi: formato non valido");
+                    return data;
+                })
+                .catch(error => {
+                    placesIndexPromise = null;
+                    throw error;
+                });
+        }
+        return placesIndexPromise;
+    }
+
+    function placeMatchesName(place, name) {
+        return Array.isArray(place.mapNames) && place.mapNames.some(item => normalizeWaterwayName(item) === name);
+    }
+
+    function reportPlacesIndexError(error) {
+        console.error("Impossibile caricare l'indice dei luoghi:", error);
+        setStatus(`Impossibile caricare l'indice dei luoghi: ${error.message}`, true);
+    }
 
     function setStatus(message, isError = false) {
         status.textContent = message;
@@ -300,6 +334,13 @@ const DATA_PATH = "data/maps/optimized/";
         else map.addLayer(layer);
     }
 
+    function waterwayAtPoint(point) {
+        const hitboxLayers = ["rank1", "rank2", "rank3", "minor"]
+            .map(group => `waterways-hitbox-${group}`)
+            .filter(id => map.getLayer(id) && map.getLayoutProperty(id, "visibility") !== "none");
+        return hitboxLayers.length > 0 && map.queryRenderedFeatures(point, { layers: hitboxLayers }).length > 0;
+    }
+
     function attachLayerEvents(key) {
         const interactiveLayers = key === "waterways"
             ? [
@@ -325,6 +366,7 @@ const DATA_PATH = "data/maps/optimized/";
                     showWaterwayPopup(feature, event.lngLat);
                     return;
                 }
+                if (waterwayAtPoint(event.point)) return;
                 if (activePopup) activePopup.remove();
                 const content = document.createElement("div");
                 const heading = document.createElement("strong");
@@ -348,10 +390,10 @@ const DATA_PATH = "data/maps/optimized/";
         if (source) source.setData({ type: "FeatureCollection", features: [] });
     }
 
-    function showWaterwayPopup(feature, coordinates) {
+    function showWaterwayPopup(feature, coordinates, place = null) {
         const properties = feature.properties || {};
         const name = String(properties.name || "").trim();
-        const normalized = name.toLocaleUpperCase("it-IT");
+        const normalized = normalizeWaterwayName(name);
         const type = normalized.startsWith("FIUME") ? "Fiume"
             : normalized.startsWith("TORRENTE") ? "Torrente"
                 : normalized.startsWith("BOTRO") ? "Botro"
@@ -363,24 +405,46 @@ const DATA_PATH = "data/maps/optimized/";
         const highlightSource = map.getSource("waterways-highlight-source");
         if (highlightSource && name && hydrographyData) {
             const matchingFeatures = hydrographyData.features.filter(item =>
-                String(item.properties?.name || "").toLocaleUpperCase("it-IT") === normalized);
+                place ? placeMatchesName(place, normalizeWaterwayName(item.properties?.name))
+                    : normalizeWaterwayName(item.properties?.name) === normalized);
             highlightSource.setData({ type: "FeatureCollection", features: matchingFeatures });
         } else {
             clearWaterwayHighlight();
         }
         const content = document.createElement("div");
         const heading = document.createElement("strong");
-        heading.textContent = displayName;
+        heading.textContent = place ? place.nome : displayName;
         const typeLine = document.createElement("div");
         typeLine.textContent = type;
         const note = document.createElement("small");
-        note.textContent = "Dato cartografico CTR, non conferma accessi o pescabilità";
+        note.textContent = "Corso d'acqua dalla CTR 2010, non conferma pescabilità né accessi";
         content.append(heading, typeLine, note);
-        activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: "300px" })
+        const popup = new maplibregl.Popup({ closeButton: true, maxWidth: "300px" })
             .setLngLat(coordinates)
             .setDOMContent(content)
             .addTo(map);
-        activePopup.on("close", () => {
+        activePopup = popup;
+        function addPlaceLink(matchingPlace) {
+            if (!matchingPlace || activePopup !== popup) return;
+            popup.addClassName("map-place-popup");
+            popup.getElement().querySelector(".maplibregl-popup-close-button").setAttribute("aria-label", "Chiudi");
+            heading.textContent = matchingPlace.nome.replace(/^(?:fiume|torrente|botro|fosso|rio)\s+/i, "");
+            const linkRow = document.createElement("div");
+            const link = document.createElement("a");
+            link.href = matchingPlace.url;
+            link.className = "btn btn-primary map-place-popup-button";
+            link.textContent = "Dettagli";
+            link.setAttribute("aria-label", `Dettagli di ${matchingPlace.nome}`);
+            linkRow.append(link);
+            content.append(linkRow);
+        }
+        if (place) addPlaceLink(place);
+        else if (normalized) {
+            loadPlacesIndex()
+                .then(places => addPlaceLink(places.find(item => placeMatchesName(item, normalized))))
+                .catch(reportPlacesIndexError);
+        }
+        popup.on("close", () => {
             activePopup = null;
             clearWaterwayHighlight();
         });
@@ -569,7 +633,7 @@ const DATA_PATH = "data/maps/optimized/";
         setStatus(`Risultato cercato: ${item.label}. Non è uno spot di pesca verificato.`);
     }
 
-    function applyPlaceLink() {
+    async function applyPlaceLink() {
         // Collegamento futuro dagli spot: ?luogo=<id>&lat=<lat>&lon=<lon>&nome=<nome>.
         const params = new URLSearchParams(window.location.search);
         const placeId = params.get("luogo");
@@ -578,6 +642,41 @@ const DATA_PATH = "data/maps/optimized/";
         const latitude = Number(latitudeValue);
         const longitude = Number(longitudeValue);
         if (!params.has("luogo") && !params.has("lat") && !params.has("lon")) return;
+
+        if (placeId && !params.has("lat") && !params.has("lon")) {
+            try {
+                const places = await loadPlacesIndex();
+                const place = places.find(item => item.slug === placeId);
+                if (!place) return;
+                const input = layerInputs.find(item => item.dataset.mapLayer === "waterways");
+                input.checked = true;
+                try {
+                    await ensureLayer("waterways");
+                } catch (error) {
+                    input.checked = false;
+                    throw error;
+                }
+                updateControlSummaries();
+                const features = hydrographyData.features.filter(item =>
+                    placeMatchesName(place, normalizeWaterwayName(item.properties?.name)));
+                if (!features.length) {
+                    setStatus(`Nessun tratto cartografico trovato per ${place.nome}.`, true);
+                    return;
+                }
+                const combined = { geometry: { coordinates: features.map(item => item.geometry?.coordinates) } };
+                const center = featureCenter(combined);
+                if (!center) {
+                    setStatus(`Geometrie cartografiche non disponibili per ${place.nome}.`, true);
+                    return;
+                }
+                fitFeature(combined);
+                showWaterwayPopup(features[0], center, place);
+            } catch (error) {
+                console.error("Impossibile aprire il luogo sulla mappa:", error);
+                setStatus(`Impossibile aprire il luogo sulla mappa: ${error.message}`, true);
+            }
+            return;
+        }
 
         if (!placeId || !/^[a-z0-9_-]{1,80}$/i.test(placeId)
             || !latitudeValue?.trim() || !longitudeValue?.trim()
@@ -661,9 +760,11 @@ const DATA_PATH = "data/maps/optimized/";
 
     function renderGuideStep() {
         guideCount.textContent = `Passo ${guideStep + 1} di ${guideSteps.length}`;
+        guideProgress.max = guideSteps.length;
+        guideProgress.value = guideStep + 1;
         guideStepText.textContent = guideSteps[guideStep];
         guideBackButton.hidden = guideStep === 0;
-        guideNextButton.textContent = guideStep === guideSteps.length - 1 ? "Inizia a esplorare" : "Avanti";
+        guideNextButton.textContent = guideStep === guideSteps.length - 1 ? "Esplora" : "Avanti";
     }
 
     function openGuide() {
@@ -754,12 +855,7 @@ const DATA_PATH = "data/maps/optimized/";
     map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-left");
 
     map.on("click", event => {
-        const hitboxLayers = ["rank1", "rank2", "rank3", "minor"]
-            .map(group => `waterways-hitbox-${group}`)
-            .filter(id => map.getLayer(id));
-        const clickedWaterway = hitboxLayers.length
-            && map.queryRenderedFeatures(event.point, { layers: hitboxLayers }).length > 0;
-        if (!clickedWaterway && activePopup) {
+        if (!waterwayAtPoint(event.point) && activePopup) {
             activePopup.remove();
             activePopup = null;
             clearWaterwayHighlight();

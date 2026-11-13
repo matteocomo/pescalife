@@ -14,16 +14,19 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/style.css?v=checkbox-3">
     <link rel="stylesheet" href="css/diary-controls.css?v=3">
-        <script src="js/site.js?v=feedback-3" defer></script>
+        <script src="js/site.js?v=avviso-unico-1" defer></script>
     <script src="js/data.js" defer></script>
     <script src="js/diary-controls.js?v=1" defer></script>
-    <script src="js/diario.js?v=controls-1" defer></script>
+    <script src="js/diario.js?v=luogo-cecina-1" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
         <div class="entry-dialog-panel">
             <h2 id="entry-title">Prima di entrare</h2>
-            <p id="entry-description">PescaLife è un sito amatoriale a scopo esclusivamente informativo, non ufficiale e senza scopo di lucro. Le informazioni possono essere incomplete o non aggiornate. Rispetta sempre la legge: licenze, misure minime, periodi di divieto, zone vietate o protette, proprietà private e ordinanze locali. Verifica sempre le regole sulle fonti ufficiali prima di pescare. Pesca in sicurezza e a tuo rischio.</p>
+            <div id="entry-description">
+                <p>🛠️ <strong>Sito in sviluppo:</strong> PescaLife è un portale amatoriale, non ufficiale e senza scopo di lucro. Potresti trovare sezioni incomplete, non aggiornate o piccoli malfunzionamenti.</p>
+                <p>⚠️ <strong>Regole e responsabilità:</strong> I contenuti sono puramente informativi. Controlla sempre le fonti ufficiali per licenze, divieti, misure e ordinanze prima di andare in acqua. Pesca in sicurezza e a tuo rischio.</p>
+            </div>
             <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
             <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
         </div>
@@ -98,7 +101,7 @@
                     <span class="diary-control-hint" id="diary-date-hint" hidden>Scrivi la data nel formato gg/mm/aaaa oppure usa il calendario.</span>
                 </div>
 
-                <label for="diary-spot" id="diary-spot-heading">Spot:</label>
+                <label for="diary-spot" id="diary-spot-heading">Spot o luogo:</label>
                 <div class="diary-control">
                     <select id="diary-spot" required></select>
                     <div id="diary-spot-control" hidden>
@@ -107,6 +110,7 @@
                         <span class="diary-control-error" id="diary-spot-error" role="alert" hidden>Seleziona uno spot.</span>
                     </div>
                 </div>
+                <p class="diary-control-hint">I luoghi selezionabili non certificano accessi o pescabilità. <a href="luoghi/cecina.html">Scheda Fiume Cecina</a></p>
 
                 <label for="diary-species">Specie catturata:</label>
                 <input type="text" id="diary-species" placeholder="Es. Spigola" maxlength="80" required>

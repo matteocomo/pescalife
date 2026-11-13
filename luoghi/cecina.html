@@ -15,13 +15,16 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/style.css?v=checkbox-3">
     <link rel="stylesheet" href="css/specie.css">
-    <script src="js/site.js?v=feedback-3" defer></script>
+    <script src="js/site.js?v=avviso-unico-1" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
         <div class="entry-dialog-panel">
             <h2 id="entry-title">Prima di entrare</h2>
-            <p id="entry-description">PescaLife è un sito amatoriale a scopo esclusivamente informativo, non ufficiale e senza scopo di lucro. Le informazioni possono essere incomplete o non aggiornate. Rispetta sempre la legge: licenze, misure minime, periodi di divieto, zone vietate o protette, proprietà private e ordinanze locali. Verifica sempre le regole sulle fonti ufficiali prima di pescare. Pesca in sicurezza e a tuo rischio.</p>
+            <div id="entry-description">
+                <p>🛠️ <strong>Sito in sviluppo:</strong> PescaLife è un portale amatoriale, non ufficiale e senza scopo di lucro. Potresti trovare sezioni incomplete, non aggiornate o piccoli malfunzionamenti.</p>
+                <p>⚠️ <strong>Regole e responsabilità:</strong> I contenuti sono puramente informativi. Controlla sempre le fonti ufficiali per licenze, divieti, misure e ordinanze prima di andare in acqua. Pesca in sicurezza e a tuo rischio.</p>
+            </div>
             <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
             <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
         </div>
@@ -46,13 +49,13 @@
             </div>
             <nav aria-label="Sezioni del sito">
                 <ul class="site-menu-links">
-                    <li><a href="index.html"><span>Home</span></a></li>
-                    <li><a href="luoghi.html"><span>Luoghi di pesca</span></a></li>
-                    <li><a href="specie.html"><span>Guida alle specie</span></a></li>
-                    <li><a href="tecniche.html"><span>Tecniche di pesca</span></a></li>
-                    <li><a href="meteo.html"><span>Condizioni ambientali</span></a></li>
-                    <li><a href="normativa.html"><span>Regole e normativa</span></a></li>
-                    <li><a href="diario.html"><span>Diario di pesca</span></a></li>
+                    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7"></path><path d="M5 9v11h14V9M9 20v-6h6v6"></path></svg><span>Home</span></a></li>
+                    <li><a href="luoghi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg><span>Luoghi di pesca</span></a></li>
+                    <li><a href="specie.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12s3.2-5 9-5c3.3 0 5.6 2 7 5-1.4 3-3.7 5-7 5-5.8 0-9-5-9-5Z"></path><path d="m19 12 3-3v6l-3-3Z"></path><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"></circle></svg><span>Guida alle specie</span></a></li>
+                    <li><a href="tecniche.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 5h10"></path><path d="m13 5 5 5"></path><path d="M18 10v4a3 3 0 0 1-6 0v-1"></path><path d="M3 5v4"></path><path d="M3 9c0 2 1.5 3 3 3s3-1 3-3"></path></svg><span>Tecniche di pesca</span></a></li>
+                    <li><a href="meteo.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path><path d="M8 21h.01M12 21h.01M16 21h.01"></path></svg><span>Condizioni ambientali</span></a></li>
+                    <li><a href="normativa.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Regole e normativa</span></a></li>
+                    <li><a href="diario.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h14v17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M7 8h10M7 12h10M7 16h6"></path><path d="M7 4v17"></path></svg><span>Diario di pesca</span></a></li>
                 </ul>
             </nav>
             <p class="site-menu-note">La tua guida alla pesca sportiva in Toscana</p>
@@ -66,8 +69,25 @@
                 <div>
                     <span class="badge">Fiume · scheda territoriale</span>
                     <h2>Fiume Cecina</h2>
-                    <p>Corso d’acqua principale della Val di Cecina, dalle Colline Metallifere al Mar Tirreno presso Marina di Cecina. Questa scheda riunisce informazioni documentate sul bacino e sui tratti normativi, senza certificare la pescabilità del fiume o di singoli accessi.</p>
+                    <div class="luogo-summary">
+                        <div class="species-notice">
+                            <strong>In breve</strong>
+                            <ul>
+                                <li>Divieti temporanei documentati su 3 tratti (zone di frega): vedi <a href="luoghi/cecina.html#normativa">Normativa e tutela</a>.</li>
+                                <li>Parte del bacino ricade in un sito Natura 2000 e nella Riserva Foresta di Berignone, con regole proprie.</li>
+                                <li><strong>Ambito della scheda:</strong> Questa scheda non certifica pescabilità né accessi.</li>
+                            </ul>
+                        </div>
+                        <p>Ultima revisione: <time datetime="2026-11-12">12 novembre 2026</time></p>
+                    </div>
+                    <p>Corso d’acqua principale della Val di Cecina, dalle Colline Metallifere al Mar Tirreno presso Marina di Cecina. Questa scheda riunisce informazioni documentate sul bacino e sui tratti normativi.</p>
+                    <a class="btn btn-primary" href="mappa.html?luogo=fiume-cecina">Vedi sulla mappa</a>
+                    <p>La mappa evidenzia il corso del fiume secondo la CTR 2010; non mostra i tratti con divieto.</p>
                 </div>
+                <figure class="species-figure">
+                    <img src="assets/luoghi/cecina.avif" alt="Veduta del Fiume Cecina" width="1024" height="768">
+                    <figcaption>Foto di <a href="https://commons.wikimedia.org/wiki/User:Larth_Rasnal">Larth_Rasnal</a>, disponibile su Wikimedia Commons, rilasciata sotto licenza <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>.</figcaption>
+                </figure>
             </div>
             <nav class="species-index" aria-label="Indice della scheda">
                 <a href="luoghi/cecina.html#percorso">Percorso e territorio</a>
@@ -82,7 +102,6 @@
             <section id="presentazione">
                 <h3>Presentazione</h3>
                 <p>Il Cecina è l’asse idrografico della valle omonima e raccoglie una rete di corsi d’acqua secondari prima di raggiungere la costa. Il bacino idrografico comprende il fiume e i suoi affluenti; i tratti normativi descritti in questa pagina sono segmenti specifici, non l’intero corso.</p>
-                <p class="species-notice"><strong>Ambito della scheda:</strong> inquadramento territoriale e informazioni documentate. Non è una mappa di pesca e non dichiara il fiume interamente pescabile o vietato.</p>
             </section>
 
             <section id="percorso">
@@ -123,8 +142,11 @@
 
             <section id="normativa">
                 <h3>Normativa e tutela</h3>
+                <p>Questa scheda non certifica pescabilità né accessi.</p>
                 <p class="species-notice"><strong>Verifica con riserva di aggiornamento.</strong> Le tre zone di frega riportate sotto sono documentate nell’allegato regionale dell’aprile 2018. La pagina regionale di riferimento è stata consultata, ma non è stata ottenuta una conferma formale aggiornata al 2026. Prima di pescare occorre controllare gli atti e la segnaletica vigenti.</p>
                 <h4>Zone di frega — limitazioni riferite ai tratti indicati</h4>
+                <span class="luogo-status luogo-status-verified">Verificato su fonte ufficiale</span>
+                <p>Fonte: tabella Regione Toscana, aprile 2018, e successive modifiche da verificare.</p>
                 <dl class="species-facts">
                     <div>
                         <dt>Fiume Cecina · comune di Cecina</dt>
@@ -143,18 +165,25 @@
 
                 <h4>Zone di protezione, ZRS e aree protette</h4>
                 <ul>
-                    <li><strong>Zone di protezione:</strong> nessuna zona riferita al bacino è stata individuata nell’elenco regionale consultato, aggiornato al 2023. Ordinanze e ulteriori vincoli locali restano da verificare.</li>
-                    <li><strong>ZRS:</strong> nessuna zona riferita al bacino è stata individuata nell’elenco regionale consultato, aggiornato al 2025. L’assenza dall’elenco non costituisce autorizzazione alla pesca.</li>
-                    <li><strong>Natura 2000:</strong> IT5170007, “Fiume Cecina da Berignone a Ponteginori”, è un sito di tutela. La designazione non equivale automaticamente a un divieto generale di pesca.</li>
-                    <li><strong>Misure di conservazione:</strong> le misure Natura 2000 sono state aggiornate con D.G.R. Toscana 1009/2025. Le prescrizioni e gli allegati applicabili al tratto specifico devono essere controllati nella versione vigente.</li>
-                    <li><strong>Riserva Foresta di Berignone:</strong> area protetta distinta da zone di frega, zone di protezione e ZRS. Non si presume né un divieto generale né la pescabilità dei tratti interni; il regolamento integrale del 2002 non è stato reperito.</li>
+                    <li><strong>Zone di protezione:</strong> <span class="luogo-status luogo-status-verified">Verificato su fonte ufficiale</span> Nessun corso del bacino è presente nell’elenco regionale consultato, aggiornato al 22/09/2023. Ordinanze e ulteriori vincoli locali restano da verificare.</li>
+                    <li><strong>ZRS:</strong> <span class="luogo-status luogo-status-check">Da verificare</span> Nessuna zona riferita al bacino è stata individuata nell’elenco regionale consultato, aggiornato al 2025. L’assenza dall’elenco non costituisce autorizzazione alla pesca. L'elenco ZRS va riverificato sulla pagina ufficiale della Regione prima di ritenere assenti zone a regolamento specifico nel bacino.</li>
+                    <li><strong>Natura 2000:</strong> <span class="luogo-status luogo-status-verified">Verificato su fonte ufficiale</span> IT5170007, “Fiume Cecina da Berignone a Ponteginori”, è un sito di tutela che ricade nella Riserva Foresta di Berignone. La designazione non equivale automaticamente a un divieto generale di pesca.</li>
+                    <li><strong>Misure di conservazione:</strong> <span class="luogo-status luogo-status-reserved">Con riserva</span> Le misure Natura 2000 sono state aggiornate con D.G.R. Toscana 1009/2025. Le prescrizioni e gli allegati applicabili al tratto specifico devono essere controllati nella versione vigente.</li>
+                    <li><strong>Riserva Foresta di Berignone:</strong> <span class="luogo-status luogo-status-reserved">Con riserva</span> Area protetta con regolamento proprio, distinta da zone di frega, zone di protezione e ZRS. Un piano di gestione regionale del sito Natura 2000 riferisce un divieto di pesca nella riserva ai sensi del regolamento di gestione; il regolamento integrale non è stato reperito e i confini del divieto non sono definiti da questa scheda. Per prudenza non pescare nei tratti interni alla riserva senza aver verificato il regolamento con l'ente gestore. Le misure Natura 2000 citano inoltre restrizioni a Masso degli Specchi e Masso delle Fanciulle: da verificare nel testo.</li>
                 </ul>
-                <p>La classificazione delle acque a salmonidi/ciprinidi per l’intero corso, le concessioni, i diritti esclusivi, le ordinanze locali e le disposizioni annuali non sono definite da questa scheda.</p>
+                <h4>Classificazione delle acque</h4>
+                <span class="luogo-status luogo-status-reserved">Con riserva</span>
+                <p>Per il tratto interno al sito Natura 2000 il piano di gestione regionale riporta la classificazione a ciprinidi. Per il resto del corso la classificazione non è definita da questa scheda.</p>
             </section>
 
             <section id="specie-ittiche">
                 <h3>Specie ittiche</h3>
                 <p>Non è disponibile un elenco di specie osservate con dati di campionamento sufficienti per attribuirle ai singoli tratti del Cecina. Per questo la scheda non presenta specie come sicuramente presenti nel fiume.</p>
+                <div class="species-notice">
+                    <strong>Fonti qualitative (non aggiornate)</strong>
+                    <span class="luogo-status luogo-status-reserved">Con riserva</span>
+                    <p>Il piano di gestione del sito Natura 2000 cita ciprinidi (cavedani e barbi) nel medio corso del Cecina; il piano ittico provinciale di Pisa (2006) descrive il Cecina e alcuni affluenti. Sono fonti storiche o generali: non indicano la presenza attuale di una specie in un tratto.</p>
+                </div>
                 <p>Il barbo tiberino (<i>Barbus tyberinus</i>) compare tra le specie per cui è designato il sito Natura 2000 IT5170007 secondo la banca dati EUNIS. Questo dato riguarda la designazione del sito e non prova la presenza attuale della specie in uno specifico tratto.</p>
                 <p><a href="specie.html">Consulta la guida alle specie</a>; le schede non sostituiscono censimenti locali.</p>
             </section>
@@ -162,7 +191,17 @@
             <section id="accessi">
                 <h3>Accessi e punti di interesse</h3>
                 <p>Non sono inseriti accessi, parcheggi, coordinate o punti pescabili: le informazioni raccolte non consentono di verificarli in modo affidabile. Proprietà, accessibilità, sicurezza e regole locali vanno accertate sul posto e presso gli enti competenti.</p>
-                <p>Le mappe del sito aiutano a orientarsi, ma non certificano la percorribilità o il diritto di accesso alle sponde.</p>
+                <div class="species-notice">
+                    <h4>Cosa non sappiamo</h4>
+                    <span class="luogo-status luogo-status-check">Da verificare</span>
+                    <ul>
+                        <li>Accessi e parcheggi.</li>
+                        <li>Specie presenti per singolo tratto.</li>
+                        <li>Concessioni e diritti esclusivi.</li>
+                        <li>Ordinanze locali.</li>
+                        <li>Disposizioni annuali.</li>
+                    </ul>
+                </div>
             </section>
 
             <section id="continua">
@@ -183,7 +222,8 @@
                     <li><a href="https://www.regione.toscana.it/-/elenco-delle-zone-di-protezione-nei-corsi-d-acqua-e-laghi-regionali">Regione Toscana, elenco delle zone di protezione</a>.</li>
                     <li><a href="https://www.regione.toscana.it/it/-/pesca-elenco-zone-a-regolamento-specifico">Regione Toscana, elenco delle zone a regolamento specifico (ZRS)</a>.</li>
                     <li><a href="https://www.regione.toscana.it/-/siti-natura-2000-misure-di-conservazione-e-piani-di-gestione-2">Regione Toscana, siti Natura 2000, misure di conservazione e piani di gestione</a>: verificare gli allegati vigenti, inclusi gli aggiornamenti della D.G.R. 1009/2025.</li>
-                    <li><a href="https://www.regione.toscana.it/-/normativa-caccia-e-pesca">Regione Toscana, normativa caccia e pesca</a>.</li>
+                    <li>Regione Toscana, piano di gestione del SIR “Fiume Cecina da Berignone a Ponteginori”: collegamento diretto al documento da reperire.</li>
+                    <li>Regione Toscana, D.P.G.R. 6/R/2018 e L.R. 7/2005: <a href="https://www.regione.toscana.it/-/normativa-caccia-e-pesca">normativa caccia e pesca</a>.</li>
                 </ul>
                 <h4>Geografiche e territoriali</h4>
                 <ul>
@@ -193,6 +233,7 @@
                 </ul>
                 <h4>Naturalistiche</h4>
                 <ul>
+                    <li>Provincia di Pisa, piano ittico provinciale (2006): fonte storica, collegamento diretto al documento da reperire.</li>
                     <li><a href="https://sei.pagepress.org/bollettino/article/download/bollettinosei.2021.3/307/2838">Rocchi, Terzani e Mascagni, “Coleotterofauna acquatica e semiacquatica del bacino idrografico del fiume Cecina”</a>, Bollettino della Società Entomologica Italiana, 2021: inquadramento del bacino e affluenti; non è uno studio di fauna ittica.</li>
                     <li><a href="https://eunis.eea.europa.eu/species/12453">EUNIS/EEA, <i>Barbus tyberinus</i></a>: sito IT5170007 tra le designazioni per la specie; non costituisce prova di presenza in un tratto.</li>
                     <li><a href="https://comunepomarance.it/uploads/files/61-D.T.03c_VINCA.pdf">Comune di Pomarance, studio di incidenza VINCA</a>: riferimento al sito IT5170007 e alle aree protette locali.</li>

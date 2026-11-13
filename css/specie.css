@@ -46,3 +46,11 @@
 @media (max-width: 480px) {
     .species-facts div { grid-template-columns: 1fr; gap: 0.15rem; }
 }
+.luogo-summary { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0 1.5rem; }
+.luogo-summary .species-notice { flex: 1 1 26rem; }
+.luogo-summary > p { margin-top: 1rem; }
+.luogo-status { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 0.4rem; font-size: 0.8rem; font-weight: 700; }
+.luogo-status-verified { color: #15552e; background: #d7efdd; }
+.luogo-status-reserved { color: #714500; background: #fff0c7; }
+.luogo-status-check { color: #743114; background: #ffe4d5; }
+.luogo-status-unavailable { color: #374151; background: #e5e7eb; }

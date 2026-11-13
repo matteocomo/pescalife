@@ -14,17 +14,19 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/style.css?v=checkbox-3">
     <link rel="stylesheet" href="css/specie.css">
-    <script src="js/site.js?v=feedback-3" defer></script>
+    <script src="js/site.js?v=avviso-unico-1" defer></script>
     <script src="js/data.js" defer></script>
     <script src="js/water-catalog.js" defer></script>
-    <script src="js/luoghi.js" defer></script>
+    <script src="js/luoghi.js?v=spot-1" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
         <div class="entry-dialog-panel">
-            <div class="entry-dialog-icons" aria-hidden="true">🚧 ⚠️</div>
             <h2 id="entry-title">Prima di entrare</h2>
-            <p id="entry-description">PescaLife è un sito in continuo sviluppo. Alcune informazioni o funzionalità potrebbero essere incomplete, non aggiornate o non funzionare correttamente. Non garantiamo il funzionamento completo del sito. Grazie per la comprensione.</p>
+            <div id="entry-description">
+                <p>🛠️ <strong>Sito in sviluppo:</strong> PescaLife è un portale amatoriale, non ufficiale e senza scopo di lucro. Potresti trovare sezioni incomplete, non aggiornate o piccoli malfunzionamenti.</p>
+                <p>⚠️ <strong>Regole e responsabilità:</strong> I contenuti sono puramente informativi. Controlla sempre le fonti ufficiali per licenze, divieti, misure e ordinanze prima di andare in acqua. Pesca in sicurezza e a tuo rischio.</p>
+            </div>
             <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
             <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
         </div>
@@ -95,11 +97,14 @@
             <div class="spot-grid mt-6" id="spot-grid" aria-live="polite"></div>
             <div class="species-catalog">
                 <article class="species-card">
+                    <img src="assets/luoghi/cecina.avif" alt="Veduta del Fiume Cecina" width="1024" height="768" loading="lazy">
                     <div class="species-card-body">
                         <span class="badge">Fiume</span>
                         <h3>Fiume Cecina</h3>
                         <p>Scheda territoriale con inquadramento del bacino, affluenti documentati, zone di frega e verifiche ancora aperte. Non individua accessi o tratti pescabili.</p>
+                        <p class="species-photo-credit">Foto di <a href="https://commons.wikimedia.org/wiki/User:Larth_Rasnal">Larth_Rasnal</a>, disponibile su Wikimedia Commons, rilasciata sotto licenza <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>.</p>
                         <a class="btn btn-primary" href="luoghi/cecina.html">Apri la scheda</a>
+                        <a class="btn btn-secondary" href="mappa.html?luogo=fiume-cecina">Vedi sulla mappa</a>
                     </div>
                 </article>
             </div>

@@ -13,13 +13,16 @@
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/style.css?v=checkbox-3">
-        <script src="js/site.js?v=feedback-3" defer></script>
+        <script src="js/site.js?v=avviso-unico-1" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
         <div class="entry-dialog-panel">
             <h2 id="entry-title">Prima di entrare</h2>
-            <p id="entry-description">PescaLife è un sito amatoriale a scopo esclusivamente informativo, non ufficiale e senza scopo di lucro. Le informazioni possono essere incomplete o non aggiornate. Rispetta sempre la legge: licenze, misure minime, periodi di divieto, zone vietate o protette, proprietà private e ordinanze locali. Verifica sempre le regole sulle fonti ufficiali prima di pescare. Pesca in sicurezza e a tuo rischio.</p>
+            <div id="entry-description">
+                <p>🛠️ <strong>Sito in sviluppo:</strong> PescaLife è un portale amatoriale, non ufficiale e senza scopo di lucro. Potresti trovare sezioni incomplete, non aggiornate o piccoli malfunzionamenti.</p>
+                <p>⚠️ <strong>Regole e responsabilità:</strong> I contenuti sono puramente informativi. Controlla sempre le fonti ufficiali per licenze, divieti, misure e ordinanze prima di andare in acqua. Pesca in sicurezza e a tuo rischio.</p>
+            </div>
             <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
             <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
         </div>
@@ -73,7 +76,7 @@
                 <h3>Informazioni e responsabilità</h3>
                 <p>Non è garantita la completezza o l'attualità dei contenuti. L'utente deve verificare le norme ufficiali prima di pescare; l'uso delle informazioni avviene a proprio rischio. Non si assume responsabilità per danni o sanzioni derivanti dall'uso delle informazioni pubblicate.</p>
                 <h3>Privacy</h3>
-                <p>Il diario è salvato solo nel browser dell'utente (localStorage) e può essere cancellato in ogni momento. sessionStorage serve a ricordare l'accettazione del banner durante la visita. Alcune funzionalità possono caricare risorse da servizi di terzi; i link esterni portano a siti regolati dalle rispettive informative e condizioni.</p>
+                <p>Il diario è salvato solo nel browser dell'utente (localStorage) e può essere cancellato in ogni momento. localStorage ricorda anche la conferma del banner iniziale nelle visite successive; cancellando i dati del sito il banner comparirà di nuovo. Alcune funzionalità possono caricare risorse da servizi di terzi; i link esterni portano a siti regolati dalle rispettive informative e condizioni.</p>
                 <p>La <a href="mappa.html">mappa delle acque interne</a> carica le mappe di base da servizi esterni OpenFreeMap e OpenTopoMap: le richieste possono comunicare a tali servizi l'indirizzo IP e l'area geografica visualizzata. La funzione di geolocalizzazione si attiva solo se richiesta dall'utente e autorizzata dal browser; PescaLife non salva la posizione, ma le richieste delle mappe esterne riguardano l'area centrata. La ricerca di comuni e toponimi usa invece i dati locali e non invia il testo cercato a un geocoder.</p>
                 <h3 id="segnalazioni">Segnalazioni e suggerimenti</h3>
                 <p>Il modulo di segnalazione non richiede nome o email: non inserire dati personali nel messaggio. Quando il servizio è attivo, l'invio trasmette il testo a Web3Forms, che può trattare dati tecnici come l'indirizzo IP. Non è quindi garantito l'anonimato assoluto. Consulta l'<a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">informativa privacy di Web3Forms</a>. Il modulo richiede JavaScript.</p>

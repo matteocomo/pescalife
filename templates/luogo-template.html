@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{DESCRIZIONE}}">
+    <title>{{NOME}} — Scheda del luogo | PescaLife</title>
+    <!-- Il modello è destinato a una pagina pubblicata sotto luoghi/. -->
+    <base href="../">
+    <link rel="stylesheet" href="css/style.css?v=checkbox-3">
+    <link rel="stylesheet" href="css/specie.css">
+    <script src="js/site.js?v=avviso-unico-1" defer></script>
+</head>
+<body>
+    <!-- Intestazione, avviso e navigazione condivisi con le altre schede. -->
+    <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
+        <div class="entry-dialog-panel">
+            <h2 id="entry-title">Prima di entrare</h2>
+            <div id="entry-description">
+                <p>🛠️ <strong>Sito in sviluppo:</strong> PescaLife è un portale amatoriale, non ufficiale e senza scopo di lucro. Potresti trovare sezioni incomplete, non aggiornate o piccoli malfunzionamenti.</p>
+                <p>⚠️ <strong>Regole e responsabilità:</strong> I contenuti sono puramente informativi. Controlla sempre le fonti ufficiali per licenze, divieti, misure e ordinanze prima di andare in acqua. Pesca in sicurezza e a tuo rischio.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
+            <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
+        </div>
+    </div>
+    <header>
+        <div class="content">
+            <div class="logo-group">
+                <img class="site-logo" src="assets/favicon-pescalife/favicon-96x96.png" width="44" height="44" alt="">
+                <div><h1>PescaLife — Val di Cecina</h1><p>La tua guida alla pesca sportiva in Toscana</p></div>
+            </div>
+            <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false" aria-controls="site-menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </header>
+    <div class="site-menu" id="site-menu" role="dialog" aria-modal="true" aria-labelledby="site-menu-title" aria-hidden="true" inert>
+        <div class="site-menu-backdrop" aria-hidden="true"></div>
+        <div class="site-menu-panel">
+            <div class="site-menu-heading">
+                <div><p>Navigazione</p><h2 id="site-menu-title">PescaLife</h2></div>
+                <button type="button" class="menu-close" id="menu-close" aria-label="Chiudi il menu">&times;</button>
+            </div>
+            <nav aria-label="Sezioni del sito">
+                <ul class="site-menu-links">
+                    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7"></path><path d="M5 9v11h14V9M9 20v-6h6v6"></path></svg><span>Home</span></a></li>
+                    <li><a href="luoghi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg><span>Luoghi di pesca</span></a></li>
+                    <li><a href="specie.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12s3.2-5 9-5c3.3 0 5.6 2 7 5-1.4 3-3.7 5-7 5-5.8 0-9-5-9-5Z"></path><path d="m19 12 3-3v6l-3-3Z"></path><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"></circle></svg><span>Guida alle specie</span></a></li>
+                    <li><a href="tecniche.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 5h10"></path><path d="m13 5 5 5"></path><path d="M18 10v4a3 3 0 0 1-6 0v-1"></path><path d="M3 5v4"></path><path d="M3 9c0 2 1.5 3 3 3s3-1 3-3"></path></svg><span>Tecniche di pesca</span></a></li>
+                    <li><a href="meteo.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18Z"></path><path d="M8 21h.01M12 21h.01M16 21h.01"></path></svg><span>Condizioni ambientali</span></a></li>
+                    <li><a href="normativa.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M14 3v5h5M8 13h8M8 17h5"></path></svg><span>Regole e normativa</span></a></li>
+                    <li><a href="diario.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h14v17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M7 8h10M7 12h10M7 16h6"></path><path d="M7 4v17"></path></svg><span>Diario di pesca</span></a></li>
+                </ul>
+            </nav>
+            <p class="site-menu-note">La tua guida alla pesca sportiva in Toscana</p>
+        </div>
+    </div>
+    <main>
+        <div class="species-detail container">
+            <a class="species-back" href="luoghi.html">← Torna ai luoghi</a>
+            <div class="species-intro">
+                <div>
+                    <span class="badge">{{TIPO}} · scheda territoriale</span>
+                    <h2>{{NOME}}</h2>
+                    <!-- Sintesi: riportare solo informazioni documentate e conservare l'ambito prudente. -->
+                    <div class="luogo-summary">
+                        <div class="species-notice">
+                            <strong>In breve</strong>
+                            <ul>
+                                <li>{{SINTESI_NORMATIVA}}</li>
+                                <li>{{SINTESI_TUTELA}}</li>
+                                <li><strong>Ambito della scheda:</strong> Questa scheda non certifica pescabilità né accessi.</li>
+                            </ul>
+                        </div>
+                        <p>Ultima revisione: <time datetime="{{DATA_REVISIONE_ISO}}">{{DATA_REVISIONE}}</time></p>
+                    </div>
+                    <p>{{DESCRIZIONE}}</p>
+                    <!-- Inserire il collegamento solo dopo aver registrato lo slug e i nomi CTR nell'indice luoghi. -->
+                    <a class="btn btn-primary" href="mappa.html?luogo={{SLUG}}">Vedi sulla mappa</a>
+                    <p>La mappa evidenzia il corso d'acqua secondo la CTR 2010; non mostra i tratti con divieto.</p>
+                </div>
+            </div>
+            <nav class="species-index" aria-label="Indice della scheda">
+                <a href="luoghi/{{FILE}}#percorso">Percorso e territorio</a>
+                <a href="luoghi/{{FILE}}#affluenti">Affluenti</a>
+                <a href="luoghi/{{FILE}}#ambiente">Ambiente fluviale</a>
+                <a href="luoghi/{{FILE}}#normativa">Normativa e tutela</a>
+                <a href="luoghi/{{FILE}}#specie-ittiche">Specie ittiche</a>
+                <a href="luoghi/{{FILE}}#accessi">Accessi</a>
+                <a href="luoghi/{{FILE}}#fonti">Fonti</a>
+            </nav>
+
+            <!-- Ogni dato deve avere fonte, data e stato; collegare la fonte nell'elenco finale. -->
+            <section id="presentazione"><h2>Presentazione</h2><p>{{PRESENTAZIONE}}</p><p>Fonte: {{FONTE_PRESENTAZIONE}} · {{DATA_FONTE_PRESENTAZIONE}} · <span class="luogo-status luogo-status-check">Da verificare</span></p></section>
+            <section id="percorso"><h2>Percorso e territorio</h2><p>{{PERCORSO}}</p><p>Fonte: {{FONTE_PERCORSO}} · {{DATA_FONTE_PERCORSO}} · <span class="luogo-status luogo-status-check">Da verificare</span></p></section>
+            <section id="affluenti"><h2>Affluenti</h2><p>{{AFFLUENTI}}</p><p>Fonte: {{FONTE_AFFLUENTI}} · {{DATA_FONTE_AFFLUENTI}} · <span class="luogo-status luogo-status-check">Da verificare</span></p></section>
+            <section id="ambiente"><h2>Ambiente fluviale</h2><p>{{AMBIENTE}}</p><p>Fonte: {{FONTE_AMBIENTE}} · {{DATA_FONTE_AMBIENTE}} · <span class="luogo-status luogo-status-check">Da verificare</span></p></section>
+
+            <!-- Badge: verified solo per un dato verificato su fonte ufficiale; reserved per una fonte parziale,
+                 storica o soggetta a riserve; check per verifiche ancora da fare; unavailable se il dato manca.
+                 Non usare il solo colore: lasciare sempre il testo del badge corrispondente.
+                 <span class="luogo-status luogo-status-verified">Verificato su fonte ufficiale</span>
+                 <span class="luogo-status luogo-status-reserved">Con riserva</span>
+                 <span class="luogo-status luogo-status-check">Da verificare</span>
+                 <span class="luogo-status luogo-status-unavailable">Non disponibile</span> -->
+            <section id="normativa">
+                <h2>Normativa e tutela</h2>
+                <p>Questa scheda non certifica pescabilità né accessi. Controllare le fonti e la segnaletica vigenti prima di pescare.</p>
+                <!-- Ripetere il blocco per zone di frega, protezione, Natura 2000, riserve, ZRS e classificazione applicabili. -->
+                <h3>{{TITOLO_BLOCCO_NORMATIVO}}</h3>
+                <span class="luogo-status luogo-status-check">Da verificare</span>
+                <p>{{DATO_NORMATIVO}}</p>
+                <p>Fonte: {{FONTE_NORMATIVA}} · {{DATA_FONTE_NORMATIVA}}</p>
+            </section>
+
+            <!-- Accessi e specie restano Da verificare/Non disponibile salvo fonte ufficiale; non inferire presenze attuali da fonti storiche. -->
+            <section id="specie-ittiche">
+                <h2>Specie ittiche</h2>
+                <span class="luogo-status luogo-status-unavailable">Non disponibile</span>
+                <p>{{DATI_SPECIE}}</p>
+                <p>Fonte: {{FONTE_SPECIE}} · {{DATA_FONTE_SPECIE}}</p>
+            </section>
+            <section id="accessi">
+                <h2>Accessi e punti di interesse</h2>
+                <span class="luogo-status luogo-status-check">Da verificare</span>
+                <p>{{DATI_ACCESSI}}</p>
+                <p>Fonte: {{FONTE_ACCESSI}} · {{DATA_FONTE_ACCESSI}}</p>
+                <div class="species-notice">
+                    <h3>Cosa non sappiamo</h3>
+                    <ul>
+                        <li>Accessi e parcheggi.</li>
+                        <li>Specie presenti per singolo tratto.</li>
+                        <li>Concessioni e diritti esclusivi.</li>
+                        <li>Ordinanze locali e disposizioni annuali.</li>
+                    </ul>
+                </div>
+            </section>
+            <section id="continua">
+                <h2>Continua su PescaLife</h2>
+                <div class="species-links"><a class="btn btn-secondary" href="luoghi.html">Catalogo dei luoghi</a><a class="btn btn-secondary" href="mappa.html">Mappa</a><a class="btn btn-secondary" href="normativa.html">Normativa</a></div>
+            </section>
+            <!-- Citare ente, titolo, data e collegamento verificabile per ogni fonte usata. -->
+            <section id="fonti" class="species-sources">
+                <h2>Fonti</h2>
+                <ul><li><a href="{{URL_FONTE}}">{{ENTE_E_TITOLO_FONTE}}</a> · {{DATA_FONTE}}</li></ul>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer-grid">
+                <div class="site-footer-brand">
+                    <a class="site-footer-brand-name" href="index.html">PescaLife</a>
+                    <p>Una guida amatoriale alla pesca e ai luoghi della Val di Cecina.</p>
+                </div>
+                <nav class="site-footer-links" aria-label="Esplora PescaLife">
+                    <h2>Esplora</h2>
+                    <ul><li><a href="luoghi.html">Luoghi di pesca</a></li><li><a href="mappa.html">Mappa delle acque</a></li><li><a href="meteo.html">Condizioni ambientali</a></li><li><a href="eventi.html">Eventi</a></li><li><a href="diario.html">Diario di pesca</a></li></ul>
+                </nav>
+                <nav class="site-footer-links" aria-label="Guide e informazioni">
+                    <h2>Guide e informazioni</h2>
+                    <ul><li><a href="specie.html">Guida alle specie</a></li><li><a href="tecniche.html">Tecniche di pesca</a></li><li><a href="normativa.html">Regole e normativa</a></li><li><a href="info.html">Info tecniche</a></li><li><a href="notelegali.html">Note legali e privacy</a></li></ul>
+                </nav>
+                <div class="site-footer-feedback"><p>Hai trovato un errore o vuoi suggerire qualcosa?</p><a class="feedback-link" href="notelegali.html#segnalazioni">Scrivici</a></div>
+            </div>
+            <div class="site-footer-bottom"><p>Sito amatoriale, non ufficiale e senza scopo di lucro. Le informazioni sono a scopo informativo: verifica sempre le fonti ufficiali.</p></div>
+        </div>
+    </footer>
+</body>
+</html>

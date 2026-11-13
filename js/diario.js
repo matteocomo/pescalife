@@ -1,12 +1,22 @@
         const DIARY_STORAGE_KEY = "pescalife_diary_v1";
+        const DIARY_PLACES = [{ id: "luogo:fiume-cecina", name: "Fiume Cecina", image: "🏞️" }];
         let diaryEntries = [];
         let photoRemovedDuringEdit = false;
 
+        function diarySpot(id) {
+            return SPOT_DATA.find(spot => spot.id === id) || DIARY_PLACES.find(place => place.id === id);
+        }
+
+        function diarySpotName(id) {
+            return diarySpot(id)?.name || (id === "non_indicato" ? "Spot non indicato" : id);
+        }
+
         function renderDiarySpots() {
             const spots = visibleSpots();
-            byId("diary-spot").innerHTML = spots.length
-                ? `<option value="" disabled selected>Seleziona uno spot</option>${spots.map(spot => `<option value="${escapeHtml(spot.id)}">${escapeHtml(spot.name)}${spot.verified ? "" : " — DA VERIFICARE"}</option>`).join("")}`
-                : '<option value="non_indicato">Spot non indicato (nessuno spot verificato)</option>';
+            byId("diary-spot").innerHTML =
+                (spots.length ? '<option value="" disabled selected>Seleziona uno spot o luogo</option><option value="non_indicato">Spot non indicato</option>' : '<option value="non_indicato" selected>Spot non indicato (nessuno spot verificato)</option>') +
+                spots.map(spot => `<option value="${escapeHtml(spot.id)}">${escapeHtml(spot.name)}${spot.verified ? "" : " — DA VERIFICARE"}</option>`).join("") +
+                DIARY_PLACES.map(place => `<option value="${escapeHtml(place.id)}">${escapeHtml(place.name)} — luogo, accessi e pescabilità da verificare</option>`).join("");
         }
 
         function loadDiary() {
@@ -79,7 +89,7 @@
                 return;
             }
             list.innerHTML = sorted.map(entry => {
-                const spotName = SPOT_DATA.find(spot => spot.id === entry.spotId)?.name || (entry.spotId === "non_indicato" ? "Spot non indicato" : entry.spotId);
+                const spotName = diarySpotName(entry.spotId);
                 const notes = entry.notes || "";
                 const notesPreview = notes.length > 100 ? `${notes.slice(0, 100)}…` : notes;
                 return `<article class="diary-entry rounded-xl shadow-lg" data-id="${escapeHtml(entry.id)}">
@@ -360,7 +370,7 @@
             const context = canvas.getContext("2d");
             if (!context) throw new Error("Canvas non disponibile");
             await drawCardBase(context);
-            const spot = SPOT_DATA.find(item => item.id === entry.spotId);
+            const spot = diarySpot(entry.spotId);
             context.fillStyle = "#7AD7DF";
             context.font = "bold 19px system-ui, sans-serif";
             context.fillText("RICORDO DI PESCA", 75, 205);
@@ -369,7 +379,7 @@
             drawWrappedText(context, entry.species, 75, 264, 930, 60, 1);
             context.fillStyle = "#7AD7DF";
             context.font = "24px system-ui, sans-serif";
-            drawWrappedText(context, `${dateInItalian(entry.date)}  ·  ${spot?.name || (entry.spotId === "non_indicato" ? "Spot non indicato" : entry.spotId)}`, 75, 310, 930, 32, 1);
+            drawWrappedText(context, `${dateInItalian(entry.date)}  ·  ${diarySpotName(entry.spotId)}`, 75, 310, 930, 32, 1);
 
             const photoX = 75, photoY = 345, photoW = 930, photoH = 390;
             roundedRect(context, photoX, photoY, photoW, photoH, 26, "rgba(10, 26, 47, 0.72)", "rgba(169, 220, 228, 0.7)", 3);
@@ -441,7 +451,7 @@
                 return;
             }
             const countBy = key => diaryEntries.reduce((counts, entry) => {
-                const value = key === "spotId" ? (SPOT_DATA.find(item => item.id === entry.spotId)?.name || entry.spotId) : entry[key];
+                const value = key === "spotId" ? diarySpotName(entry.spotId) : entry[key];
                 counts[value] = (counts[value] || 0) + 1;
                 return counts;
             }, {});
@@ -462,7 +472,7 @@
             const latest = [...diaryEntries].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
             context.font = "24px system-ui, sans-serif";
             latest.forEach((entry, index) => {
-                const spot = SPOT_DATA.find(item => item.id === entry.spotId)?.name || (entry.spotId === "non_indicato" ? "Spot non indicato" : entry.spotId);
+                const spot = diarySpotName(entry.spotId);
                 const label = `${dateInItalian(entry.date)} • ${entry.species} • ${spot}`;
                 context.fillStyle = "#7AD7DF";
                 drawWrappedText(context, label, 110, 585 + index * 92, 850, 32, 2);
