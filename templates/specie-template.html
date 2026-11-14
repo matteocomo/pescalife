@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{DESCRIZIONE}}">
+    <title>{{NOME}} — Guida alle specie | PescaLife</title>
+    <!-- Il modello è destinato a una pagina pubblicata sotto specie/. -->
+    <base href="../">
+    <link rel="stylesheet" href="css/style.css?v=checkbox-3">
+    <link rel="stylesheet" href="css/specie.css">
+    <script src="js/site.js?v=avviso-unico-1" defer></script>
+</head>
+<body>
+    <!-- Avviso, intestazione e menu condivisi. -->
+    <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
+        <div class="entry-dialog-panel">
+            <h2 id="entry-title">Prima di entrare</h2>
+            <div id="entry-description">
+                <p>🛠️ <strong>Sito in sviluppo:</strong> PescaLife è un portale amatoriale, non ufficiale e senza scopo di lucro. Potresti trovare sezioni incomplete, non aggiornate o piccoli malfunzionamenti.</p>
+                <p>⚠️ <strong>Regole e responsabilità:</strong> I contenuti sono puramente informativi. Controlla sempre le fonti ufficiali per licenze, divieti, misure e ordinanze prima di andare in acqua. Pesca in sicurezza e a tuo rischio.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="entry-accept">Ho capito, entra</button>
+            <a class="entry-dialog-link" href="notelegali.html" id="entry-legal-link">Note legali e privacy</a>
+        </div>
+    </div>
+    <header>
+        <div class="content">
+            <div class="logo-group">
+                <img class="site-logo" src="assets/favicon-pescalife/favicon-96x96.png" width="44" height="44" alt="">
+                <div><h1>PescaLife — Val di Cecina</h1><p>La tua guida alla pesca sportiva in Toscana</p></div>
+            </div>
+            <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false" aria-controls="site-menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </header>
+    <div class="site-menu" id="site-menu" role="dialog" aria-modal="true" aria-labelledby="site-menu-title" aria-hidden="true" inert>
+        <div class="site-menu-backdrop" aria-hidden="true"></div>
+        <div class="site-menu-panel">
+            <div class="site-menu-heading">
+                <div><p>Navigazione</p><h2 id="site-menu-title">PescaLife</h2></div>
+                <button type="button" class="menu-close" id="menu-close" aria-label="Chiudi il menu">&times;</button>
+            </div>
+            <nav aria-label="Sezioni del sito">
+                <ul class="site-menu-links">
+                    <li><a href="index.html"><span>Home</span></a></li>
+                    <li><a href="luoghi.html"><span>Luoghi di pesca</span></a></li>
+                    <li><a href="specie.html"><span>Guida alle specie</span></a></li>
+                    <li><a href="tecniche.html"><span>Tecniche di pesca</span></a></li>
+                    <li><a href="meteo.html"><span>Condizioni ambientali</span></a></li>
+                    <li><a href="normativa.html"><span>Regole e normativa</span></a></li>
+                    <li><a href="diario.html"><span>Diario di pesca</span></a></li>
+                </ul>
+            </nav>
+            <p class="site-menu-note">La tua guida alla pesca sportiva in Toscana</p>
+        </div>
+    </div>
+    <main>
+        <div class="species-detail container">
+            <a class="species-back" href="specie.html">← Torna alla guida alle specie</a>
+            <!-- Identità e sintesi: riportare fonte, anno e stato anche per ogni dato riassunto. -->
+            <div class="species-intro">
+                <div>
+                    <h2>{{NOME}}</h2>
+                    <div class="luogo-summary">
+                        <div class="species-notice">
+                            <strong>In breve</strong>
+                            <ul>
+                                <li>Taglia minima: {{TAGLIA_MINIMA}} · <small>{{TIPO_DATO_TAGLIA}}</small> · {{FONTE_TAGLIA}} · {{ANNO_TAGLIA}} · Consultata: {{DATA_CONSULTAZIONE_TAGLIA}} · <span class="luogo-status luogo-status-check">Da verificare</span></li>
+                                <li>Limite giornaliero: {{LIMITE_GIORNALIERO}} · <small>{{TIPO_DATO_LIMITE}}</small> · {{FONTE_LIMITE}} · {{ANNO_LIMITE}} · Consultata: {{DATA_CONSULTAZIONE_LIMITE}} · <span class="luogo-status luogo-status-check">Da verificare</span></li>
+                                <li>Stagione: {{STAGIONE}} · <small>Valore {{ANNO_STAGIONE}}</small> · {{FONTE_STAGIONE}} · Consultata: {{DATA_CONSULTAZIONE_STAGIONE}} · <span class="luogo-status luogo-status-check">Da verificare</span></li>
+                                <li>Verifica sempre calendario, classificazione del tratto e divieti prima di pescare.</li>
+                            </ul>
+                        </div>
+                        <p>Ultima revisione: <time datetime="{{DATA_REVISIONE_ISO}}">{{DATA_REVISIONE}}</time></p>
+                    </div>
+                    <p class="species-latin"><i>{{NOME_SCIENTIFICO}}</i></p>
+                    <p class="species-meta"><strong>Famiglia:</strong> {{FAMIGLIA}} · Fonte: {{FONTE_IDENTITA}} · {{ANNO_IDENTITA}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+                    <p>{{DESCRIZIONE}} · Fonte: {{FONTE_DESCRIZIONE}} · {{ANNO_DESCRIZIONE}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+                </div>
+                <!-- Aggiungere una foto verificata solo dopo aver compilato percorso, autore, collegamento e licenza. -->
+                <template>
+                    <figure class="species-figure">
+                        <img src="{{PERCORSO_FOTO}}" alt="{{TESTO_ALTERNATIVO_FOTO}}" width="{{LARGHEZZA_FOTO}}" height="{{ALTEZZA_FOTO}}">
+                        <figcaption>Foto: <a href="{{URL_FOTO}}">{{AUTORE_FOTO}}</a> · {{ANNO_FOTO}} · <a href="{{URL_LICENZA}}">{{LICENZA_FOTO}}</a> · {{MODIFICHE_FOTO}} · <span class="luogo-status luogo-status-check">Da verificare</span></figcaption>
+                    </figure>
+                </template>
+            </div>
+            <!-- Indice: sostituire {{FILE}} con il nome della scheda pubblicata. -->
+            <nav class="species-index" aria-label="Indice della scheda">
+                <a href="specie/{{FILE}}#riconoscimento">Riconoscimento</a>
+                <a href="specie/{{FILE}}#habitat">Habitat</a>
+                <a href="specie/{{FILE}}#gruppo-regole">Gruppo di regole</a>
+                <a href="specie/{{FILE}}#pesca">Regole</a>
+                <a href="specie/{{FILE}}#distribuzione">Presenza in Val di Cecina</a>
+                <a href="specie/{{FILE}}#specie-simili">Specie simili</a>
+                <a href="specie/{{FILE}}#tecniche">Tecniche</a>
+                <a href="specie/{{FILE}}#fonti">Fonti</a>
+            </nav>
+            <!-- Ogni dato ha fonte, anno e stato; se l'anno non è riportato, indicarlo. Suddividere i paragrafi quando le fonti differiscono. -->
+            <section id="riconoscimento">
+                <h3>Come riconoscerla</h3>
+                <p>{{RICONOSCIMENTO}} · Fonte: {{FONTE_RICONOSCIMENTO}} · {{ANNO_RICONOSCIMENTO}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+            </section>
+            <!-- Habitat e comportamento: distinguere la distribuzione generale dalla presenza locale. -->
+            <section id="habitat">
+                <h3>Habitat e comportamento</h3>
+                <p>{{HABITAT}} · Fonte: {{FONTE_HABITAT}} · {{ANNO_HABITAT}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+            </section>
+            <!-- Identificare il gruppo normativo e verificare la classificazione del tratto. -->
+            <section id="gruppo-regole">
+                <h3>Gruppo di regole</h3>
+                <p>{{GRUPPO_REGOLE}} · Fonte: {{FONTE_GRUPPO_REGOLE}} · {{DATA_GRUPPO_REGOLE}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+            </section>
+            <!-- Regole: aggiungere solo disposizioni pertinenti e distinguere la regola stabile dal valore annuale. -->
+            <section id="pesca">
+                <h3>Regole</h3>
+                <p><small>Regola stabile</small> · {{REGOLA_STABILE}} · Fonte: {{FONTE_REGOLA}} · {{ANNO_REGOLA}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+                <!-- Per ogni disposizione annuale riportare Valore ANNO, fonte e data di consultazione. -->
+                <p><small>Valore {{ANNO}}</small> · {{VALORE_ANNUALE}} · Fonte: {{FONTE_ANNUALE}} · Consultata: {{DATA_CONSULTAZIONE}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+                <p class="species-notice">Verifica sempre calendario, classificazione del tratto e divieti prima di pescare.</p>
+            </section>
+            <!-- Nessuna presenza locale senza fonte; se una fonte è senza data o è un'osservazione personale, dirlo. Indicare Documentata, Non documentata o Da verificare, con fonte, data e stato. -->
+            <section id="distribuzione">
+                <h3>Presenza in Val di Cecina</h3>
+                <p>{{DISTRIBUZIONE_GENERALE}} · Fonte: {{FONTE_DISTRIBUZIONE}} · {{ANNO_DISTRIBUZIONE}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+                <p><strong>Presenza locale:</strong> Non documentata · <span class="luogo-status luogo-status-unavailable">Non disponibile</span> · Fonte consultata: {{FONTE_PRESENZA}} · Data: {{DATA_PRESENZA}}</p>
+            </section>
+            <!-- Blocco opzionale: compilare fonte, anno e stato prima della pubblicazione; indicare se la data della fonte non è riportata. -->
+            <template>
+                <section id="avvertenze-locali" class="species-notice">
+                    <h3>Avvertenze locali (qualità delle acque, consumo del pescato)</h3>
+                    <span class="luogo-status luogo-status-check">Da verificare</span>
+                    <p>{{AVVERTENZE_LOCALI}} · Fonte: {{FONTE_AVVERTENZE_LOCALI}} · Anno: {{ANNO_AVVERTENZE_LOCALI}}. Consulta anche la <a href="luoghi/cecina.html#consumo-pescato">scheda del Fiume Cecina</a>.</p>
+                </section>
+            </template>
+            <!-- Specie simili: non identificare con certezza senza elementi sufficienti. -->
+            <section id="specie-simili">
+                <h3>Specie simili</h3>
+                <p>{{SPECIE_SIMILI}} · Fonte: {{FONTE_SPECIE_SIMILI}} · {{DATA_SPECIE_SIMILI}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+            </section>
+            <!-- Tecniche: indicare sempre i limiti relativi al tratto e alle esche consentite. -->
+            <section id="tecniche">
+                <h3>Tecniche di pesca</h3>
+                <p>{{TECNICHE}} · Fonte: {{FONTE_TECNICHE}} · {{ANNO_TECNICHE}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
+            </section>
+            <!-- Collegamenti alle sezioni del sito, senza attribuire la specie a luoghi privi di fonti. -->
+            <section id="collegamenti">
+                <h3>Continua su PescaLife</h3>
+                <div class="species-links">
+                    <a class="btn btn-secondary" href="normativa.html">Normativa</a>
+                    <a class="btn btn-secondary" href="luoghi.html">Luoghi di pesca</a>
+                    <a class="btn btn-secondary" href="tecniche.html">Tecniche</a>
+                    <a class="btn btn-secondary" href="diario.html#diario">Apri il diario</a>
+                </div>
+            </section>
+            <!-- Citare ogni fonte con ente, titolo, anno, URL e data di consultazione; usare il badge verificato solo dopo verifica ufficiale. -->
+            <section id="fonti" class="species-sources">
+                <h3>Fonti e immagine</h3>
+                <ul><li><a href="{{URL_FONTE}}">{{ENTE_E_TITOLO_FONTE}}</a> · {{ANNO_FONTE}} · Consultata: {{DATA_CONSULTAZIONE_FONTE}} · <span class="luogo-status luogo-status-check">Da verificare</span></li></ul>
+            </section>
+        </div>
+    </main>
+    <!-- Piè di pagina condiviso. -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer-grid">
+                <div class="site-footer-brand">
+                    <a class="site-footer-brand-name" href="index.html">PescaLife</a>
+                    <p>Una guida amatoriale alla pesca e ai luoghi della Val di Cecina.</p>
+                </div>
+                <nav class="site-footer-links" aria-label="Esplora PescaLife">
+                    <h2>Esplora</h2>
+                    <ul><li><a href="luoghi.html">Luoghi di pesca</a></li><li><a href="mappa.html">Mappa delle acque</a></li><li><a href="meteo.html">Condizioni ambientali</a></li><li><a href="eventi.html">Eventi</a></li><li><a href="diario.html">Diario di pesca</a></li></ul>
+                </nav>
+                <nav class="site-footer-links" aria-label="Guide e informazioni">
+                    <h2>Guide e informazioni</h2>
+                    <ul><li><a href="specie.html">Guida alle specie</a></li><li><a href="tecniche.html">Tecniche di pesca</a></li><li><a href="normativa.html">Regole e normativa</a></li><li><a href="info.html">Info tecniche</a></li><li><a href="notelegali.html">Note legali e privacy</a></li></ul>
+                </nav>
+                <div class="site-footer-feedback">
+                    <p>Hai trovato un errore o vuoi suggerire qualcosa?</p>
+                    <a class="feedback-link" href="notelegali.html#segnalazioni">Scrivici</a>
+                </div>
+            </div>
+            <div class="site-footer-bottom"><p>Sito amatoriale, non ufficiale e senza scopo di lucro. Le informazioni sono a scopo informativo: verifica sempre le fonti ufficiali.</p></div>
+        </div>
+    </footer>
+</body>
+</html>

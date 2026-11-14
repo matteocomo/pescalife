@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.17.0/dist/maplibre-gl.css">
     <link rel="stylesheet" href="css/map-preview.css?v=ricerca-icona-1">
     <script src="js/site.js?v=avviso-unico-1" defer></script>
-    <script type="module" src="js/map-preview.js?v=luoghi-2"></script>
+    <script type="module" src="js/map-preview.js?v=gesti-1"></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
@@ -75,7 +75,7 @@
         <h2 class="page-heading">Mappa delle acque interne</h2>
         <p class="preview-intro">Esplora il territorio e cerca comuni o nomi cartografici. La mappa non certifica accessi, pescabilità o regole locali.</p>
 
-        <section class="preview-map-panel" aria-label="Mappa interattiva">
+        <section class="preview-map-panel" id="preview-map-panel" aria-label="Mappa interattiva">
             <form id="map-search-form" class="map-search" role="search">
                 <label for="map-search">Cerca un comune o un toponimo</label>
                 <div class="map-search-row">
@@ -114,6 +114,7 @@
 
             <div class="preview-map-frame">
                 <div id="preview-map" role="region" aria-label="Mappa interattiva delle acque interne della Val di Cecina"></div>
+                <button type="button" class="map-close-button" id="map-collapse" aria-label="Chiudi la mappa a schermo intero" title="Chiudi la mappa" hidden>&times;</button>
                 <button type="button" class="map-guide-button" id="map-guide-open" aria-label="Apri la guida alla mappa" title="Guida alla mappa">?</button>
                 <div class="map-location-control">
                     <span class="map-location-tooltip" id="map-location-tooltip" role="tooltip">La posizione potrebbe non essere precisa al 100%.</span>
@@ -124,7 +125,7 @@
             <div class="map-legend" id="map-legend" aria-label="Legenda dei livelli attivi"></div>
             <div class="preview-map-footer">
                 <p id="map-status" role="status" aria-live="polite">Carico i corsi d’acqua…</p>
-                <button type="button" class="btn btn-secondary" id="map-reset">Centra sulla Val di Cecina</button>
+                <button type="button" class="map-expand-button" id="map-expand" aria-label="Espandi la mappa a schermo intero" aria-controls="preview-map-panel" aria-pressed="false" title="Espandi la mappa" disabled>Espandi mappa</button>
             </div>
 
             <div class="preview-data-note">

@@ -5,7 +5,6 @@ const DATA_PATH = "data/maps/optimized/";
     if (!mapElement) return;
 
     const status = document.getElementById("map-status");
-    const resetButton = document.getElementById("map-reset");
     const locationButton = document.getElementById("map-location");
     const searchInput = document.getElementById("map-search");
     const searchForm = document.getElementById("map-search-form");
@@ -15,6 +14,10 @@ const DATA_PATH = "data/maps/optimized/";
     const styleInputs = [...document.querySelectorAll('input[name="map-style"]')];
     const guideDialog = document.getElementById("map-guide");
     const guideOpenButton = document.getElementById("map-guide-open");
+    const mapPanel = document.querySelector(".preview-map-panel");
+    const mapExpandButton = document.getElementById("map-expand");
+    const mapCollapseButton = document.getElementById("map-collapse");
+    const coarsePointer = window.matchMedia("(pointer: coarse)");
     const guideCount = document.getElementById("map-guide-count");
     const guideProgress = document.getElementById("map-guide-progress");
     const guideStepText = document.getElementById("map-guide-step-text");
@@ -137,9 +140,100 @@ const DATA_PATH = "data/maps/optimized/";
     }
 
     function disableMapControls() {
-        [...layerInputs, ...styleInputs, searchInput, resetButton, locationButton].forEach(input => { input.disabled = true; });
+        [...layerInputs, ...styleInputs, searchInput, locationButton, mapExpandButton].forEach(input => { input.disabled = true; });
         searchForm.querySelector('button[type="submit"]').disabled = true;
     }
+
+    function setMapExpanded(expanded, isFallback = false) {
+        mapPanel.classList.toggle("is-expanded", expanded);
+        mapPanel.classList.toggle("is-fullscreen-fallback", expanded && isFallback);
+        document.body.classList.toggle("map-expanded", expanded);
+        mapExpandButton.hidden = expanded;
+        mapExpandButton.setAttribute("aria-pressed", String(expanded));
+        mapCollapseButton.hidden = !expanded;
+        updateCooperativeGestures();
+
+        if (expanded) {
+            mapCollapseButton.focus();
+        } else {
+            mapExpandButton.focus();
+        }
+
+        requestAnimationFrame(() => map.resize());
+    }
+
+    function updateCooperativeGestures() {
+        if (!map) return;
+        if (mapPanel.classList.contains("is-expanded") && coarsePointer.matches) {
+            map.cooperativeGestures.disable();
+        } else {
+            map.cooperativeGestures.enable();
+        }
+    }
+
+    coarsePointer.addEventListener("change", updateCooperativeGestures);
+
+    mapExpandButton.addEventListener("click", async () => {
+        if (!mapPanel.requestFullscreen) {
+            setMapExpanded(true, true);
+            return;
+        }
+
+        try {
+            await mapPanel.requestFullscreen();
+            setMapExpanded(true);
+        } catch (error) {
+            console.error("Impossibile aprire la mappa a schermo intero:", error);
+            setMapExpanded(true, true);
+        }
+    });
+    mapCollapseButton.addEventListener("click", async () => {
+        if (document.fullscreenElement === mapPanel) {
+            try {
+                await document.exitFullscreen();
+            } catch (error) {
+                console.error("Impossibile chiudere la mappa a schermo intero:", error);
+                setStatus("Impossibile chiudere lo schermo intero. Premi Esc per uscire.", true);
+            }
+        } else {
+            setMapExpanded(false);
+        }
+    });
+    document.addEventListener("fullscreenchange", () => {
+        const expanded = document.fullscreenElement === mapPanel;
+        if (mapPanel.classList.contains("is-expanded") !== expanded
+            || mapPanel.classList.contains("is-fullscreen-fallback")) {
+            setMapExpanded(expanded);
+        }
+    });
+    document.addEventListener("keydown", event => {
+        if (!mapPanel.classList.contains("is-expanded") || guideDialog.open) return;
+        if (event.key === "Escape") {
+            event.preventDefault();
+            if (document.fullscreenElement === mapPanel) {
+                document.exitFullscreen().catch(error => {
+                    console.error("Impossibile chiudere la mappa a schermo intero:", error);
+                    setStatus("Impossibile chiudere lo schermo intero. Usa il pulsante ×.", true);
+                });
+            } else {
+                setMapExpanded(false);
+            }
+            return;
+        }
+        if (event.key === "Tab") {
+            const focusable = [...mapPanel.querySelectorAll('a[href], button:not([disabled]):not([hidden]), input:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')]
+                .filter(element => element.getClientRects().length > 0);
+            const first = focusable[0];
+            const last = focusable.at(-1);
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        }
+    });
 
     function setLayerVisibility(key, visibility) {
         layerIds[key].forEach(id => {
@@ -875,6 +969,7 @@ const DATA_PATH = "data/maps/optimized/";
         return;
     }
 
+    mapExpandButton.disabled = false;
     mapReady = new Promise(resolve => map.once("style.load", resolve));
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "top-right");
     map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-left");
@@ -1010,21 +1105,6 @@ const DATA_PATH = "data/maps/optimized/";
             searchResults.hidden = true;
             searchInput.setAttribute("aria-expanded", "false");
         }
-    });
-
-    resetButton.addEventListener("click", () => {
-        if (selectedMarker) {
-            selectedMarker.remove();
-            selectedMarker = null;
-        }
-        if (activePopup) {
-            activePopup.remove();
-            activePopup = null;
-            clearWaterwayHighlight();
-        }
-        searchInput.value = "";
-        map.fitBounds(bounds, { padding: 36, maxZoom: 9.5, duration: 500 });
-        updateMapGuidance();
     });
 
     locationButton.addEventListener("click", () => {
