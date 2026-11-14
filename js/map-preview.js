@@ -12,6 +12,10 @@ const DATA_PATH = "data/maps/optimized/";
     const currentControlsLabel = document.getElementById("map-controls-current");
     const layerInputs = [...document.querySelectorAll("[data-map-layer]")];
     const styleInputs = [...document.querySelectorAll('input[name="map-style"]')];
+    const terrain3dInput = document.getElementById("map-terrain-3d");
+    const terrain3dSettings = document.getElementById("map-terrain-3d-settings");
+    const terrainExaggerationInput = document.getElementById("map-terrain-exaggeration");
+    const terrainExaggerationValue = document.getElementById("map-terrain-exaggeration-value");
     const guideDialog = document.getElementById("map-guide");
     const guideOpenButton = document.getElementById("map-guide-open");
     const mapPanel = document.querySelector(".preview-map-panel");
@@ -25,7 +29,7 @@ const DATA_PATH = "data/maps/optimized/";
     const guideNextButton = document.getElementById("map-guide-next");
     const guideSteps = [
         "Cerca un comune o un luogo usando il campo di ricerca.",
-        "Apri “Aspetto e informazioni” e attiva i livelli che vuoi esplorare.",
+        "Apri “Aspetto e informazioni” per scegliere lo stile, attivare il terreno 3D o mostrare i livelli.",
         "Avvicinati e tocca un corso d’acqua per leggerne il nome e la tipologia."
     ];
     const bounds = [[10.462678, 42.958743], [11.199693, 43.497429]];
@@ -36,6 +40,9 @@ const DATA_PATH = "data/maps/optimized/";
         places: { file: "place-labels.geojson", source: "places-source" },
         communes: { file: "communes.geojson", source: "communes-source" }
     };
+    const terrainSourceId = "terrain-dem";
+    const terrainHillshadeSourceId = "terrain-dem-hillshade";
+    const terrainHillshadeLayerId = "terrain-hillshade";
     const layerIds = {
         waterbodies: ["waterbodies-fill", "waterbodies-outline"],
         roads: ["roads-fill"],
@@ -140,7 +147,7 @@ const DATA_PATH = "data/maps/optimized/";
     }
 
     function disableMapControls() {
-        [...layerInputs, ...styleInputs, searchInput, locationButton, mapExpandButton].forEach(input => { input.disabled = true; });
+        [...layerInputs, ...styleInputs, terrain3dInput, terrainExaggerationInput, searchInput, locationButton, mapExpandButton].forEach(input => { input.disabled = true; });
         searchForm.querySelector('button[type="submit"]').disabled = true;
     }
 
@@ -248,7 +255,73 @@ const DATA_PATH = "data/maps/optimized/";
         const styleNames = { liberty: "Standard", bright: "Stradale", positron: "Chiara", terrain: "Rilievi" };
         const enabledLayers = layerInputs.filter(input => input.checked).length;
         if (selectedStyle) {
-            currentControlsLabel.textContent = `${styleNames[selectedStyle.value]} · ${enabledLayers} ${enabledLayers === 1 ? "attiva" : "attive"}`;
+            const terrainLabel = terrain3dInput.checked ? ` · 3D ${terrainExaggerationInput.value}×` : "";
+            currentControlsLabel.textContent = `${styleNames[selectedStyle.value]}${terrainLabel} · ${enabledLayers} ${enabledLayers === 1 ? "attiva" : "attive"}`;
+        }
+    }
+
+    function updateTerrainExaggerationLabel() {
+        terrainExaggerationValue.value = `${Number(terrainExaggerationInput.value).toLocaleString("it-IT")}×`;
+    }
+
+    function addTerrainSource(sourceId) {
+        map.addSource(sourceId, {
+            type: "raster-dem",
+            tiles: ["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],
+            tileSize: 256,
+            maxzoom: 15,
+            encoding: "terrarium",
+            ...(sourceId === terrainSourceId
+                ? { attribution: 'Elevation: <a href="https://github.com/tilezen/joerd">Mapzen Terrain Tiles</a>' }
+                : {})
+        });
+    }
+
+    function applyTerrain3d(updateCamera = true) {
+        if (!map || !initialStyleLoaded) return;
+
+        try {
+            if (terrain3dInput.checked) {
+                if (!map.getSource(terrainSourceId)) addTerrainSource(terrainSourceId);
+                if (!map.getSource(terrainHillshadeSourceId)) addTerrainSource(terrainHillshadeSourceId);
+                if (!map.getLayer(terrainHillshadeLayerId)) {
+                    const firstSymbolLayer = map.getStyle().layers.find(layer => layer.type === "symbol");
+                    const hillshade = {
+                        id: terrainHillshadeLayerId,
+                        type: "hillshade",
+                        source: terrainHillshadeSourceId,
+                        paint: {
+                            "hillshade-exaggeration": 0.35,
+                            "hillshade-shadow-color": "#53645d",
+                            "hillshade-highlight-color": "#fffdf3"
+                        }
+                    };
+                    if (firstSymbolLayer) map.addLayer(hillshade, firstSymbolLayer.id);
+                    else map.addLayer(hillshade);
+                }
+                map.setTerrain({
+                    source: terrainSourceId,
+                    exaggeration: Number(terrainExaggerationInput.value)
+                });
+            } else {
+                map.setTerrain(null);
+                if (map.getLayer(terrainHillshadeLayerId)) map.removeLayer(terrainHillshadeLayerId);
+                if (map.getSource(terrainSourceId)) map.removeSource(terrainSourceId);
+                if (map.getSource(terrainHillshadeSourceId)) map.removeSource(terrainHillshadeSourceId);
+            }
+            terrain3dSettings.hidden = !terrain3dInput.checked;
+            if (updateCamera) map.easeTo({ pitch: terrain3dInput.checked ? 60 : 0, duration: 500 });
+            updateControlSummaries();
+        } catch (error) {
+            console.error("Impossibile attivare il terreno 3D:", error);
+            terrain3dInput.checked = false;
+            terrain3dSettings.hidden = true;
+            map.setTerrain(null);
+            if (map.getLayer(terrainHillshadeLayerId)) map.removeLayer(terrainHillshadeLayerId);
+            if (map.getSource(terrainSourceId)) map.removeSource(terrainSourceId);
+            if (map.getSource(terrainHillshadeSourceId)) map.removeSource(terrainHillshadeSourceId);
+            setStatus("Terreno 3D non disponibile. Controlla la connessione e riprova.", true);
+            updateControlSummaries();
         }
     }
 
@@ -986,6 +1059,7 @@ const DATA_PATH = "data/maps/optimized/";
     map.on("style.load", () => {
         if (!initialStyleLoaded) {
             initialStyleLoaded = true;
+            if (terrain3dInput.checked) applyTerrain3d();
             map.fitBounds(bounds, { padding: 36, maxZoom: 9.5, duration: 0 });
             const initialKeys = layerInputs.filter(input => input.checked).map(input => input.dataset.mapLayer);
             Promise.allSettled(initialKeys.map(key => ensureLayer(key))).then(results => {
@@ -1006,6 +1080,7 @@ const DATA_PATH = "data/maps/optimized/";
             });
             return;
         }
+        if (terrain3dInput.checked) applyTerrain3d();
         const enabledLayers = layerInputs
             .filter(input => input.checked)
             .map(input => input.dataset.mapLayer);
@@ -1016,6 +1091,8 @@ const DATA_PATH = "data/maps/optimized/";
             styleChangePending = false;
             styleInputs.forEach(input => { input.disabled = false; });
             layerInputs.forEach(input => { input.disabled = false; });
+            terrain3dInput.disabled = false;
+            terrainExaggerationInput.disabled = false;
             const errors = results
                 .filter(result => result.status === "rejected")
                 .map(result => result.reason instanceof Error ? result.reason.message : String(result.reason));
@@ -1068,6 +1145,8 @@ const DATA_PATH = "data/maps/optimized/";
             styleChangePending = true;
             styleInputs.forEach(styleInput => { styleInput.disabled = true; });
             layerInputs.forEach(layerInput => { layerInput.disabled = true; });
+            terrain3dInput.disabled = true;
+            terrainExaggerationInput.disabled = true;
             if (activePopup) {
                 activePopup.remove();
                 activePopup = null;
@@ -1076,6 +1155,12 @@ const DATA_PATH = "data/maps/optimized/";
             map.setStyle(mapStyles[input.value]);
         });
     });
+    terrain3dInput.addEventListener("change", applyTerrain3d);
+    terrainExaggerationInput.addEventListener("input", () => {
+        updateTerrainExaggerationLabel();
+        if (terrain3dInput.checked) applyTerrain3d(false);
+    });
+    updateTerrainExaggerationLabel();
     updateControlSummaries();
 
     searchInput.addEventListener("input", () => renderSearchResults(searchInput.value));

@@ -14,9 +14,9 @@
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <link rel="stylesheet" href="css/style.css?v=checkbox-3">
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.17.0/dist/maplibre-gl.css">
-    <link rel="stylesheet" href="css/map-preview.css?v=ricerca-icona-1">
+    <link rel="stylesheet" href="css/map-preview.css?v=espandi-basso-sinistra-1">
     <script src="js/site.js?v=avviso-unico-1" defer></script>
-    <script type="module" src="js/map-preview.js?v=gesti-1"></script>
+    <script type="module" src="js/map-preview.js?v=terreno-3d-2"></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
@@ -98,6 +98,13 @@
                             <label><input type="radio" name="map-style" value="bright"><span><strong>Stradale</strong><small>Più dettagli per orientarsi</small></span></label>
                             <label><input type="radio" name="map-style" value="positron" checked><span><strong>Chiara</strong><small>Ideale per leggere i corsi d’acqua</small></span></label>
                             <label><input type="radio" name="map-style" value="terrain"><span><strong>Rilievi</strong><small>Terreno e nomi dei corsi d’acqua</small></span></label>
+                            <label><input type="checkbox" id="map-terrain-3d"><span><strong>Rilievo 3D</strong><small>Inclina la mappa e mostra le forme del terreno</small></span></label>
+                            <div class="terrain-3d-settings" id="map-terrain-3d-settings" hidden>
+                                <p>Il modello altimetrico è indicativo e ha dettaglio variabile. L’enfasi cambia l’aspetto, non la precisione delle quote.</p>
+                                <label for="map-terrain-exaggeration">Enfasi del rilievo <output id="map-terrain-exaggeration-value" for="map-terrain-exaggeration">2×</output></label>
+                                <input id="map-terrain-exaggeration" type="range" min="1" max="3" step="0.25" value="2" aria-describedby="map-terrain-gesture">
+                                <p id="map-terrain-gesture">Inclina o ruota la mappa trascinando con il tasto destro, oppure con due dita sullo schermo.</p>
+                            </div>
                         </fieldset>
 
                         <fieldset class="map-layer-controls" aria-label="Livelli informativi">
@@ -114,6 +121,10 @@
 
             <div class="preview-map-frame">
                 <div id="preview-map" role="region" aria-label="Mappa interattiva delle acque interne della Val di Cecina"></div>
+                <button type="button" class="map-expand-button" id="map-expand" aria-label="Espandi la mappa a schermo intero" aria-controls="preview-map-panel" aria-pressed="false" title="Espandi la mappa" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3"></path></svg>
+                    <span>Espandi mappa</span>
+                </button>
                 <button type="button" class="map-close-button" id="map-collapse" aria-label="Chiudi la mappa a schermo intero" title="Chiudi la mappa" hidden>&times;</button>
                 <button type="button" class="map-guide-button" id="map-guide-open" aria-label="Apri la guida alla mappa" title="Guida alla mappa">?</button>
                 <div class="map-location-control">
@@ -125,7 +136,6 @@
             <div class="map-legend" id="map-legend" aria-label="Legenda dei livelli attivi"></div>
             <div class="preview-map-footer">
                 <p id="map-status" role="status" aria-live="polite">Carico i corsi d’acqua…</p>
-                <button type="button" class="map-expand-button" id="map-expand" aria-label="Espandi la mappa a schermo intero" aria-controls="preview-map-panel" aria-pressed="false" title="Espandi la mappa" disabled>Espandi mappa</button>
             </div>
 
             <div class="preview-data-note">
@@ -133,6 +143,7 @@
                 <details>
                     <summary>Info sui dati</summary>
                     <p>I corsi d’acqua e gli specchi d’acqua derivano dalla CTR Toscana 1:10.000 (edizione 2010), non dal reticolo regionale vigente D.C.R. 24/2025. I confini comunali sono dati ISTAT generalizzati. La cartografia non attesta condizioni attuali, accessi o possibilità di pesca; le aree viarie non forniscono percorsi. Il segnaposto indica il risultato cercato, non uno spot verificato.</p>
+                    <p>Il rilievo 3D usa un modello altimetrico indicativo, con dettaglio variabile. L’enfasi visiva non migliora la precisione delle quote; non usarlo per misurazioni o navigazione.</p>
                     <p>Le mappe di base richiedono una connessione internet. Se usi la posizione, il browser la richiede solo su tua iniziativa; PescaLife non la salva, ma le richieste delle mappe esterne riguardano l’area visualizzata.</p>
                     <p>Le condizioni di riuso dei dati CTR e ISTAT vanno chiarite prima della pubblicazione. <a href="data/maps/README.md">Fonti, licenze e limiti dei dati cartografici</a>.</p>
                 </details>
