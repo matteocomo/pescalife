@@ -13,7 +13,7 @@
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/style.css?v=checkbox-3">
-    <link rel="stylesheet" href="css/environment.css?v=6">
+    <link rel="stylesheet" href="css/environment.css?v=7">
     <script src="js/site.js?v=avviso-unico-1" defer></script>
 </head>
 <body>
@@ -170,39 +170,66 @@
                     <ul id="environment-daily" class="environment-daily-list" hidden></ul>
                 </section>
 
-                <section class="environment-panel environment-marine-panel" aria-labelledby="environment-marine-heading">
+                <section class="environment-panel environment-marine-panel" aria-labelledby="environment-marine-heading" hidden>
                     <div class="environment-panel-heading">
                         <div>
                             <p class="environment-eyebrow">Costa e mare</p>
                             <h2 id="environment-marine-heading">Condizioni marine</h2>
                         </div>
-                        <span class="environment-badge">Copertura in preparazione</span>
+                        <span id="environment-marine-badge" class="environment-badge">Previsione modellistica</span>
                     </div>
-                    <div class="environment-marine-grid">
-                        <div class="environment-marine-group">
-                            <h3>Onde</h3>
-                            <dl>
-                                <div><dt>Altezza</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
-                                <div><dt>Direzione</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
-                                <div><dt>Periodo</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
-                            </dl>
+                    <p id="environment-marine-empty" class="environment-empty">Disponibile selezionando una località costiera.</p>
+                    <div id="environment-marine-content" hidden>
+                        <div class="environment-marine-grid">
+                            <div class="environment-marine-group">
+                                <h3>Onde</h3>
+                                <dl>
+                                    <div><dt>Altezza</dt><dd id="environment-wave-height">—</dd></div>
+                                    <div><dt>Direzione</dt><dd id="environment-wave-direction">—</dd></div>
+                                    <div><dt>Periodo</dt><dd id="environment-wave-period">—</dd></div>
+                                </dl>
+                            </div>
+                            <div class="environment-marine-group">
+                                <h3>Moto ondoso secondario</h3>
+                                <dl>
+                                    <div><dt>Altezza</dt><dd id="environment-swell-height">—</dd></div>
+                                    <div><dt>Direzione</dt><dd id="environment-swell-direction">—</dd></div>
+                                    <div><dt>Periodo</dt><dd id="environment-swell-period">—</dd></div>
+                                </dl>
+                            </div>
+                            <div class="environment-marine-group">
+                                <h3>Mare</h3>
+                                <dl>
+                                    <div><dt>Temperatura superficiale</dt><dd id="environment-sea-temperature">—</dd></div>
+                                </dl>
+                            </div>
+                            <div class="environment-marine-group environment-tide-group">
+                                <h3>Livello del mare con marea</h3>
+                                <dl>
+                                    <div><dt>Prima ora prevista</dt><dd id="environment-tide-level">—</dd></div>
+                                </dl>
+                                <p id="environment-tide-extrema" class="environment-tide-extrema"></p>
+                            </div>
                         </div>
-                        <div class="environment-marine-group">
-                            <h3>Moto ondoso secondario</h3>
-                            <dl>
-                                <div><dt>Altezza</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
-                                <div><dt>Direzione</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
-                                <div><dt>Periodo</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
-                            </dl>
+                        <div class="environment-tide-chart-wrap">
+                            <svg id="environment-tide-chart" class="environment-tide-chart" viewBox="0 0 720 190" role="img" aria-labelledby="environment-tide-chart-title environment-tide-chart-desc"></svg>
                         </div>
-                        <div class="environment-marine-group">
-                            <h3>Mare</h3>
-                            <dl>
-                                <div><dt>Temperatura superficiale</dt><dd>—<span class="environment-visually-hidden"> non disponibile</span></dd></div>
-                            </dl>
-                        </div>
+                        <p id="environment-marine-status" class="environment-marine-note"></p>
                     </div>
-                    <p class="environment-marine-note">Previsioni modellistiche, non adatte alla navigazione. I dati saranno attivati con punti offshore approvati.</p>
+                    <p class="environment-marine-note">Stima modellistica Open‑Meteo per la cella marina più vicina: risoluzione e accuratezza sono limitate vicino alla costa. Non è una previsione ufficiale di alta/bassa marea e non è adatta alla navigazione.</p>
+                </section>
+
+                <section class="environment-panel environment-solunar-panel" aria-labelledby="environment-solunar-heading">
+                    <div class="environment-panel-heading">
+                        <div>
+                            <p class="environment-eyebrow">Luna e attività</p>
+                            <h2 id="environment-solunar-heading">Tavola solunare</h2>
+                        </div>
+                        <span class="environment-badge">Calcolo astronomico</span>
+                    </div>
+                    <p id="environment-solunar-empty" class="environment-empty">Non disponibile per questa località.</p>
+                    <ul id="environment-solunar-days" class="environment-solunar-days" hidden></ul>
+                    <p id="environment-solunar-note" class="environment-marine-note"></p>
                 </section>
 
                 <section class="environment-panel environment-stations-panel" aria-labelledby="environment-stations-heading">
@@ -220,11 +247,12 @@
                 <aside class="environment-sources" aria-labelledby="environment-sources-heading">
                     <div class="environment-sources-head">
                         <h2 id="environment-sources-heading">Fonti e avvertenze</h2>
-                        <p class="environment-disclaimer">Meteo e mare sono previsioni modellistiche, non misurazioni locali: il punto usato dal modello può differire da quello richiesto. Le condizioni marine non sono indicazioni per la navigazione.</p>
+                        <p class="environment-disclaimer">Meteo e mare sono previsioni modellistiche, non misurazioni locali. Il livello del mare include la marea ma può differire sensibilmente dalle condizioni reali sotto costa; non sostituisce le tavole nautiche. Le finestre solunari sono calcoli astronomici indicativi e non prevedono l’attività dei pesci.</p>
                     </div>
                     <nav aria-label="Fonti meteorologiche e idrologiche">
                         <ul class="environment-source-links">
-                            <li><a id="environment-open-meteo-link" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer"><strong>Weather data by Open-Meteo.com</strong><span>Previsioni meteo e marine modellistiche</span></a></li>
+                            <li><a id="environment-open-meteo-link" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer"><strong>Weather data by Open-Meteo.com</strong><span>Previsioni meteo e marine modellistiche, incluso il livello del mare con marea</span></a></li>
+                            <li><a href="https://open-meteo.com/en/docs/marine-weather-api" target="_blank" rel="noopener noreferrer"><strong>Documentazione Marine API</strong><span>Variabili marine e limiti del modello costiero</span></a></li>
                             <li>
                                 <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer"><strong>GeoNames</strong><span>Fonte dei punti abitati proposti; coordinate indicative, non stazioni meteo</span></a>
                                 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Licenza CC BY 4.0</a>
@@ -278,8 +306,14 @@
         </div>
     </footer>
     <script type="module">
-        import { fetchForecast, OPEN_METEO_ATTRIBUTION } from "./js/environment-service.js";
+        import { fetchForecast, fetchMarine, OPEN_METEO_ATTRIBUTION } from "./js/environment-service.js";
         import { ENVIRONMENT_LOCATIONS, HYDROMETRIC_STATIONS } from "./js/environment-locations.js?v=2";
+        import {
+            calculateSolunarDay,
+            formatSolunarDate,
+            getSolunarDates,
+            localSolunarDate
+        } from "./js/solunar.js";
 
         const byId = id => document.getElementById(id);
         const locationSelect = byId("environment-location");
@@ -715,6 +749,187 @@
             );
         }
 
+        function resetMarine(message = "Disponibile selezionando una località costiera.") {
+            byId("environment-marine-empty").textContent = message;
+            setHidden(byId("environment-marine-empty"), false);
+            setHidden(byId("environment-marine-content"), true);
+            byId("environment-marine-status").textContent = "";
+            byId("environment-tide-extrema").textContent = "";
+            byId("environment-tide-chart").replaceChildren();
+        }
+
+        function renderTideChart(times, levels, units) {
+            const chart = byId("environment-tide-chart");
+            chart.replaceChildren();
+            const points = times.map((time, index) => ({ time, level: levels[index] }))
+                .filter(point => typeof point.level === "number" && Number.isFinite(point.level));
+            if (points.length < 2) return;
+
+            const minimum = Math.min(...points.map(point => point.level));
+            const maximum = Math.max(...points.map(point => point.level));
+            const range = Math.max(maximum - minimum, 0.05);
+            const coordinates = points.map((point, index) => ({
+                x: 36 + (index / (points.length - 1)) * 648,
+                y: 24 + ((maximum - point.level) / range) * 112
+            }));
+            const svg = (tag, attributes, text = "") => {
+                const element = document.createElementNS(SVG_NS, tag);
+                Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, String(value)));
+                if (text) element.textContent = text;
+                return element;
+            };
+            const firstTime = modelTime(points[0].time) ?? "";
+            const lastTime = modelTime(points.at(-1).time) ?? "";
+            chart.append(
+                svg("title", { id: "environment-tide-chart-title" }, "Livello del mare previsto nelle prossime ore"),
+                svg("desc", { id: "environment-tide-chart-desc" },
+                    `Stima oraria in metri rispetto al livello medio globale, da ${firstTime} a ${lastTime}.`)
+            );
+            const baseline = svg("line", { x1: 36, y1: 154, x2: 684, y2: 154, class: "environment-tide-axis" });
+            const line = svg("polyline", {
+                points: coordinates.map(point => `${point.x},${point.y}`).join(" "),
+                class: "environment-tide-line"
+            });
+            chart.append(baseline, line);
+            [0, Math.floor((points.length - 1) / 2), points.length - 1].forEach(index => {
+                const point = coordinates[index];
+                const label = modelTime(points[index].time) ?? "";
+                chart.append(svg("text", {
+                    x: point.x,
+                    y: 176,
+                    "text-anchor": index === 0 ? "start" : index === points.length - 1 ? "end" : "middle",
+                    class: "environment-tide-time"
+                }, label));
+            });
+            chart.append(svg("text", {
+                x: 36,
+                y: 15,
+                class: "environment-tide-scale"
+            }, `${number(maximum, units, 2)} / ${number(minimum, units, 2)}`));
+        }
+
+        function renderMarine(result) {
+            if (result.timezone !== TIME_ZONE) {
+                throw new Error("Fuso orario della risposta marina diverso da Europe/Rome: dati non mostrati.");
+            }
+            const now = romeNow();
+            const { time = [], values = {}, units = {} } = result.data ?? {};
+            const startIndex = time.findIndex(hour => hour >= now.hourKey);
+            if (startIndex < 0) {
+                resetMarine("La previsione marina non contiene ore future utilizzabili.");
+                return;
+            }
+
+            const index = startIndex;
+            const setMarineValue = (id, key, fallback, digits = 1) => {
+                byId(id).textContent = number(values[key]?.[index], units[key] || fallback, digits) ?? "—";
+            };
+            setMarineValue("environment-wave-height", "wave_height", "m");
+            const waveDirection = values.wave_direction?.[index];
+            byId("environment-wave-direction").textContent = direction(waveDirection) ?? "—";
+            setMarineValue("environment-wave-period", "wave_period", "s", 0);
+            setMarineValue("environment-swell-height", "swell_wave_height", "m");
+            byId("environment-swell-direction").textContent =
+                direction(values.swell_wave_direction?.[index]) ?? "—";
+            setMarineValue("environment-swell-period", "swell_wave_period", "s", 0);
+            setMarineValue("environment-sea-temperature", "sea_surface_temperature", "°C");
+
+            const tideKey = "sea_level_height_msl";
+            const tideLevel = values[tideKey]?.[index];
+            byId("environment-tide-level").textContent =
+                number(tideLevel, units[tideKey] || "m", 2) ?? "—";
+            const nextTimes = time.slice(startIndex, startIndex + 25);
+            const nextLevels = values[tideKey]?.slice(startIndex, startIndex + 25) ?? [];
+            const extrema = [];
+            for (let pointIndex = 1; pointIndex < nextLevels.length - 1; pointIndex += 1) {
+                const previous = nextLevels[pointIndex - 1];
+                const current = nextLevels[pointIndex];
+                const next = nextLevels[pointIndex + 1];
+                if (![previous, current, next].every(value => typeof value === "number" && Number.isFinite(value))) continue;
+                if (current >= previous && current > next) extrema.push({ type: "Massima", index: pointIndex });
+                if (current <= previous && current < next) extrema.push({ type: "Minima", index: pointIndex });
+            }
+            const extremaText = extrema.slice(0, 4).map(event =>
+                `${event.type} stimata ${modelTime(nextTimes[event.index])} · ${number(nextLevels[event.index], units[tideKey] || "m", 2)}`
+            );
+            byId("environment-tide-extrema").textContent = extremaText.length
+                ? `Possibili variazioni nelle prossime ore: ${extremaText.join(" · ")}`
+                : "Estremi di marea non individuabili nelle ore disponibili.";
+            renderTideChart(nextTimes, nextLevels, units[tideKey] || "m");
+
+            const update = formatRomeDateTime(result.updatedAt);
+            const state = result.status === "stale" ? "Dati in cache scaduta" : result.isCached ? "Dati in cache" : "Dati aggiornati";
+            const model = result.modelCoordinates;
+            const differs = result.requestedCoordinates.latitude !== model.latitude ||
+                result.requestedCoordinates.longitude !== model.longitude;
+            const staleNote = result.status === "stale" && result.error?.message
+                ? ` Aggiornamento fallito: ${result.error.message}`
+                : "";
+            byId("environment-marine-status").textContent =
+                `${state}${update ? ` · ${update}` : ""}. Cella marina: ${model.latitude}, ${model.longitude}` +
+                `${differs ? " (punto del modello diverso dalle coordinate della località)." : "."}${staleNote}`;
+            byId("environment-marine-badge").textContent =
+                result.status === "stale" ? "Dati non aggiornati" : "Stima modellistica";
+            setHidden(byId("environment-marine-empty"), true);
+            setHidden(byId("environment-marine-content"), false);
+        }
+
+        function renderMarineError(error) {
+            byId("environment-marine-badge").textContent = "Dati non disponibili";
+            resetMarine(error instanceof Error ? error.message : "Previsione marina non disponibile.");
+        }
+
+        function renderSolunar(point) {
+            const list = byId("environment-solunar-days");
+            const empty = byId("environment-solunar-empty");
+            const note = byId("environment-solunar-note");
+            list.replaceChildren();
+            if (!hasUsableForecastPoint(point)) {
+                empty.textContent = "Non disponibile: per questa località non sono ancora state definite coordinate.";
+                setHidden(empty, false);
+                setHidden(list, true);
+                note.textContent = "";
+                return;
+            }
+
+            const today = localSolunarDate();
+            getSolunarDates(today, 5).forEach(date => {
+                const day = calculateSolunarDay(date, point.latitude, point.longitude);
+                const item = makeElement("li", "environment-solunar-day");
+                const heading = makeElement("div", "environment-solunar-day-heading");
+                heading.append(makeElement("h3", "", formatSolunarDate(date)));
+                if (date === today) heading.append(makeElement("span", "environment-day-today", "Oggi"));
+
+                const phase = makeElement("p", "environment-solunar-phase",
+                    `${day.phase} · ${number(day.illumination * 100, "%", 0)} illuminata`);
+                const events = document.createElement("dl");
+                events.className = "environment-solunar-events";
+                [
+                    ["Sorge", day.moonrise.join(" · ") || "Nessun evento oggi"],
+                    ["Tramonta", day.moonset.join(" · ") || "Nessun evento oggi"]
+                ].forEach(([label, value]) => {
+                    const row = makeElement("div");
+                    row.append(makeElement("dt", "", label), makeElement("dd", "", value));
+                    events.append(row);
+                });
+                const periods = makeElement("div", "environment-solunar-periods");
+                const major = makeElement("p");
+                major.append(makeElement("strong", "", "Periodi maggiori"), ` ${day.majorPeriods.join(" · ") || "non calcolati"}`);
+                const minor = makeElement("p");
+                minor.append(makeElement("strong", "", "Periodi minori"), ` ${day.minorPeriods.join(" · ") || "non calcolati"}`);
+                periods.append(major, minor);
+                item.append(heading, phase, events, periods);
+                list.append(item);
+            });
+
+            setHidden(empty, true);
+            setHidden(list, false);
+            note.textContent = `Calcolo per ${point.name || "il punto selezionato"} (${point.latitude}, ${point.longitude}) in ora locale. ` +
+                "I periodi maggiori sono centrati sui passaggi lunari sopra e sotto il meridiano; i minori su levata e tramonto. " +
+                "Indicazioni astronomiche orientative, non garanzie di attività dei pesci." +
+                (point.status === "PROPOSTO" ? " Coordinate indicative da verificare." : "");
+        }
+
         function stationMetric(label, value, wide = false) {
             const item = makeElement("div", wide ? "environment-station-metric is-wide" : "environment-station-metric");
             item.append(makeElement("dt", "", label), makeElement("dd", "", value));
@@ -839,11 +1054,22 @@
             const location = ENVIRONMENT_LOCATIONS.find(item => item.id === locationSelect.value);
             if (!location || !hasUsableForecastPoint(location.forecastPoint)) {
                 resetForecast();
+                setHidden(document.querySelector(".environment-marine-panel"), true);
+                resetMarine();
+                renderSolunar(null);
                 setStatus(UNAVAILABLE_MESSAGE, "unavailable");
                 return;
             }
 
             const point = location.forecastPoint;
+            const coastalLocation = location.type === "costa";
+            const marinePanel = document.querySelector(".environment-marine-panel");
+            setHidden(marinePanel, !coastalLocation);
+            resetMarine(coastalLocation
+                ? hasUsableForecastPoint(point) ? "Caricamento dei dati marini…" : "Punto costiero da verificare: previsione marina non disponibile."
+                : "Disponibile selezionando una località costiera.");
+            byId("environment-marine-badge").textContent = "Previsione modellistica";
+            renderSolunar(point);
             const request = new AbortController();
             activeRequest = request;
             resetForecast("Caricamento…");
@@ -855,13 +1081,45 @@
             );
 
             try {
-                const result = await fetchForecast({
+                const requests = [fetchForecast({
                     latitude: point.latitude,
                     longitude: point.longitude,
                     signal: request.signal
-                });
+                })];
+                if (coastalLocation) {
+                    requests.push(fetchMarine({
+                        latitude: point.latitude,
+                        longitude: point.longitude,
+                        signal: request.signal
+                    }));
+                }
+                const results = await Promise.allSettled(requests);
                 if (activeRequest !== request || request.signal.aborted) return;
-                renderForecast(result, point);
+                const forecast = results[0];
+                if (forecast.status === "rejected") {
+                    resetForecast();
+                    const message = forecast.reason instanceof Error
+                        ? forecast.reason.message
+                        : "Errore durante il caricamento delle previsioni.";
+                    setStatus(
+                        point.status === "PROPOSTO" ? `Punto indicativo da verificare. ${message}` : message,
+                        "error"
+                    );
+                } else {
+                    renderForecast(forecast.value, point);
+                }
+                if (coastalLocation) {
+                    const marine = results[1];
+                    if (marine.status === "fulfilled") {
+                        try {
+                            renderMarine(marine.value);
+                        } catch (error) {
+                            renderMarineError(error);
+                        }
+                    } else if (marine.reason?.code !== "ABORTED") {
+                        renderMarineError(marine.reason);
+                    }
+                }
             } catch (error) {
                 if (error?.code === "ABORTED" || request.signal.aborted || activeRequest !== request) return;
                 resetForecast();

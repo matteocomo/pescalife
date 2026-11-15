@@ -675,7 +675,7 @@
 
 .environment-marine-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1.5fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
     gap: 0.6rem;
 }
 
@@ -710,6 +710,136 @@
     margin: 0.65rem 0 0;
     color: var(--env-muted);
     font-size: 0.8rem;
+}
+
+.environment-tide-group {
+    grid-column: span 2;
+}
+
+.environment-tide-extrema {
+    margin: 0.55rem 0 0;
+    color: var(--env-muted);
+    font-size: 0.76rem;
+    line-height: 1.45;
+}
+
+.environment-tide-chart-wrap {
+    margin-top: 0.7rem;
+    padding: 0.35rem 0.4rem 0;
+    overflow: hidden;
+    background: #f8fbfc;
+    border: 1px solid var(--env-line);
+    border-radius: 0.55rem;
+}
+
+.environment-tide-chart {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.environment-tide-axis {
+    stroke: #c9e1e6;
+    stroke-width: 1.5;
+}
+
+.environment-tide-line {
+    fill: none;
+    stroke: var(--env-teal);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+}
+
+.environment-tide-time,
+.environment-tide-scale {
+    fill: var(--env-muted);
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.environment-solunar-days {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.environment-solunar-day {
+    min-width: 0;
+    padding: 0.75rem;
+    background: var(--env-soft);
+    border: 1px solid var(--env-line);
+    border-radius: 0.6rem;
+}
+
+.environment-solunar-day-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 0.5rem;
+}
+
+.environment-solunar-day-heading h3 {
+    margin: 0;
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    text-transform: capitalize;
+}
+
+.environment-solunar-phase {
+    margin: 0.45rem 0;
+    color: #0b7185;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.environment-solunar-events {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0;
+}
+
+.environment-solunar-events > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
+
+.environment-solunar-events dt {
+    color: var(--env-muted);
+    font-size: 0.73rem;
+}
+
+.environment-solunar-events dd {
+    margin: 0;
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 650;
+    text-align: right;
+}
+
+.environment-solunar-periods {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: 0.55rem;
+    padding-top: 0.45rem;
+    border-top: 1px solid var(--env-line);
+}
+
+.environment-solunar-periods p {
+    margin: 0;
+    color: var(--env-muted);
+    font-size: 0.72rem;
+    line-height: 1.4;
+}
+
+.environment-solunar-periods strong {
+    display: block;
+    color: var(--color-primary);
 }
 
 /* Stazioni idrometriche */
@@ -946,6 +1076,10 @@
     .environment-source-links {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .environment-solunar-days {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 600px) {
@@ -1014,6 +1148,14 @@
 
     .environment-marine-grid {
         grid-template-columns: 1fr;
+    }
+
+    .environment-tide-group {
+        grid-column: auto;
+    }
+
+    .environment-solunar-days {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .environment-station-metrics {

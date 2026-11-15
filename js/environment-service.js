@@ -33,7 +33,7 @@ const FORECAST_VARIABLES = Object.freeze({
 const MARINE_VARIABLES = Object.freeze([
     "wave_height", "wave_direction", "wave_period",
     "swell_wave_height", "swell_wave_direction", "swell_wave_period",
-    "sea_surface_temperature"
+    "sea_surface_temperature", "sea_level_height_msl"
 ]);
 
 const inFlightRequests = new Map();
@@ -407,11 +407,11 @@ function marineFromCache(coordinates, record, status, error = null) {
 export async function fetchMarine({ latitude, longitude, signal, timeoutMs } = {}) {
     const coordinates = validateCoordinates(latitude, longitude);
     const timeout = validateTimeout(timeoutMs);
-    const dataKey = cacheKey("marine", coordinates);
+    const dataKey = cacheKey("marine-v2", coordinates);
     const cached = getEnvironmentCache(dataKey);
     if (cached) return marineFromCache(coordinates, cached, "cached");
 
-    const requestKey = cacheKey("marine-request", coordinates);
+    const requestKey = cacheKey("marine-request-v2", coordinates);
     try {
         return await subscribeToRequest(requestKey, async requestSignal => {
             const params = new URLSearchParams({
