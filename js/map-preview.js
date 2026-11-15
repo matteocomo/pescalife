@@ -808,14 +808,43 @@ const DATA_PATH = "data/maps/optimized/";
         }
     }
 
+    function createSearchMarkerElement(label) {
+        const svgNamespace = "http://www.w3.org/2000/svg";
+        const marker = document.createElement("div");
+        marker.className = "map-search-marker";
+        marker.title = `Risultato cartografico: ${label}`;
+
+        const svg = document.createElementNS(svgNamespace, "svg");
+        svg.setAttribute("viewBox", "0 0 48 54");
+        svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("focusable", "false");
+
+        const pin = document.createElementNS(svgNamespace, "path");
+        pin.setAttribute("d", "M24 2C13.5 2 5 10.5 5 21c0 14 19 31 19 31s19-17 19-31C43 10.5 34.5 2 24 2Z");
+        pin.setAttribute("fill", "#087c91");
+        pin.setAttribute("stroke", "#fff");
+        pin.setAttribute("stroke-width", "3");
+        pin.setAttribute("stroke-linejoin", "round");
+
+        const center = document.createElementNS(svgNamespace, "circle");
+        center.setAttribute("cx", "24");
+        center.setAttribute("cy", "20");
+        center.setAttribute("r", "9");
+        center.setAttribute("fill", "#fff");
+
+        svg.append(pin, center);
+        marker.append(svg);
+        return marker;
+    }
+
     function selectSearchItem(item) {
         searchInput.value = item.label;
         searchResults.hidden = true;
         searchInput.setAttribute("aria-expanded", "false");
         if (selectedMarker) selectedMarker.remove();
-        selectedMarker = new maplibregl.Marker({ color: "#d46a22" })
+        selectedMarker = new maplibregl.Marker({ element: createSearchMarkerElement(item.label), anchor: "bottom" })
             .setLngLat(item.center)
-            .setPopup(new maplibregl.Popup({ offset: 24 }).setText(`${item.label} · risultato cartografico, non spot verificato`))
+            .setPopup(new maplibregl.Popup({ offset: 30 }).setText(`${item.label} · risultato cartografico, non spot verificato`))
             .addTo(map);
         if (item.feature) fitFeature(item.feature);
         else map.flyTo({ center: item.center, zoom: 13, duration: 700 });
@@ -882,9 +911,9 @@ const DATA_PATH = "data/maps/optimized/";
         const center = [longitude, latitude];
         searchInput.value = label;
         if (selectedMarker) selectedMarker.remove();
-        selectedMarker = new maplibregl.Marker({ color: "#d46a22" })
+        selectedMarker = new maplibregl.Marker({ element: createSearchMarkerElement(label), anchor: "bottom" })
             .setLngLat(center)
-            .setPopup(new maplibregl.Popup({ offset: 24 }).setText(
+            .setPopup(new maplibregl.Popup({ offset: 30 }).setText(
                 `${label} · posizione indicativa; accesso e pescabilità non verificati`
             ))
             .addTo(map)
