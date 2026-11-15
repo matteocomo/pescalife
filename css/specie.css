@@ -36,6 +36,15 @@
 .species-latin { color: #536675; }
 .species-card-body .btn { margin-top: 1rem; }
 .species-photo-credit { margin-top: 0.75rem; font-size: 0.8rem; color: #536675; }
+#specie .species-catalog { margin-top: 1rem; }
+#specie .species-card { display: flex; flex-direction: column; }
+#specie .species-card-body { display: flex; flex: 1; flex-direction: column; }
+#specie .species-card-body .btn { align-self: flex-start; margin-top: auto; }
+#specie .species-catalog .species-card[hidden],
+.species-group[hidden] { display: none; }
+.species-filter-options { display: grid; gap: 0.75rem; padding: 0.65rem; border-top: 1px solid #e0e9e9; }
+.species-filter-options fieldset { padding-top: 0.65rem; border: 0; }
+.species-filter-options legend { padding: 0 0.25rem; color: #35485a; font-size: 0.86rem; font-weight: 700; }
 
 .species-detail { max-width: 1000px; padding-top: 2rem; }
 .species-detail section { padding: 2rem 0 0; }
@@ -61,6 +70,29 @@
 .species-sources { font-size: 0.9rem; }
 @media (min-width: 768px) {
     .species-intro { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 2rem; }
+}
+@media (min-width: 900px) {
+    #specie .species-catalog { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+}
+@media (max-width: 600px) {
+    #specie { padding-right: 0.15rem; padding-left: 0.15rem; }
+    #specie .species-catalog { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; }
+    #specie .species-card-body { padding: 0.8rem; overflow-wrap: anywhere; }
+    #specie .species-card-body h3 { margin-top: 0.5rem; font-size: 0.98rem; line-height: 1.25; }
+    #specie .species-card-body .species-latin { font-size: 0.78rem; }
+    #specie .species-card-body > p:not(.species-latin) { display: none; }
+    #specie .species-card-body .btn {
+        display: flex;
+        width: 100%;
+        min-height: 40px;
+        align-items: center;
+        justify-content: center;
+        margin-top: auto;
+        padding: 0.45rem 0.3rem;
+        font-size: 0.78rem;
+        line-height: 1.2;
+        text-align: center;
+    }
 }
 @media (max-width: 480px) {
     .species-facts div { grid-template-columns: 1fr; gap: 0.15rem; }
