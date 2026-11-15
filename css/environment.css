@@ -135,6 +135,13 @@
     clip-path: inset(50%);
 }
 
+.environment-location-control select.environment-native-control {
+    width: 1px;
+    min-height: 1px;
+    padding: 0;
+    border: 0;
+}
+
 .environment-location-control label {
     color: var(--env-muted);
     font-size: 0.78rem;
