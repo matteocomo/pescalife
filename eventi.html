@@ -99,37 +99,6 @@
                 </article>
             </template>
 
-            <div class="event-proposal" id="proponi" aria-labelledby="proposal-title">
-                <h3 id="proposal-title">Proponi un evento</h3>
-                <p>Organizzi un’iniziativa di pesca? Inviaci una proposta: sarà valutata e <strong>non verrà pubblicata automaticamente</strong>.</p>
-                <p>I dati del referente servono a gestire la proposta e a ricontattare l’organizzatore. L’invio avviene tramite Web3Forms.</p>
-                <form id="event-proposal-form">
-                    <input type="hidden" name="access_key" value="">
-                    <input type="hidden" name="subject" value="Nuova proposta evento – PescaLife">
-                    <input type="hidden" name="form_id" value="proposta_evento_pescalife">
-                    <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" class="event-botcheck">
-                    <fieldset id="event-proposal-fields">
-                        <legend class="event-form-legend">Dettagli della proposta</legend>
-                        <div class="event-form-grid">
-                            <div><label for="event-name">Nome evento <span aria-hidden="true">*</span></label><input id="event-name" name="evento" type="text" maxlength="160" required></div>
-                            <div><label for="event-organizer">Associazione o organizzatore <span aria-hidden="true">*</span></label><input id="event-organizer" name="organizzatore" type="text" maxlength="160" required></div>
-                            <div><label for="event-contact">Nome del referente <span aria-hidden="true">*</span></label><input id="event-contact" name="referente" type="text" autocomplete="name" maxlength="120" required></div>
-                            <div><label for="event-email">Email del referente <span aria-hidden="true">*</span></label><input id="event-email" name="email" type="email" autocomplete="email" maxlength="254" required></div>
-                            <div><label for="event-type">Tipologia di evento <span aria-hidden="true">*</span></label><select id="event-type" name="tipologia" required><option value="">Seleziona una tipologia</option><option>Gare di pesca</option><option>Raduni</option><option>Corsi e incontri formativi</option><option>Manifestazioni</option><option>Iniziative ambientali</option></select></div>
-                            <div><label for="event-date">Data <span aria-hidden="true">*</span></label><input id="event-date" name="data" type="date" required></div>
-                            <div class="event-form-wide"><label for="event-place">Luogo e comune <span aria-hidden="true">*</span></label><input id="event-place" name="luogo_comune" type="text" maxlength="200" placeholder="Es. nome del luogo e comune" required></div>
-                            <div class="event-form-wide"><label for="event-description">Descrizione <span class="event-optional">(facoltativa)</span></label><textarea id="event-description" name="descrizione" rows="4" maxlength="4000"></textarea></div>
-                            <div><label for="event-poster">Link alla locandina <span class="event-optional">(facoltativo)</span></label><input id="event-poster" name="link_locandina" type="url" maxlength="2000" placeholder="https://"></div>
-                            <div><label for="event-rules">Link al regolamento o alla pagina ufficiale <span class="event-optional">(facoltativo)</span></label><input id="event-rules" name="link_ufficiale" type="url" maxlength="2000" placeholder="https://"></div>
-                        </div>
-                        <label class="event-privacy checkbox-effect" for="event-privacy"><input id="event-privacy" name="privacy_letta" type="checkbox" value="Sì" required><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path></svg><span>Confermo di aver letto l’<a href="notelegali.html">informativa privacy</a>. <span aria-hidden="true">*</span></span></label>
-                        <p class="event-required">* Campi obbligatori</p>
-                    </fieldset>
-                    <button class="btn btn-primary" id="event-submit" type="submit" disabled>Invia proposta</button>
-                    <p class="event-form-status" id="event-form-status" role="status" aria-live="polite">L’invio della proposta non è ancora attivo.</p>
-                    <noscript><p>Per utilizzare il modulo è necessario attivare JavaScript.</p></noscript>
-                </form>
-            </div>
         </section>
     </main>
     <footer class="site-footer">
@@ -159,10 +128,6 @@
                         <li><a href="notelegali.html">Note legali e privacy</a></li>
                     </ul>
                 </nav>
-                <div class="site-footer-feedback">
-                    <p>Hai trovato un errore o vuoi suggerire qualcosa?</p>
-                    <a class="feedback-link" href="notelegali.html#segnalazioni">Scrivici</a>
-                </div>
             </div>
             <div class="site-footer-bottom">
                 <p>Sito amatoriale, non ufficiale e senza scopo di lucro. Le informazioni sono a scopo informativo: verifica sempre le fonti ufficiali.</p>
