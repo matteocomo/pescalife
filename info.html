@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="css/style.css?v=checkbox-3">
     <link rel="stylesheet" href="css/info.css?v=5">
     <script src="js/site.js?v=avviso-unico-1" defer></script>
-    <script src="js/info.js?v=1" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
@@ -72,54 +71,22 @@
     <main class="info-page">
         <section class="info-hero" aria-labelledby="info-title">
             <div class="info-hero-copy">
-                <h1 id="info-title">La corrente<br>incontra il <span>codice.</span></h1>
-                <p class="info-intro">Un piccolo sguardo dietro le quinte di PescaLife: come prendono forma le pagine, i dati e gli strumenti di questa guida.</p>
-                <a class="info-scroll-link" href="#strumenti">Esplora il progetto <span aria-hidden="true">↓</span></a>
+                <h1 id="info-title">Info tecniche</h1>
+                <p class="info-intro">Una panoramica su struttura, tecnologie e dati utilizzati da PescaLife.</p>
+                <a class="info-scroll-link" href="#strumenti">Esplora le informazioni <span aria-hidden="true">↓</span></a>
             </div>
 
             <div class="info-emblem-panel">
-                <svg class="info-emblem" id="info-emblem" viewBox="0 0 320 320" role="img" aria-labelledby="emblem-title emblem-description">
-                    <title id="emblem-title">Marchio PescaLife: una corrente che disegna un pesce</title>
-                    <desc id="emblem-description">Linee d'acqua concentriche attraversano un pesce stilizzato, racchiuso in una bussola.</desc>
-                    <defs>
-                        <linearGradient id="emblem-water" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0" stop-color="#7ad7df"></stop>
-                            <stop offset="1" stop-color="#3aafc6"></stop>
-                        </linearGradient>
-                        <clipPath id="emblem-disc"><circle cx="160" cy="160" r="118"></circle></clipPath>
-                    </defs>
-                    <circle class="emblem-orbit" cx="160" cy="160" r="138"></circle>
-                    <circle class="emblem-ring" cx="160" cy="160" r="118"></circle>
-                    <path class="emblem-tick" d="M160 12v18M160 290v18M12 160h18M290 160h18"></path>
-                    <g clip-path="url(#emblem-disc)">
-                        <path class="emblem-current emblem-current-back" d="M20 124c42 0 44-24 83-24 32 0 38 24 64 24 38 0 43-25 79-25 28 0 43 14 57 14"></path>
-                        <path class="emblem-current" d="M17 205c49 0 55-32 99-32 34 0 41 23 72 23 41 0 49-33 91-33 25 0 37 10 52 10"></path>
-                        <path class="emblem-current emblem-current-fine" d="M25 226c34 0 43-12 67-12"></path>
-                        <g class="emblem-fish">
-                            <path class="emblem-fish-body" d="M90 154c24-30 65-42 105-31 19 5 34 16 47 31-13 15-28 26-47 31-40 11-81-1-105-31Z"></path>
-                            <path class="emblem-fish-tail" d="m90 154-30-24v48l30-24Z"></path>
-                            <path class="emblem-fish-fin" d="m148 127 15-21 17 26M148 181l15 21 17-26"></path>
-                            <circle class="emblem-fish-eye" cx="216" cy="149" r="3.5"></circle>
-                            <path class="emblem-fish-gill" d="M199 137c-9 10-9 24 0 34"></path>
-                        </g>
-                        <circle class="emblem-current-point" cx="68" cy="100" r="4"></circle>
-                        <circle class="emblem-current-point emblem-current-point-late" cx="254" cy="224" r="3"></circle>
-                    </g>
-                    <path class="emblem-north" d="m160 25 5 12-5-3-5 3 5-12Z"></path>
-                </svg>
-                <button class="info-current-toggle" id="info-current-toggle" type="button" aria-pressed="false" aria-controls="info-emblem info-current-status">
-                    <span class="info-toggle-icon" aria-hidden="true">↗</span>
-                    <span>Segui la corrente</span>
-                </button>
-                <p class="info-current-status" id="info-current-status" aria-live="polite">La corrente è in attesa.</p>
+                <img class="info-logo" src="assets/favicon-pescalife/favicon-96x96.png" width="96" height="96" alt="Logo PescaLife">
+                <p>PescaLife — Val di Cecina</p>
             </div>
 
         </section>
 
         <section class="info-section" id="strumenti" aria-labelledby="tools-title">
             <div class="info-section-heading">
-                <h2 id="tools-title">Poche cose, fatte con cura.</h2>
-                <p>La base del progetto è volutamente leggera: ogni tecnologia ha il suo compito, senza allontanarsi dal contenuto.</p>
+                <h2 id="tools-title">Tecnologie del sito</h2>
+                <p>PescaLife utilizza tecnologie semplici, adatte alla consultazione delle informazioni e degli strumenti del sito.</p>
             </div>
             <div class="info-tools-grid">
                 <article class="info-tool-card info-tool-html">
@@ -142,8 +109,8 @@
 
         <section class="info-map-section" aria-labelledby="map-info-title">
             <div class="info-map-heading">
-                <h2 id="map-info-title">Come nasce la mappa.</h2>
-                <p>La mappa delle acque interne unisce una base cartografica a informazioni sul territorio, trasformandole in uno strumento da esplorare.</p>
+                <h2 id="map-info-title">La mappa delle acque</h2>
+                <p>La mappa delle acque interne presenta la rete idrografica e i riferimenti territoriali in un’unica pagina interattiva.</p>
             </div>
             <div class="info-map-grid">
                 <article class="info-map-detail">
@@ -165,8 +132,8 @@
 
         <section class="info-map-section" aria-labelledby="weather-info-title">
             <div class="info-map-heading">
-                <h2 id="weather-info-title">Da dove arrivano i dati meteo.</h2>
-                <p>La pagina delle condizioni ambientali utilizza le API di Open-Meteo per presentare previsioni relative alle località disponibili.</p>
+                <h2 id="weather-info-title">Condizioni ambientali</h2>
+                <p>La pagina del meteo utilizza i dati di Open-Meteo per mostrare le previsioni delle località disponibili.</p>
             </div>
             <div class="info-map-grid">
                 <article class="info-map-detail">
@@ -189,8 +156,8 @@
 
         <section class="info-field-notes" aria-labelledby="notes-title">
             <div class="info-notes-copy">
-                <h2 id="notes-title">Una guida in costruzione.</h2>
-                <p>PescaLife raccoglie informazioni sulla pesca e sul territorio della Val di Cecina. Questa pagina è il primo spazio dedicato agli aspetti tecnici: verrà ampliata con dettagli sull’organizzazione, le funzionalità e gli aggiornamenti del sito.</p>
+                <h2 id="notes-title">Il progetto</h2>
+                <p>PescaLife raccoglie informazioni sulla pesca e sul territorio della Val di Cecina. Il progetto è in continua evoluzione: nuove sezioni e informazioni potranno essere aggiunte nel tempo.</p>
             </div>
         </section>
     </main>
