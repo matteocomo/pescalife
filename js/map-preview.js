@@ -21,6 +21,7 @@ const DATA_PATH = "data/maps/optimized/";
     const mapPanel = document.querySelector(".preview-map-panel");
     const mapExpandButton = document.getElementById("map-expand");
     const mapCollapseButton = document.getElementById("map-collapse");
+    const mapLoading = document.getElementById("map-loading");
     const coarsePointer = window.matchMedia("(pointer: coarse)");
     const guideCount = document.getElementById("map-guide-count");
     const guideProgress = document.getElementById("map-guide-progress");
@@ -587,28 +588,58 @@ const DATA_PATH = "data/maps/optimized/";
         const heading = document.createElement("strong");
         heading.textContent = place ? place.nome : displayName;
         const typeLine = document.createElement("div");
-        typeLine.textContent = type;
-        const note = document.createElement("small");
-        note.textContent = "Corso d'acqua dalla CTR 2010, non conferma pescabilità né accessi";
-        content.append(heading, typeLine, note);
+        typeLine.className = "map-place-popup-type";
+        typeLine.textContent = place?.tipologia || type;
+        content.append(heading, typeLine);
+        if (place?.lunghezzaKm != null) {
+            const lengthLine = document.createElement("div");
+            lengthLine.className = "map-place-popup-length";
+            const lengthValue = document.createElement("span");
+            lengthValue.textContent = place.lunghezzaKm.toLocaleString("it-IT", {
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1
+            });
+            const lengthUnit = document.createElement("small");
+            lengthUnit.textContent = "km";
+            lengthLine.append(lengthValue, lengthUnit);
+            content.append(lengthLine);
+        }
         const popup = new maplibregl.Popup({ closeButton: true, maxWidth: "300px" })
             .setLngLat(coordinates)
             .setDOMContent(content)
             .addTo(map);
+        popup.addClassName("map-place-popup");
+        popup.getElement().querySelector(".maplibregl-popup-close-button").setAttribute("aria-label", "Chiudi");
         activePopup = popup;
         function addPlaceLink(matchingPlace) {
             if (!matchingPlace || activePopup !== popup) return;
             popup.addClassName("map-place-popup");
             popup.getElement().querySelector(".maplibregl-popup-close-button").setAttribute("aria-label", "Chiudi");
-            heading.textContent = matchingPlace.nome.replace(/^(?:fiume|torrente|botro|fosso|rio)\s+/i, "");
-            const linkRow = document.createElement("div");
+            heading.textContent = matchingPlace.nome;
+            typeLine.textContent = matchingPlace.tipologia || type;
+            let lengthLine = content.querySelector(".map-place-popup-length");
+            if (matchingPlace.lunghezzaKm != null && !lengthLine) {
+                lengthLine = document.createElement("div");
+                lengthLine.className = "map-place-popup-length";
+                const lengthValue = document.createElement("span");
+                lengthValue.textContent = matchingPlace.lunghezzaKm.toLocaleString("it-IT", {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
+                });
+                const lengthUnit = document.createElement("small");
+                lengthUnit.textContent = "km";
+                lengthLine.append(lengthValue, lengthUnit);
+            }
             const link = document.createElement("a");
             link.href = matchingPlace.url;
             link.className = "btn btn-primary map-place-popup-button";
             link.textContent = "Dettagli";
             link.setAttribute("aria-label", `Dettagli di ${matchingPlace.nome}`);
-            linkRow.append(link);
-            content.append(linkRow);
+            const actions = document.createElement("div");
+            actions.className = "map-place-popup-actions";
+            if (lengthLine) actions.append(lengthLine);
+            actions.append(link);
+            content.append(actions);
         }
         if (place) addPlaceLink(place);
         else if (normalized) {
@@ -1076,6 +1107,13 @@ const DATA_PATH = "data/maps/optimized/";
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "top-right");
     map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-left");
 
+    const hideMapLoading = () => {
+        if (!mapLoading) return;
+        mapLoading.setAttribute("aria-hidden", "true");
+        mapLoading.hidden = true;
+    };
+    map.once("idle", hideMapLoading);
+
     map.on("click", event => {
         if (!waterwayAtPoint(event.point) && activePopup) {
             activePopup.remove();
@@ -1086,6 +1124,7 @@ const DATA_PATH = "data/maps/optimized/";
     map.on("zoomend", updateMapGuidance);
 
     map.on("style.load", () => {
+        map.once("idle", hideMapLoading);
         if (!initialStyleLoaded) {
             initialStyleLoaded = true;
             if (terrain3dInput.checked) applyTerrain3d();
@@ -1181,6 +1220,10 @@ const DATA_PATH = "data/maps/optimized/";
                 activePopup = null;
             }
             setStatus(`Caricamento stile ${input.value}…`);
+            if (mapLoading) {
+                mapLoading.hidden = false;
+                mapLoading.removeAttribute("aria-hidden");
+            }
             map.setStyle(mapStyles[input.value]);
         });
     });

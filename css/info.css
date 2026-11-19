@@ -220,6 +220,59 @@
 }
 .info-map-link:hover { text-decoration: underline; }
 
+.info-release-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem);
+}
+.info-release-heading { max-width: 43rem; }
+.info-release-kicker {
+    display: block;
+    margin-bottom: 0.55rem;
+    color: #087c91;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.info-release-heading h2 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: clamp(2rem, 4vw, 3.35rem);
+    letter-spacing: -0.055em;
+    line-height: 1.05;
+}
+.info-release-heading p { margin-top: 1rem; color: #536a7c; }
+.info-release-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.info-release-card {
+    padding: 1.35rem;
+    background: #fff;
+    border: 1px solid #d6e9ed;
+    border-radius: 1rem;
+    box-shadow: 0 8px 26px rgba(10, 26, 47, 0.035);
+}
+.info-release-badge {
+    display: inline-flex;
+    min-height: 28px;
+    align-items: center;
+    padding: 0.2rem 0.55rem;
+    color: #075969;
+    background: #e4f6f8;
+    border: 1px solid #78c0ca;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+.info-release-card h3 { margin: 0.75rem 0 0.15rem; font-size: 1.75rem; }
+.info-release-card time { color: #087c91; font-size: 0.88rem; font-weight: 700; }
+.info-release-card p { margin: 0.75rem 0 0; color: #536a7c; }
+
 .info-field-notes {
     max-width: 1200px;
     margin: 0 auto 4rem;
@@ -242,7 +295,7 @@
     .info-hero-copy { max-width: 36rem; }
     .info-hero h1 { font-size: clamp(2.8rem, 11vw, 4.3rem); }
     .info-emblem-panel { max-width: 24rem; }
-    .info-tools-grid, .info-map-grid { grid-template-columns: 1fr; }
+    .info-tools-grid, .info-map-grid, .info-release-grid { grid-template-columns: 1fr; }
     .info-tool-card { min-height: 0; }
     .info-field-notes { margin: 0 1rem 3rem; }
 }

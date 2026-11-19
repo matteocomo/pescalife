@@ -386,5 +386,36 @@
         container.append(protectedSection);
     }
 
-    document.addEventListener("DOMContentLoaded", renderCatalog, { once: true });
+    function compactPlaceCardsOnMobile() {
+        document.querySelectorAll(".luoghi-catalog .species-card-body").forEach(body => {
+            body.querySelectorAll("p").forEach(paragraph => {
+                const lengthStrong = [...paragraph.querySelectorAll("strong")]
+                    .find(strong => strong.textContent.includes("Lunghezza CTR"));
+                if (!lengthStrong) return;
+                paragraph.classList.add("luoghi-mobile-length");
+
+                const priorityStrong = [...paragraph.querySelectorAll("strong")]
+                    .find(strong => strong.textContent.includes("Priorità"));
+                if (!priorityStrong) return;
+                const wrapper = document.createElement("span");
+                wrapper.className = "luoghi-mobile-priority";
+                while (paragraph.firstChild && paragraph.firstChild !== lengthStrong) {
+                    if (paragraph.firstChild === priorityStrong
+                        || paragraph.firstChild.contains?.(priorityStrong)
+                        || priorityStrong.parentNode === paragraph) {
+                        wrapper.append(paragraph.firstChild);
+                    } else {
+                        wrapper.append(paragraph.firstChild);
+                    }
+                    if (paragraph.firstChild === null) break;
+                }
+                paragraph.prepend(wrapper);
+            });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderCatalog();
+        compactPlaceCardsOnMobile();
+    }, { once: true });
 })();

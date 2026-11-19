@@ -4,6 +4,34 @@
     margin-top: 1rem;
 }
 .luoghi-catalog .species-card[hidden] { display: none; }
+.luoghi-catalog .species-card:has(.luoghi-card-actions) {
+    display: flex;
+    flex-direction: column;
+}
+.luoghi-catalog .species-card:has(.luoghi-card-actions) > img {
+    flex: 0 0 auto;
+}
+.luoghi-catalog .species-card > .luogo-photo {
+    flex: 0 0 auto;
+}
+.luoghi-catalog .species-card:has(.luoghi-card-actions) .species-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+.luoghi-catalog .species-card:has(.luoghi-card-actions) .species-card-body > .badge {
+    align-self: flex-start;
+}
+.luoghi-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: auto;
+    padding-top: 0.35rem;
+}
+.luoghi-card-actions .btn {
+    margin-top: 0;
+}
 .luoghi-filter[hidden] { display: none; }
 .luoghi-filter {
     margin-top: 1.5rem;
@@ -66,14 +94,23 @@
     .luoghi-catalog { gap: 0.75rem; }
     .luoghi-catalog .species-card-body { padding: 0.75rem; overflow-wrap: anywhere; }
     .luoghi-catalog .species-card-body h3 { font-size: 1.05rem; line-height: 1.25; }
-    .luoghi-catalog .species-card-body p:not(.species-photo-credit) { font-size: 0.9rem; }
+    .luoghi-catalog .species-card-body > p {
+        display: none;
+        font-size: 0.9rem;
+    }
+    .luoghi-catalog .species-card-body > p.luoghi-mobile-length {
+        display: block;
+    }
+    .luoghi-catalog .species-card-body .luoghi-mobile-priority {
+        display: none;
+    }
     .luoghi-catalog .species-card-body .btn {
         display: flex;
         width: 100%;
         min-height: 44px;
         align-items: center;
         justify-content: center;
-        margin-top: 0.65rem;
+        margin-top: 0;
         padding: 0.55rem 0.4rem;
         font-size: 0.85rem;
         line-height: 1.2;

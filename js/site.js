@@ -183,6 +183,55 @@ const byId = id => document.getElementById(id);
             });
         }
 
+        function setupReleaseVersions() {
+            const releaseNodes = document.querySelectorAll("[data-release]");
+            if (!releaseNodes.length) return;
+            fetch(new URL("data/versions.json?v=2026-11", document.baseURI))
+                .then(response => {
+                    if (!response.ok) throw new Error(`versioni: HTTP ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data?.site || !data?.map) return;
+                    const values = {
+                        "site-version": data.site.version,
+                        "site-updated": data.site.updated,
+                        "site-summary": data.site.summary,
+                        "map-version": data.map.version,
+                        "map-updated": data.map.updated,
+                        "map-summary": data.map.summary
+                    };
+                    releaseNodes.forEach(node => {
+                        const key = node.dataset.release;
+                        if (values[key]) node.textContent = values[key];
+                    });
+                })
+                .catch(error => console.warn("Versioni tecniche non disponibili:", error));
+        }
+
+        function setupBackToTop() {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "back-to-top";
+            button.setAttribute("aria-label", "Torna all'inizio della pagina");
+            button.title = "Torna su";
+            button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 14 6-6 6 6"></path></svg>';
+            button.hidden = true;
+            document.body.append(button);
+
+            const updateVisibility = () => {
+                button.hidden = window.scrollY < 500;
+            };
+            button.addEventListener("click", () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+                });
+            });
+            window.addEventListener("scroll", updateVisibility, { passive: true });
+            updateVisibility();
+        }
+
         function setupFeedback() {
             const links = document.querySelectorAll(".feedback-link");
             if (!links.length) return;
@@ -273,5 +322,7 @@ const byId = id => document.getElementById(id);
             setupSiteMenu();
             setupEntryDialog();
             setupActiveNavigation();
+            setupBackToTop();
+            setupReleaseVersions();
             setupFeedback();
         });

@@ -12,7 +12,12 @@ function setupDiaryControls() {
     const spotToggle = document.getElementById("diary-spot-toggle");
     const spotLabel = document.getElementById("diary-spot-label");
     const spotOptions = document.getElementById("diary-spot-options");
+    const spotSearch = document.getElementById("diary-spot-search");
+    const spotResults = document.getElementById("diary-spot-results");
     const spotError = document.getElementById("diary-spot-error");
+    const species = document.getElementById("diary-species");
+    const speciesOptions = document.getElementById("diary-species-options");
+    const speciesResults = document.getElementById("diary-species-results");
     const photo = document.getElementById("diary-photo");
     const fileControl = document.getElementById("diary-file-control");
     const fileName = document.getElementById("diary-file-name");
@@ -92,20 +97,62 @@ function setupDiaryControls() {
         displayedMonth.setMonth(displayedMonth.getMonth() + delta);
         renderCalendar();
     };
-    const renderSpots = () => {
-        spotOptions.replaceChildren();
-        [...spot.options].filter(option => !option.disabled).forEach(option => {
+    const normalizeSearch = value => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    const renderSpecies = (query = "") => {
+        speciesResults.replaceChildren();
+        const normalizedQuery = normalizeSearch(query);
+        if (!normalizedQuery) {
+            speciesOptions.hidden = true;
+            species.setAttribute("aria-expanded", "false");
+            return;
+        }
+        const allSpecies = [...SPECIES_DATA, ...SPECIES_UNVERIFIED];
+        const matches = allSpecies.filter((item, index, list) =>
+            normalizeSearch(item.name).includes(normalizedQuery) &&
+            list.findIndex(candidate => candidate.name === item.name) === index
+        );
+        matches.slice(0, 10).forEach(item => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.textContent = item.name;
+            button.setAttribute("role", "option");
+            button.addEventListener("click", () => {
+                species.value = item.name;
+                species.dispatchEvent(new Event("input", { bubbles: true }));
+                speciesOptions.hidden = true;
+                species.setAttribute("aria-expanded", "false");
+                species.focus();
+            });
+            speciesResults.append(button);
+        });
+        speciesOptions.hidden = matches.length === 0;
+        species.setAttribute("aria-expanded", matches.length > 0 ? "true" : "false");
+    };
+    const renderSpots = (query = "") => {
+        spotResults.replaceChildren();
+        const normalizedQuery = normalizeSearch(query);
+        const matches = [...spot.options].filter(option => !option.disabled && normalizeSearch(option.textContent).includes(normalizedQuery));
+        matches.forEach(option => {
             const button = document.createElement("button");
             button.type = "button";
             button.textContent = option.textContent;
+            button.setAttribute("role", "option");
+            button.setAttribute("aria-selected", option.selected ? "true" : "false");
             if (option.selected) button.setAttribute("aria-current", "true");
             button.addEventListener("click", () => {
                 spot.value = option.value;
                 spot.dispatchEvent(new Event("change", { bubbles: true }));
                 closePopup(spotOptions, spotToggle, true);
             });
-            spotOptions.append(button);
+            spotResults.append(button);
         });
+        if (!matches.length) {
+            const empty = document.createElement("p");
+            empty.className = "diary-spot-empty";
+            empty.textContent = "Nessun luogo trovato.";
+            spotResults.append(empty);
+        }
+        spotSearch.setAttribute("aria-expanded", "true");
     };
     const syncDate = () => {
         dateText.value = italianDate(date.value);
@@ -150,14 +197,84 @@ function setupDiaryControls() {
         if (!spotOptions.hidden) return closePopup(spotOptions, spotToggle);
         closePopup(calendar, calendarToggle);
         renderSpots();
+        spotSearch.value = "";
         spotOptions.hidden = false;
         spotToggle.setAttribute("aria-expanded", "true");
-        spotOptions.querySelector("button")?.focus();
+        spotSearch.focus();
+    });
+    spotSearch.addEventListener("input", () => renderSpots(spotSearch.value));
+    spotSearch.addEventListener("keydown", event => {
+        const buttons = [...spotResults.querySelectorAll("button")];
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            if (!buttons.length) return;
+            const direction = event.key === "ArrowDown" ? 1 : -1;
+            const current = buttons.indexOf(document.activeElement);
+            const next = current < 0 ? (direction > 0 ? 0 : buttons.length - 1) : (current + direction + buttons.length) % buttons.length;
+            buttons[next].focus();
+        } else if (event.key === "Enter") {
+            event.preventDefault();
+            buttons[0]?.click();
+        }
+    });
+    species.addEventListener("input", () => renderSpecies(species.value));
+    species.addEventListener("focus", () => renderSpecies(species.value));
+    species.addEventListener("keydown", event => {
+        const buttons = [...speciesResults.querySelectorAll("button")];
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            if (!buttons.length) return;
+            const direction = event.key === "ArrowDown" ? 1 : -1;
+            const current = buttons.indexOf(document.activeElement);
+            const next = current < 0 ? (direction > 0 ? 0 : buttons.length - 1) : (current + direction + buttons.length) % buttons.length;
+            buttons[next].focus();
+        } else if (event.key === "Enter" && buttons.length) {
+            event.preventDefault();
+            buttons[0].click();
+        } else if (event.key === "Escape") {
+            speciesOptions.hidden = true;
+            species.setAttribute("aria-expanded", "false");
+        }
+    });
+    speciesResults.addEventListener("keydown", event => {
+        const buttons = [...speciesResults.querySelectorAll("button")];
+        const current = buttons.indexOf(document.activeElement);
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            if (!buttons.length) return;
+            const direction = event.key === "ArrowDown" ? 1 : -1;
+            buttons[(current + direction + buttons.length) % buttons.length].focus();
+        } else if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            document.activeElement?.click();
+        } else if (event.key === "Escape") {
+            speciesOptions.hidden = true;
+            species.setAttribute("aria-expanded", "false");
+            species.focus();
+        }
+    });
+    spotResults.addEventListener("keydown", event => {
+        const buttons = [...spotResults.querySelectorAll("button")];
+        const current = buttons.indexOf(document.activeElement);
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            if (!buttons.length) return;
+            const direction = event.key === "ArrowDown" ? 1 : -1;
+            const next = (current + direction + buttons.length) % buttons.length;
+            buttons[next].focus();
+        } else if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            document.activeElement?.click();
+        }
     });
     document.getElementById("diary-file-button").addEventListener("click", () => photo.click());
     document.addEventListener("click", event => {
         if (!dateControl.contains(event.target)) closePopup(calendar, calendarToggle);
         if (!spotControl.contains(event.target)) closePopup(spotOptions, spotToggle);
+        if (!species.parentElement.contains(event.target)) {
+            speciesOptions.hidden = true;
+            species.setAttribute("aria-expanded", "false");
+        }
     });
     document.addEventListener("keydown", event => {
         if (event.key !== "Escape") return;
@@ -167,6 +284,11 @@ function setupDiaryControls() {
         } else if (!spotOptions.hidden) {
             event.preventDefault();
             closePopup(spotOptions, spotToggle, true);
+        } else if (!speciesOptions.hidden) {
+            event.preventDefault();
+            speciesOptions.hidden = true;
+            species.setAttribute("aria-expanded", "false");
+            species.focus();
         }
     });
 

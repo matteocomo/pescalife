@@ -2,18 +2,24 @@
   {
     "slug": "fiume-cecina",
     "nome": "Fiume Cecina",
+    "tipologia": "Fiume",
+    "lunghezzaKm": 79.7,
     "url": "luoghi/cecina.html",
     "mapNames": ["FIUME CECINA"]
   },
   {
     "slug": "torrente-possera",
     "nome": "Torrente Possera",
+    "tipologia": "Torrente",
+    "lunghezzaKm": 28.8,
     "url": "luoghi/possera.html",
     "mapNames": ["TORRENTE POSSERA"]
   },
   {
     "slug": "torrente-sterza",
     "nome": "Torrente Sterza",
+    "tipologia": "Torrente",
+    "lunghezzaKm": 38.3,
     "url": "luoghi/sterza.html",
     "mapNames": ["TORRENTE STERZA"],
     "mapSections": ["294080", "295050", "295090", "295130", "305040", "306010"]
@@ -21,18 +27,24 @@
   {
     "slug": "torrente-trossa",
     "nome": "Torrente Trossa",
+    "tipologia": "Torrente",
+    "lunghezzaKm": 27.3,
     "url": "luoghi/trossa.html",
     "mapNames": ["TORRENTE TROSSA"]
   },
   {
     "slug": "torrente-pavone",
     "nome": "Torrente Pavone",
+    "tipologia": "Torrente",
+    "lunghezzaKm": 21.3,
     "url": "luoghi/pavone.html",
     "mapNames": ["TORRENTE PAVONE"]
   },
   {
     "slug": "fosso-acquerta",
     "nome": "Fosso Acquerta",
+    "tipologia": "Fosso",
+    "lunghezzaKm": 22.4,
     "url": "luoghi/acquerta.html",
     "mapNames": ["TORRENTE ACQUERTA"]
   }

@@ -1,0 +1,12 @@
+{
+  "site": {
+    "version": "2026.11",
+    "updated": "19 novembre 2026",
+    "summary": "Navigazione rapida, ricerca luoghi e specie, diario migliorato e pulsante per tornare in alto."
+  },
+  "map": {
+    "version": "2026.11",
+    "updated": "19 novembre 2026",
+    "summary": "Banner dei luoghi migliorati, lunghezze in evidenza, caricamento della mappa e controlli più adatti al telefono."
+  }
+}

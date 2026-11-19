@@ -12,11 +12,11 @@
     <link rel="apple-touch-icon" href="assets/favicon-pescalife/apple-touch-icon.png">
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="css/style.css?v=checkbox-3">
-    <link rel="stylesheet" href="css/diary-controls.css?v=3">
-        <script src="js/site.js?v=avviso-unico-1" defer></script>
+    <link rel="stylesheet" href="css/style.css?v=back-to-top-1">
+    <link rel="stylesheet" href="css/diary-controls.css?v=notes-1">
+        <script src="js/site.js?v=back-to-top-1" defer></script>
     <script src="js/data.js" defer></script>
-    <script src="js/diary-controls.js?v=1" defer></script>
+    <script src="js/diary-controls.js?v=specie-1" defer></script>
     <script src="js/diario.js?v=luogo-cecina-1" defer></script>
 </head>
 <body>
@@ -37,7 +37,7 @@
             <div class="logo-group">
                 <img class="site-logo" src="assets/favicon-pescalife/favicon-96x96.png" width="44" height="44" alt="">
                 <div>
-                    <h1>PescaLife — Val di Cecina</h1>
+                    <h1>PescaLife - Val di Cecina</h1>
                     <p>La tua guida alla pesca sportiva in Toscana</p>
                 </div>
             </div>
@@ -106,14 +106,22 @@
                     <select id="diary-spot" required></select>
                     <div id="diary-spot-control" hidden>
                         <button type="button" class="diary-spot-toggle" id="diary-spot-toggle" aria-labelledby="diary-spot-heading diary-spot-label" aria-describedby="diary-spot-error" aria-expanded="false" aria-controls="diary-spot-options"><span id="diary-spot-label"></span><span aria-hidden="true">⌄</span></button>
-                        <div class="diary-spot-options diary-popup" id="diary-spot-options" hidden></div>
+                        <div class="diary-spot-options diary-popup" id="diary-spot-options" hidden>
+                            <input type="search" id="diary-spot-search" class="diary-spot-search" placeholder="Cerca un luogo..." autocomplete="off" aria-label="Cerca un luogo" aria-controls="diary-spot-results" aria-expanded="true">
+                            <div id="diary-spot-results" role="listbox" aria-label="Luoghi disponibili"></div>
+                        </div>
                         <span class="diary-control-error" id="diary-spot-error" role="alert" hidden>Seleziona uno spot.</span>
                     </div>
                 </div>
                 <p class="diary-control-hint">I luoghi selezionabili non certificano accessi o pescabilità. <a href="luoghi/cecina.html">Scheda Fiume Cecina</a></p>
 
                 <label for="diary-species">Specie catturata:</label>
-                <input type="text" id="diary-species" placeholder="Es. Spigola" maxlength="80" required>
+                <div class="diary-control diary-species-control">
+                    <input type="text" id="diary-species" placeholder="Es. Spigola" maxlength="80" autocomplete="off" aria-controls="diary-species-results" aria-expanded="false" required>
+                    <div class="diary-species-options diary-popup" id="diary-species-options" role="listbox" aria-label="Specie disponibili" hidden>
+                        <div id="diary-species-results"></div>
+                    </div>
+                </div>
 
                 <div class="form-row">
                     <div>
@@ -132,7 +140,7 @@
                 <label for="diary-photo">Foto (caricata dal dispositivo):</label>
                 <input type="file" id="diary-photo" accept="image/*">
                 <div class="diary-file-control" id="diary-file-control" hidden>
-                    <button type="button" class="diary-file-button" id="diary-file-button">Scegli una foto</button>
+                    <button type="button" class="btn btn-secondary diary-file-button" id="diary-file-button">Scegli una foto</button>
                     <span id="diary-file-name" aria-live="polite">Nessuna foto selezionata</span>
                 </div>
                 <img id="diary-photo-preview-form" class="diary-photo-preview" alt="Anteprima foto della cattura" hidden>

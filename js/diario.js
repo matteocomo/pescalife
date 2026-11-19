@@ -1,5 +1,4 @@
         const DIARY_STORAGE_KEY = "pescalife_diary_v1";
-        const DIARY_PLACES = [{ id: "luogo:fiume-cecina", name: "Fiume Cecina", image: "🏞️" }];
         let diaryEntries = [];
         let photoRemovedDuringEdit = false;
 
