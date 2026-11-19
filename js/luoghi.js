@@ -3,10 +3,22 @@
         function setupPlaceFilter() {
             const filter = byId("luoghi-filter");
             const options = byId("luoghi-filter-options");
-            const cards = [...byId("luoghi-catalog").querySelectorAll(".species-card")];
+            const catalog = byId("luoghi-catalog");
+            const cards = [...catalog.querySelectorAll(".species-card")];
+            const sortLength = byId("luoghi-sort-length");
+            const sortControl = byId("luoghi-sort-control");
+            const sortToggle = byId("luoghi-sort-toggle");
+            const sortLabel = byId("luoghi-sort-label");
+            const sortPopup = byId("luoghi-sort-popup");
             const types = [...new Set(cards.map(card => card.dataset.placeType).filter(Boolean))];
             const current = byId("luoghi-filter-current");
             const status = byId("luoghi-filter-status");
+            const originalOrder = new Map(cards.map((card, index) => [card, index]));
+
+            function getCardLength(card) {
+                const match = card.textContent.match(/Lunghezza CTR:\s*([\d.,]+)\s*km/i);
+                return match ? Number(match[1].replace(",", ".")) : null;
+            }
 
             for (const type of ["Tutti", ...types]) {
                 const label = document.createElement("label");
@@ -28,11 +40,64 @@
                     card.hidden = Boolean(selected) && card.dataset.placeType !== selected;
                     if (!card.hidden) count++;
                 });
+
+                const sorted = [...cards].sort((a, b) => {
+                    if (sortLength.value === "original") {
+                        return originalOrder.get(a) - originalOrder.get(b);
+                    }
+                    const lengthA = getCardLength(a);
+                    const lengthB = getCardLength(b);
+                    if (lengthA === null && lengthB === null) return originalOrder.get(a) - originalOrder.get(b);
+                    if (lengthA === null) return 1;
+                    if (lengthB === null) return -1;
+                    return sortLength.value === "desc" ? lengthB - lengthA : lengthA - lengthB;
+                });
+                sorted.forEach(card => catalog.append(card));
+
                 current.textContent = selected || "Tutti";
-                status.textContent = `${count} ${count === 1 ? "scheda territoriale" : "schede territoriali"} ${count === 1 ? "mostrata" : "mostrate"}.`;
+                const sortLabel = sortLength.selectedOptions[0].textContent;
+                status.textContent = `${count} ${count === 1 ? "scheda territoriale" : "schede territoriali"} ${count === 1 ? "mostrata" : "mostrate"} · ${sortLabel}.`;
             }
 
             options.addEventListener("change", updateFilter);
+            sortLength.addEventListener("change", updateFilter);
+
+            sortToggle.addEventListener("click", () => {
+                const isOpen = !sortPopup.hidden;
+                sortPopup.hidden = isOpen;
+                sortToggle.setAttribute("aria-expanded", String(!isOpen));
+            });
+
+            sortPopup.addEventListener("click", event => {
+                const button = event.target.closest("[data-sort-value]");
+                if (!button) return;
+                sortLength.value = button.dataset.sortValue;
+                sortLabel.textContent = button.textContent;
+                sortPopup.querySelectorAll("[role='option']").forEach(option => {
+                    option.removeAttribute("aria-current");
+                });
+                button.setAttribute("aria-current", "true");
+                sortPopup.hidden = true;
+                sortToggle.setAttribute("aria-expanded", "false");
+                sortLength.dispatchEvent(new Event("change", { bubbles: true }));
+                sortToggle.focus();
+            });
+
+            document.addEventListener("click", event => {
+                if (!sortControl.contains(event.target)) {
+                    sortPopup.hidden = true;
+                    sortToggle.setAttribute("aria-expanded", "false");
+                }
+            });
+
+            document.addEventListener("keydown", event => {
+                if (event.key === "Escape" && !sortPopup.hidden) {
+                    sortPopup.hidden = true;
+                    sortToggle.setAttribute("aria-expanded", "false");
+                    sortToggle.focus();
+                }
+            });
+
             filter.hidden = false;
             updateFilter();
         }

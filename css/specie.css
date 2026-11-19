@@ -12,6 +12,16 @@
     box-shadow: var(--shadow-light);
 }
 .species-card img { display: block; width: 100%; height: auto; }
+#specie .species-card > img,
+#specie .species-card > .luogo-photo {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+#specie .species-card > img {
+    height: auto;
+    object-fit: cover;
+    object-position: center 48%;
+}
 .luogo-photo {
     position: relative;
     display: grid;

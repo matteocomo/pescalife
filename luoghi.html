@@ -14,11 +14,11 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/style.css?v=luoghi-mobile-1">
     <link rel="stylesheet" href="css/specie.css">
-    <link rel="stylesheet" href="css/luoghi.css?v=mobile-cards-1">
+    <link rel="stylesheet" href="css/luoghi.css?v=custom-sort-2">
     <script src="js/site.js?v=back-to-top-1" defer></script>
     <script src="js/data.js" defer></script>
     <script src="js/water-catalog.js?v=mobile-cards-1" defer></script>
-    <script src="js/luoghi.js?v=filtri-1" defer></script>
+    <script src="js/luoghi.js?v=custom-sort-1" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
@@ -83,7 +83,7 @@
                 <div class="map-link-action">
                     <figure>
                         <div class="map-link-preview">
-                            <img src="assets/mappa.png" alt="Anteprima della mappa della Val di Cecina" width="800" height="450">
+                            <img src="assets/mappa.avif" alt="Anteprima della mappa della Val di Cecina" width="800" height="450">
                         </div>
                         <figcaption class="map-link-attribution">Mappa: <a href="https://openfreemap.org/">OpenFreeMap</a> · © <a href="https://www.openmaptiles.org/">OpenMapTiles</a> · Dati <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a></figcaption>
                     </figure>
@@ -97,9 +97,28 @@
             <p>Le schede territoriali descrivono i corsi d'acqua e i vincoli documentati, ma non certificano accessi né pescabilità. Gli spot sono pubblicati solo dopo la verifica delle informazioni di accesso e delle regole locali.</p>
             <div class="spot-grid mt-6" id="spot-grid" aria-live="polite"></div>
             <details class="luoghi-filter" id="luoghi-filter" hidden>
-                <summary><span>Filtra le schede per tipo</span><span class="luoghi-filter-current" id="luoghi-filter-current">Tutti</span></summary>
+                <summary><span>Filtra e ordina le schede</span><span class="luoghi-filter-current" id="luoghi-filter-current">Tutti</span></summary>
                 <fieldset id="luoghi-filter-options">
                     <legend>Tipo di luogo</legend>
+                </fieldset>
+                <fieldset class="luoghi-sort-options">
+                    <legend>Ordina per lunghezza</legend>
+                    <label for="luoghi-sort-toggle">Ordine</label>
+                    <select id="luoghi-sort-length" name="luoghi-sort-length" class="luoghi-native-sort" tabindex="-1" aria-hidden="true">
+                        <option value="original">Ordine originale</option>
+                        <option value="desc">Dalla più lunga alla più corta</option>
+                        <option value="asc">Dalla più corta alla più lunga</option>
+                    </select>
+                    <div class="luoghi-sort-control" id="luoghi-sort-control">
+                        <button type="button" class="luoghi-sort-toggle" id="luoghi-sort-toggle" aria-expanded="false" aria-haspopup="listbox" aria-controls="luoghi-sort-popup">
+                            <span id="luoghi-sort-label">Ordine originale</span><span aria-hidden="true">⌄</span>
+                        </button>
+                        <div class="luoghi-sort-popup" id="luoghi-sort-popup" role="listbox" aria-label="Ordina per lunghezza" hidden>
+                            <button type="button" role="option" data-sort-value="original" aria-current="true">Ordine originale</button>
+                            <button type="button" role="option" data-sort-value="desc">Dalla più lunga alla più corta</button>
+                            <button type="button" role="option" data-sort-value="asc">Dalla più corta alla più lunga</button>
+                        </div>
+                    </div>
                 </fieldset>
             </details>
             <p class="luoghi-filter-status" id="luoghi-filter-status" role="status" aria-live="polite"></p>

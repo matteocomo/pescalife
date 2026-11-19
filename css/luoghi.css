@@ -86,12 +86,82 @@
 }
 .luoghi-filter label:has(input:checked) { color: #075969; background: #e4f6f8; border-color: #087c91; font-weight: 700; }
 .luoghi-filter input { width: 1.2rem; height: 1.2rem; margin: 0; accent-color: #087c91; }
+.luoghi-sort-options {
+    display: grid;
+    grid-template-columns: max-content minmax(220px, 320px);
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0.6rem 0.8rem 0.8rem;
+    border: 0;
+    border-top: 1px solid #e0e9e9;
+}
+.luoghi-sort-options legend { padding: 0 0.25rem; color: #35485a; font-size: 0.86rem; font-weight: 700; }
+.luoghi-sort-options label { min-height: auto; padding: 0; background: none; border: 0; }
+.luoghi-native-sort {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+}
+.luoghi-sort-control { position: relative; width: min(320px, 100%); }
+.luoghi-sort-toggle {
+    display: flex;
+    width: 100%;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.65rem 1rem;
+    color: #173247;
+    background: #fff;
+    border: 1px solid #78bcc8;
+    border-radius: 0.5rem;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+.luoghi-sort-toggle:hover { background: #e8f7f8; border-color: #087c91; }
+.luoghi-sort-popup {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 0.35rem);
+    left: 0;
+    width: 100%;
+    padding: 0.35rem;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #a6d9df;
+    border-radius: 0.75rem;
+    box-shadow: 0 12px 30px rgba(10, 26, 47, 0.18);
+}
+.luoghi-sort-popup[hidden] { display: none; }
+.luoghi-sort-popup button {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 0.55rem 0.75rem;
+    border: 0;
+    border-radius: 0.45rem;
+    background: transparent;
+    color: var(--color-primary);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+.luoghi-sort-popup button:hover { background: #e8f7f8; }
+.luoghi-sort-popup button[aria-current="true"] { background: #3aafc6; font-weight: 700; }
 .luoghi-filter-status:not(:empty) { margin-top: 0.75rem; color: #536675; font-size: 0.9rem; }
 @media (min-width: 900px) {
     .luoghi-catalog { grid-template-columns: repeat(3, minmax(0, 370px)); gap: 1.5rem; }
 }
 @media (max-width: 600px) {
     .luoghi-catalog { gap: 0.75rem; }
+    .luoghi-sort-options { grid-template-columns: 1fr; gap: 0.4rem; }
+    .luoghi-sort-control { width: 100%; }
     .luoghi-catalog .species-card-body { padding: 0.75rem; overflow-wrap: anywhere; }
     .luoghi-catalog .species-card-body h3 { font-size: 1.05rem; line-height: 1.25; }
     .luoghi-catalog .species-card-body > p {
