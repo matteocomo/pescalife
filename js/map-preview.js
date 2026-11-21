@@ -172,8 +172,9 @@ const DATA_PATH = "data/maps/optimized/";
 
     function updateCooperativeGestures() {
         if (!map) return;
-        if (mapPanel.classList.contains("is-expanded") && coarsePointer.matches) {
+        if (mapPanel.classList.contains("is-expanded")) {
             map.cooperativeGestures.disable();
+            map.scrollZoom.enable();
         } else {
             map.cooperativeGestures.enable();
         }
