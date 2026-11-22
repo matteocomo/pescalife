@@ -21,8 +21,12 @@ const DATA_PATH = "data/maps/optimized/";
     const mapPanel = document.querySelector(".preview-map-panel");
     const mapExpandButton = document.getElementById("map-expand");
     const mapCollapseButton = document.getElementById("map-collapse");
+    const gestureHint = document.getElementById("map-gesture-hint");
+    const gestureHintText = document.getElementById("map-gesture-hint-text");
+    const gestureHintExpandButton = document.getElementById("map-gesture-hint-expand");
     const mapLoading = document.getElementById("map-loading");
     const coarsePointer = window.matchMedia("(pointer: coarse)");
+    const isMacPlatform = navigator.userAgent.includes("Mac");
     const guideCount = document.getElementById("map-guide-count");
     const guideProgress = document.getElementById("map-guide-progress");
     const guideStepText = document.getElementById("map-guide-step-text");
@@ -103,6 +107,7 @@ const DATA_PATH = "data/maps/optimized/";
     let guideStep = 0;
     let guideShown = false;
     let placesIndexPromise;
+    let gestureHintTimeout;
 
     function normalizeWaterwayName(name) {
         return String(name || "").trim().toLocaleUpperCase("it-IT");
@@ -152,9 +157,8 @@ const DATA_PATH = "data/maps/optimized/";
         searchForm.querySelector('button[type="submit"]').disabled = true;
     }
 
-    function setMapExpanded(expanded, isFallback = false) {
+    function setMapExpanded(expanded) {
         mapPanel.classList.toggle("is-expanded", expanded);
-        mapPanel.classList.toggle("is-fullscreen-fallback", expanded && isFallback);
         document.body.classList.toggle("map-expanded", expanded);
         mapExpandButton.hidden = expanded;
         mapExpandButton.setAttribute("aria-pressed", String(expanded));
@@ -162,6 +166,7 @@ const DATA_PATH = "data/maps/optimized/";
         updateCooperativeGestures();
 
         if (expanded) {
+            hideGestureHint();
             mapCollapseButton.focus();
         } else {
             mapExpandButton.focus();
@@ -180,11 +185,57 @@ const DATA_PATH = "data/maps/optimized/";
         }
     }
 
-    coarsePointer.addEventListener("change", updateCooperativeGestures);
+    function updateGestureHintText() {
+        gestureHintText.textContent = coarsePointer.matches
+            ? "Usa due dita per spostare e ingrandire la mappa"
+            : `Usa ${isMacPlatform ? "⌘" : "Ctrl"} e la rotellina per ingrandire la mappa`;
+    }
+
+    function hideGestureHint() {
+        clearTimeout(gestureHintTimeout);
+        gestureHint.classList.remove("is-visible");
+        gestureHint.setAttribute("aria-hidden", "true");
+    }
+
+    function showGestureHint() {
+        if (mapPanel.classList.contains("is-expanded")) return;
+        updateGestureHintText();
+        gestureHint.classList.add("is-visible");
+        gestureHint.setAttribute("aria-hidden", "false");
+        clearTimeout(gestureHintTimeout);
+        gestureHintTimeout = setTimeout(hideGestureHint, 4000);
+    }
+
+    gestureHint.addEventListener("pointerenter", () => clearTimeout(gestureHintTimeout));
+    gestureHint.addEventListener("pointerleave", () => {
+        if (gestureHint.classList.contains("is-visible")) {
+            gestureHintTimeout = setTimeout(hideGestureHint, 2000);
+        }
+    });
+    gestureHint.addEventListener("focusin", () => clearTimeout(gestureHintTimeout));
+    gestureHint.addEventListener("focusout", () => {
+        if (gestureHint.classList.contains("is-visible")) {
+            gestureHintTimeout = setTimeout(hideGestureHint, 2000);
+        }
+    });
+    gestureHintExpandButton.addEventListener("click", () => {
+        hideGestureHint();
+        mapExpandButton.click();
+    });
+
+    coarsePointer.addEventListener("change", () => {
+        updateCooperativeGestures();
+        updateGestureHintText();
+    });
 
     mapExpandButton.addEventListener("click", async () => {
+        if (!coarsePointer.matches) {
+            setMapExpanded(true);
+            return;
+        }
+
         if (!mapPanel.requestFullscreen) {
-            setMapExpanded(true, true);
+            setMapExpanded(true);
             return;
         }
 
@@ -193,7 +244,7 @@ const DATA_PATH = "data/maps/optimized/";
             setMapExpanded(true);
         } catch (error) {
             console.error("Impossibile aprire la mappa a schermo intero:", error);
-            setMapExpanded(true, true);
+            setMapExpanded(true);
         }
     });
     mapCollapseButton.addEventListener("click", async () => {
@@ -209,9 +260,9 @@ const DATA_PATH = "data/maps/optimized/";
         }
     });
     document.addEventListener("fullscreenchange", () => {
+        if (!coarsePointer.matches) return;
         const expanded = document.fullscreenElement === mapPanel;
-        if (mapPanel.classList.contains("is-expanded") !== expanded
-            || mapPanel.classList.contains("is-fullscreen-fallback")) {
+        if (mapPanel.classList.contains("is-expanded") !== expanded) {
             setMapExpanded(expanded);
         }
     });
@@ -1093,7 +1144,7 @@ const DATA_PATH = "data/maps/optimized/";
                 "NavigationControl.ResetBearing": "Ripristina l’orientamento a nord",
                 "CooperativeGesturesHandler.WindowsHelpText": "Usa Ctrl e la rotellina per ingrandire la mappa",
                 "CooperativeGesturesHandler.MacHelpText": "Usa ⌘ e la rotellina per ingrandire la mappa",
-                "CooperativeGesturesHandler.MobileHelpText": "Usa due dita per spostare la mappa"
+                "CooperativeGesturesHandler.MobileHelpText": "Usa due dita per spostare e ingrandire la mappa"
             }
         });
     } catch (error) {
@@ -1123,6 +1174,7 @@ const DATA_PATH = "data/maps/optimized/";
         }
     });
     map.on("zoomend", updateMapGuidance);
+    map.on("cooperativegestureprevented", showGestureHint);
 
     map.on("style.load", () => {
         map.once("idle", hideMapLoading);
