@@ -1,5 +1,76 @@
         let previousModalFocus = null;
 
+        function normalizeSearch(value) {
+            return String(value ?? "")
+                .toLocaleLowerCase("it")
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-z0-9]+/g, " ")
+                .trim();
+        }
+
+        function searchTerms(value) {
+            return [...new Set(normalizeSearch(value).split(" ").filter(Boolean))];
+        }
+
+        function highlightSearchMatches(title, terms) {
+            if (!title) return;
+            const text = title.dataset.originalText || title.textContent;
+            title.dataset.originalText = text;
+            const ranges = [];
+
+            if (terms.length) {
+                // Mappa i caratteri normalizzati (senza accenti) sulle posizioni originali.
+                const letters = [];
+                const positions = [];
+                let offset = 0;
+                Array.from(text).forEach(char => {
+                    const normalized = char.toLocaleLowerCase("it").normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+                    for (const letter of normalized) {
+                        letters.push(letter);
+                        positions.push(offset);
+                    }
+                    offset += char.length;
+                });
+                const haystack = letters.join("");
+
+                terms.forEach(term => {
+                    const needle = normalizeSearch(term).replace(/ /g, "");
+                    if (!needle) return;
+                    let start = haystack.indexOf(needle);
+                    while (start !== -1) {
+                        ranges.push([positions[start], positions[start + needle.length - 1] + 1]);
+                        start = haystack.indexOf(needle, start + needle.length);
+                    }
+                });
+            }
+
+            if (!ranges.length) {
+                if (title.querySelector("mark")) title.replaceChildren(text);
+                return;
+            }
+
+            ranges.sort((a, b) => a[0] - b[0]);
+            const merged = [];
+            ranges.forEach(range => {
+                const last = merged[merged.length - 1];
+                if (last && range[0] <= last[1]) last[1] = Math.max(last[1], range[1]);
+                else merged.push([...range]);
+            });
+
+            const fragment = document.createDocumentFragment();
+            let cursor = 0;
+            merged.forEach(([start, end]) => {
+                if (start > cursor) fragment.append(text.slice(cursor, start));
+                const mark = document.createElement("mark");
+                mark.textContent = text.slice(start, end);
+                fragment.append(mark);
+                cursor = end;
+            });
+            if (cursor < text.length) fragment.append(text.slice(cursor));
+            title.replaceChildren(fragment);
+        }
+
         function setupPlaceFilter() {
             const filter = byId("luoghi-filter");
             const options = byId("luoghi-filter-options");
@@ -14,6 +85,18 @@
             const current = byId("luoghi-filter-current");
             const status = byId("luoghi-filter-status");
             const originalOrder = new Map(cards.map((card, index) => [card, index]));
+            const searchForm = byId("luoghi-search");
+            const searchInput = byId("luoghi-query");
+            const searchClear = byId("luoghi-search-clear");
+            const searchReset = byId("luoghi-search-reset");
+            const searchEmpty = byId("luoghi-search-empty");
+
+            const searchableCards = cards.map(card => {
+                const title = card.querySelector(".species-card-body h3");
+                const parts = [title?.textContent, card.querySelector(".badge")?.textContent];
+                card.querySelectorAll(".species-card-body p:not(.species-photo-credit)").forEach(paragraph => parts.push(paragraph.textContent));
+                return { card, title, haystack: normalizeSearch(parts.filter(Boolean).join(" ")) };
+            });
 
             function getCardLength(card) {
                 const match = card.textContent.match(/Lunghezza CTR:\s*([\d.,]+)\s*km/i);
@@ -35,10 +118,16 @@
 
             function updateFilter() {
                 const selected = options.querySelector('input[name="luoghi-type"]:checked').value;
+                const query = searchInput ? searchInput.value.trim() : "";
+                const terms = searchTerms(query);
                 let count = 0;
-                cards.forEach(card => {
-                    card.hidden = Boolean(selected) && card.dataset.placeType !== selected;
-                    if (!card.hidden) count++;
+
+                searchableCards.forEach(({ card, title, haystack }) => {
+                    const visible = (!selected || card.dataset.placeType === selected)
+                        && terms.every(term => haystack.includes(term));
+                    card.hidden = !visible;
+                    highlightSearchMatches(title, visible ? terms : []);
+                    if (visible) count++;
                 });
 
                 const sorted = [...cards].sort((a, b) => {
@@ -55,8 +144,26 @@
                 sorted.forEach(card => catalog.append(card));
 
                 current.textContent = selected || "Tutti";
-                const sortLabel = sortLength.selectedOptions[0].textContent;
-                status.textContent = `${count} ${count === 1 ? "scheda territoriale" : "schede territoriali"} ${count === 1 ? "mostrata" : "mostrate"} · ${sortLabel}.`;
+                const sortText = sortLength.selectedOptions[0].textContent;
+                if (!count) {
+                    status.textContent = query
+                        ? `Nessun luogo trovato per “${query}”.`
+                        : "Nessuna scheda corrisponde ai filtri selezionati.";
+                } else if (query) {
+                    status.textContent = `${count} ${count === 1 ? "scheda territoriale trovata" : "schede territoriali trovate"} per “${query}”${selected ? ` con il filtro “${selected}”` : ""} · ${sortText}.`;
+                } else {
+                    status.textContent = `${count} ${count === 1 ? "scheda territoriale mostrata" : "schede territoriali mostrate"} · ${sortText}.`;
+                }
+
+                if (searchClear) searchClear.hidden = !query;
+                if (searchEmpty) searchEmpty.hidden = count > 0;
+            }
+
+            function clearSearch() {
+                if (!searchInput) return;
+                searchInput.value = "";
+                updateFilter();
+                searchInput.focus();
             }
 
             options.addEventListener("change", updateFilter);
@@ -98,6 +205,29 @@
                 }
             });
 
+            if (searchInput) {
+                searchInput.addEventListener("input", updateFilter);
+                searchInput.addEventListener("search", updateFilter);
+                searchInput.addEventListener("keydown", event => {
+                    if (event.key === "Escape" && searchInput.value) {
+                        event.preventDefault();
+                        clearSearch();
+                    }
+                });
+            }
+            searchForm?.addEventListener("submit", event => {
+                event.preventDefault();
+                updateFilter();
+            });
+            searchClear?.addEventListener("click", clearSearch);
+            searchReset?.addEventListener("click", () => {
+                if (searchInput) searchInput.value = "";
+                options.querySelector('input[name="luoghi-type"]').checked = true;
+                updateFilter();
+                searchInput?.focus();
+            });
+
+            if (searchForm) searchForm.hidden = false;
             filter.hidden = false;
             updateFilter();
         }

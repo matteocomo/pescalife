@@ -13,11 +13,11 @@
     <link rel="manifest" href="assets/favicon-pescalife/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/style.css?v=back-to-top-1">
-    <link rel="stylesheet" href="css/specie.css?v=cards-wide-1">
+    <link rel="stylesheet" href="css/specie.css?v=search-2">
     <link rel="stylesheet" href="css/luoghi.css">
     <script src="js/site.js?v=back-to-top-1" defer></script>
     <script src="js/species-photos.js" defer></script>
-    <script src="js/species-catalog.js" defer></script>
+    <script src="js/species-catalog.js?v=search-2" defer></script>
 </head>
 <body>
     <div id="entry-dialog" class="entry-dialog" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description" hidden>
@@ -76,6 +76,26 @@
             <h2 class="page-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12s3.2-5 9-5c3.3 0 5.6 2 7 5-1.4 3-3.7 5-7 5-5.8 0-9-5-9-5Z"></path><path d="m19 12 3-3v6l-3-3Z"></path><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"></circle></svg><span>Guida alle specie</span></h2>
             <p>Un catalogo di schede per riconoscere le specie, conoscerne gli ambienti e orientarsi tra le regole di pesca.</p>
             <p>Le schede vengono pubblicate man mano che sono disponibili fonti affidabili. La presenza locale va verificata per ogni tratto.</p>
+            <form class="species-search" id="species-search" role="search">
+                <label class="species-search-label" for="species-query">Cerca tra le specie</label>
+                <div class="species-search-controls">
+                    <div class="species-search-field">
+                        <svg class="species-search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <circle cx="10.8" cy="10.8" r="6.3"></circle>
+                            <path d="m16 16 4.5 4.5"></path>
+                        </svg>
+                        <input id="species-query" type="search" name="q" placeholder="Nome comune, nome scientifico o caratteristica" autocomplete="off" spellcheck="false">
+                        <button type="button" class="species-search-clear" id="species-search-clear" aria-label="Cancella il testo della ricerca" hidden>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+                        </button>
+                    </div>
+                    <button type="submit" class="btn btn-primary species-search-submit">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.8" cy="10.8" r="6.3"></circle><path d="m16 16 4.5 4.5"></path></svg>
+                        <span>Cerca</span>
+                    </button>
+                </div>
+            </form>
+            <noscript><style>#species-search { display: none; }</style><p class="species-search-noscript">La ricerca richiede JavaScript: puoi comunque consultare l'elenco completo delle specie qui sotto.</p></noscript>
             <details class="luoghi-filter species-filter" id="species-filter">
                 <summary><span>Filtra le specie</span><span class="luoghi-filter-current" id="species-filter-current">Tutte</span></summary>
                 <div class="species-filter-options">
@@ -84,6 +104,10 @@
                 </div>
             </details>
             <p class="luoghi-filter-status" id="species-filter-status" role="status" aria-live="polite"></p>
+            <div class="species-empty" id="species-search-empty" hidden>
+                <p><strong>Nessuna specie trovata.</strong> Prova con un altro nome oppure azzera ricerca e filtri.</p>
+                <button type="button" class="btn btn-secondary" id="species-search-reset">Azzera ricerca e filtri</button>
+            </div>
 
             <section class="species-group" data-habitat="pianura">
                 <h3>Acque interne di pianura e fondovalle</h3>
