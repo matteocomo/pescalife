@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="css/style.css?v=back-to-top-1">
     <link rel="stylesheet" href="css/specie.css">
     <script src="js/site.js?v=back-to-top-1" defer></script>
+    <script src="js/species-photos.js" defer></script>
+    <script src="js/species-page-photos.js" defer></script>
 </head>
 <body>
     <!-- Avviso, intestazione e menu condivisi. -->
@@ -79,13 +81,10 @@
                     <p class="species-meta"><strong>Famiglia:</strong> {{FAMIGLIA}} · Fonte: {{FONTE_IDENTITA}} · {{ANNO_IDENTITA}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
                     <p>{{DESCRIZIONE}} · Fonte: {{FONTE_DESCRIZIONE}} · {{ANNO_DESCRIZIONE}} · <span class="luogo-status luogo-status-check">Da verificare</span></p>
                 </div>
-                <!-- Aggiungere una foto verificata solo dopo aver compilato percorso, autore, collegamento e licenza. -->
-                <template>
-                    <figure class="species-figure">
-                        <img src="{{PERCORSO_FOTO}}" alt="{{TESTO_ALTERNATIVO_FOTO}}" width="{{LARGHEZZA_FOTO}}" height="{{ALTEZZA_FOTO}}">
-                        <figcaption>Foto: <a href="{{URL_FOTO}}">{{AUTORE_FOTO}}</a> · {{ANNO_FOTO}} · <a href="{{URL_LICENZA}}">{{LICENZA_FOTO}}</a> · {{MODIFICHE_FOTO}} · <span class="luogo-status luogo-status-check">Da verificare</span></figcaption>
-                    </figure>
-                </template>
+                <!-- Sostituire SLUG con lo slug della specie e compilare i metadati in js/species-photos.js. -->
+                <figure class="species-figure" data-species-photo="{{SLUG}}">
+                    <img src="{{PERCORSO_FOTO}}" alt="{{TESTO_ALTERNATIVO_FOTO}}" width="{{LARGHEZZA_FOTO}}" height="{{ALTEZZA_FOTO}}">
+                </figure>
             </div>
             <!-- Indice: sostituire {{FILE}} con il nome della scheda pubblicata. -->
             <nav class="species-index" aria-label="Indice della scheda">

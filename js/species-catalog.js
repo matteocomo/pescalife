@@ -1,4 +1,33 @@
 (() => {
+    function getCardSlug(card) {
+        const link = card.querySelector(".species-card-body a[href]");
+        if (!link) return null;
+        return link.getAttribute("href").split("/").pop().replace(/\.html$/, "");
+    }
+
+    document.querySelectorAll(".species-card > .luogo-photo").forEach(placeholder => {
+        const card = placeholder.closest(".species-card");
+        const link = card.querySelector(".species-card-body a[href]");
+        const name = card.querySelector(".species-card-body h3");
+        if (!link || !name) return;
+
+        const slug = getCardSlug(card);
+        const photo = window.SPECIES_PHOTOS?.[slug];
+        const fileName = photo?.file || `assets/specie/${link.getAttribute("href").split("/").pop().replace(/\.html$/, ".avif")}`;
+        const image = new Image();
+        image.alt = photo?.alt || name.textContent;
+        image.onload = () => {
+            placeholder.removeAttribute("role");
+            placeholder.removeAttribute("aria-label");
+            placeholder.querySelector("span").hidden = true;
+            placeholder.append(image);
+        };
+        image.onerror = () => {
+            image.remove();
+        };
+        image.src = fileName.startsWith("assets/") ? fileName : `assets/specie/${fileName}`;
+    });
+
     const filter = document.getElementById("species-filter");
     const habitatOptions = document.getElementById("species-habitat-options");
     const originOptions = document.getElementById("species-origin-options");

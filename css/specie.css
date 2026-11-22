@@ -64,7 +64,10 @@
 .species-intro .species-latin { font-size: 1.15rem; }
 .species-meta { margin-top: 1rem; }
 .species-figure img { display: block; width: 100%; height: auto; border-radius: var(--border-radius); }
-.species-figure figcaption { margin-top: 0.45rem; font-size: 0.8rem; color: #536675; }
+.species-figure figcaption { margin-top: 0.45rem; font-size: 0.78rem; line-height: 1.45; color: #536675; }
+.species-figure figcaption a { color: inherit; font-weight: 700; }
+.species-figure figcaption a:hover,
+.species-figure figcaption a:focus-visible { color: #1f6675; }
 .species-index { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 1.75rem; }
 .species-detail h3 { margin-bottom: 0.75rem; font-size: 1.5rem; }
 .species-detail h4 { margin: 1rem 0 0.25rem; font-size: 1.05rem; }
