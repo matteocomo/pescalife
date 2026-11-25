@@ -2,6 +2,8 @@
 
 Sito amatoriale dedicato alla pesca sportiva in **Val di Cecina** (Toscana): schede dei corsi d'acqua, specie ittiche, normativa regionale e una mappa interattiva delle acque interne.
 
+🌐 **Sito online:** https://matteocomo.github.io/pescalife/
+
 > ⚠️ Progetto in sviluppo. I contenuti sono in via di verifica e non sostituiscono le fonti ufficiali: prima di pescare controlla sempre la normativa vigente della Regione Toscana.
 
 ## Cosa trovi
